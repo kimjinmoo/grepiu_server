@@ -25,15 +25,16 @@ public class SpringbootApplication {
 		SpringApplication.run(SpringbootApplication.class, args);
 	}
 
-	/**
-	 * SqlSessionFactory 설정
-	 * DB 및 mapper xml 등록
-	 */
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource)throws Exception{
-		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource);
-		sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mapper/*.xml"));
-		return sessionFactory.getObject();
-	}
+//	/**
+//	 * 임시 설정
+//	 * SqlSessionFactory 설정
+//	 * DB 및 mappers xml 등록
+//	 */
+//	@Bean
+//	public SqlSessionFactory sqlSessionFactory(DataSource dataSource)throws Exception{
+//		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource);
+////		sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mappers/*.xml"));
+//		return sessionFactory.getObject();
+//	}
 }

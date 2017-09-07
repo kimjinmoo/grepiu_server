@@ -2,6 +2,7 @@ package com.iuom.springboot.process.api.web;
 
 import com.iuom.springboot.process.api.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,7 +62,7 @@ public class ApiController {
      *
      * @return
      */
-    @RequestMapping(value="/sample/list")
+    @GetMapping("/sample/list")
     public Object getSampleList() {
         return apiService.getSampleList();
     }
