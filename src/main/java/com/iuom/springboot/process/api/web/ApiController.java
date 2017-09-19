@@ -1,6 +1,9 @@
 package com.iuom.springboot.process.api.web;
 
+import com.iuom.springboot.common.util.DateUtils;
+import com.iuom.springboot.common.util.StringUtils;
 import com.iuom.springboot.process.api.service.ApiService;
+import freemarker.template.utility.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,24 +33,18 @@ public class ApiController {
         return new ModelAndView("index");
     }
 
-    @RequestMapping(value = "/util/{type}/now")
+    @RequestMapping(value = "/util/now/{type}")
     public Object currentTime(@PathVariable("type") String type) {
         String result = "";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
         switch (type) {
             case "data" :
-                LocalDate localData = LocalDate.now();
-                formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                result = formatter.format(localData);
+                result = DateUtils.now(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
                 break;
             case "time" :
-                LocalTime localTIme = LocalTime.now();
-                formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
-                result = formatter.format(localTIme);
+                result = DateUtils.now(DateTimeFormatter.ofPattern("hh:mm:ss"));
                 break;
             case "datatime" :
-                LocalDateTime localDatetTime = LocalDateTime.now();
-                result = formatter.format(localDatetTime);
+                result = DateUtils.now(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
                 break;
             default :
                 result = "option을 확인 하여 주십시오.";
@@ -58,12 +55,27 @@ public class ApiController {
 
     /**
      *
-     * 샘플 리스트
+     * null 체크 샘플 리스트
      *
      * @return
      */
     @GetMapping("/sample/list")
     public Object getSampleList() {
-        return apiService.getSampleList();
+        Test t = new Test();
+        System.out.print("is Null :" + StringUtils.isNull(()->t.getTest()).isPresent());
+        //apiService.getSampleList()
+        return null;
+    }
+}
+
+class Test{
+    String test;
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
     }
 }
