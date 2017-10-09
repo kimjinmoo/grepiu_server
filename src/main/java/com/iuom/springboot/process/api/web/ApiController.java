@@ -5,6 +5,8 @@ import com.iuom.springboot.common.util.StringUtils;
 import com.iuom.springboot.process.api.service.ApiService;
 import freemarker.template.utility.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +36,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/util/now/{type}")
-    public Object currentTime(@PathVariable("type") String type) {
+    public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
         String result = "";
         switch (type) {
             case "data" :
@@ -50,7 +52,7 @@ public class ApiController {
                 result = "option을 확인 하여 주십시오.";
                 break;
         }
-        return result;
+        return new ResponseEntity<String>(result,HttpStatus.OK);
     }
 
     /**
@@ -60,11 +62,11 @@ public class ApiController {
      * @return
      */
     @GetMapping("/sample/list")
-    public Object getSampleList() {
+    public ResponseEntity<Test> getSampleList() {
         Test t = new Test();
         System.out.print("is Null :" + StringUtils.isNull(()->t.getTest()).isPresent());
         //apiService.getSampleList()
-        return null;
+        return new ResponseEntity<Test>(t,HttpStatus.OK);
     }
 }
 
