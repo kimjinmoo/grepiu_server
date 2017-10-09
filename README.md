@@ -6,6 +6,8 @@ Web<br>
 Freemarker<br>
 Mybatis<br>
 
+vue.js 이용 예정
+
 <br>구조 참조</br>
 https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-structuring-your-code.html
 <br>properties 설정 참조</br>
