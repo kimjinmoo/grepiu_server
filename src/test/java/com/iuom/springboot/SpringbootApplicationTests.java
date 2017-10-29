@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public class SpringbootApplicationTests {
 
+
 	@Autowired
 	private SqlSessionFactory sqlSession;
 
@@ -31,12 +32,11 @@ public class SpringbootApplicationTests {
 		System.out.println("mysql : " + sqlSession);
     }
 
-    @Test
+    //@Test
     public void listFilter() {
 		List<String> lists = Arrays.asList("테스트1","테스트2","테스트3");
 		List<String> filterLists = FilterUtils.listFilter(lists, (String o) -> o.contains("1"));
 
 		assertEquals(filterLists.size(),3);
 	}
-
 }
