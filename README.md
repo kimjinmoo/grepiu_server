@@ -43,3 +43,6 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-struct
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 <br><br>build&execute<br>
 gradlew build && java -jar build/libs/springboot-0.0.1.jar
+
+DEV환경
+특징-메인 개발-시작
