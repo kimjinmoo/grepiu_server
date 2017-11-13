@@ -37,8 +37,6 @@ step4. 유저등록 후 몽고 서비스 재기동<br>
 <pre>
 mongod --auth
 </pre>
-
-
 <br>구조 참조</br>
 https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-structuring-your-code.html
 <br>properties 설정 참조</br>
