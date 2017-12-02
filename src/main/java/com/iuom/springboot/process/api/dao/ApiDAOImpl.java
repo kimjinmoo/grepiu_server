@@ -1,5 +1,6 @@
 package com.iuom.springboot.process.api.dao;
 
+import com.iuom.springboot.process.api.repository.DBFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
