@@ -18,7 +18,7 @@ public class SqlSessionTemplateAspect {
      * @param dbFactory the db route
      * @throws Throwable
      */
-    @Around(value = "@within(DBFactory) || @annotation(DBFactory)")
+    @Around(value = "@within(dbFactory) || @annotation(dbFactory)")
     public Object setSqlMapClient(ProceedingJoinPoint pjp, DBFactory dbFactory) throws Throwable {
         Object returnObj = null;
 
