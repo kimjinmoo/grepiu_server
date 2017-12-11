@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.api.task;
+package com.iuom.springboot.process.sample.task;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

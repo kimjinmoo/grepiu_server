@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.api.domain;
+package com.iuom.springboot.process.sample.domain;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

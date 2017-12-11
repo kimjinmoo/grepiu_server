@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.api.repository;
+package com.iuom.springboot.common.base.repository;
 
 public class SqlSessionTemplateTypeContextHolder {
 

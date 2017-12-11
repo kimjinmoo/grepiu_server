@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.api.repository.factory;
+package com.iuom.springboot.common.base.repository.factory;
 
 import org.mybatis.spring.SqlSessionTemplate;
 

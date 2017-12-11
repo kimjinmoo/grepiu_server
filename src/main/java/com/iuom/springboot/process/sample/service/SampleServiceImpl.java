@@ -1,7 +1,7 @@
-package com.iuom.springboot.process.api.service;
+package com.iuom.springboot.process.sample.service;
 
-import com.iuom.springboot.process.api.dao.ApiDAO;
-import com.iuom.springboot.process.api.dao.ApiMapper;
+import com.iuom.springboot.process.sample.dao.SampleDAO;
+import com.iuom.springboot.process.sample.dao.SampleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,13 @@ import java.util.List;
  * Api 서비스
  */
 @Service
-public class ApiServiceImpl implements ApiService {
+public class SampleServiceImpl implements SampleService {
 
     @Autowired
-    private ApiDAO apiDAO;
+    private SampleDAO sampleDAO;
 
     @Autowired
-    private ApiMapper apiMapper;
+    private SampleMapper apiMapper;
 
     @Override
     public List<String> getSampleList() {
@@ -27,7 +27,7 @@ public class ApiServiceImpl implements ApiService {
         samples.add("Sample");
         samples.add("Test");
         samples.add("Hello");
-        samples.add(apiDAO.getSampleData());
+        samples.add(sampleDAO.getSampleData());
         samples.add(apiMapper.getSampleData());
 
         return samples;

@@ -1,13 +1,14 @@
-package com.iuom.springboot.process.api.task;
+package com.iuom.springboot.process.sample.service;
 
 import com.google.common.collect.Lists;
+import com.iuom.springboot.process.sample.task.Task;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
-public class TaskService {
+public class SampleTaskService {
 
     private Task getDate;
 

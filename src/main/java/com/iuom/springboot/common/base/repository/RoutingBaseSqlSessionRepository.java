@@ -1,7 +1,7 @@
-package com.iuom.springboot.process.api.repository;
+package com.iuom.springboot.common.base.repository;
 
 
-import com.iuom.springboot.process.api.repository.factory.RoutingSqlSessionTemplateFactory;
+import com.iuom.springboot.common.base.repository.factory.RoutingSqlSessionTemplateFactory;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;

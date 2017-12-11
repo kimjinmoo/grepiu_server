@@ -1,15 +1,14 @@
-package com.iuom.springboot.process.api.dao;
+package com.iuom.springboot.process.sample.dao;
 
-import com.iuom.springboot.process.api.repository.DBFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * ApiDAO 구현체
+ * SampleDAO 구현체
  */
 @Repository
-public class ApiDAOImpl implements ApiDAO{
+public class SampleDAOImpl implements SampleDAO {
 
     @Autowired
     private SqlSession sqlSession;

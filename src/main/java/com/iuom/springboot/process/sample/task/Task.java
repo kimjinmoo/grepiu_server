@@ -1,6 +1,4 @@
-package com.iuom.springboot.process.api.task;
-
-import java.util.Map;
+package com.iuom.springboot.process.sample.task;
 
 /**
  *

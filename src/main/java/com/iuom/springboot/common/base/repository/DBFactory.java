@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.api.repository;
+package com.iuom.springboot.common.base.repository;
 
 import java.lang.annotation.*;
 

@@ -1,22 +1,17 @@
-package com.iuom.springboot.process.api.web;
+package com.iuom.springboot.process.sample.web;
 
 import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.common.util.StringUtils;
-import com.iuom.springboot.process.api.domain.TestMongoDBRepository;
-import com.iuom.springboot.process.api.domain.TestUser;
-import com.iuom.springboot.process.api.service.ApiService;
-import freemarker.template.utility.StringUtil;
+import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
+import com.iuom.springboot.process.sample.domain.TestUser;
+import com.iuom.springboot.process.sample.service.SampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  *
@@ -24,20 +19,21 @@ import java.util.List;
  *
  */
 @RestController
-public class ApiController {
+@RequestMapping("/sample/")
+public class SampleRestController {
 
     @Autowired
     TestMongoDBRepository repository;
 
     @Autowired
-    private ApiService apiService;
+    private SampleService apiService;
 
-    @RequestMapping(value = "/")
+    @GetMapping(value = "/")
     public ModelAndView index() {
         return new ModelAndView("index");
     }
 
-    @RequestMapping(value = "/util/now/{type}")
+    @GetMapping(value = "/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
         String result = "";
         switch (type) {
