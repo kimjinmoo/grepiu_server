@@ -6,6 +6,7 @@ import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
 import com.iuom.springboot.process.sample.service.SampleTaskService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatter;
  * API 컨트롤러이다.
  *
  */
+@Slf4j
 @RestController
 @RequestMapping("/sample/")
 public class SampleRestController {
@@ -27,7 +29,7 @@ public class SampleRestController {
     TestMongoDBRepository repository;
 
     @Autowired
-    private SampleService apiService;
+    private SampleService sampleService;
 
     @Autowired
     private SampleTaskService sampleTaskService;
@@ -39,6 +41,7 @@ public class SampleRestController {
 
     @GetMapping(value = "/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
+        log.debug("apiService : " + sampleService.getSampleList());
         String result = "";
         switch (type) {
             case "data" :
@@ -54,7 +57,7 @@ public class SampleRestController {
                 result = "option을 확인 하여 주십시오.";
                 break;
         }
-        return new ResponseEntity<String>(result,HttpStatus.OK);
+        return new ResponseEntity<String>(sampleService.getSampleList()+result,HttpStatus.OK);
     }
 
     /**

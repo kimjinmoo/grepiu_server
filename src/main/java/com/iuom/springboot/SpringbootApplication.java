@@ -2,6 +2,7 @@ package com.iuom.springboot;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -26,17 +27,4 @@ public class SpringbootApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
 	}
-
-//	/**
-//	 * 임시 설정
-//	 * SqlSessionFactory 설정
-//	 * DB 및 mappers xml 등록
-//	 */
-//	@Bean
-//	public SqlSessionFactory sqlSessionFactory(DataSource dataSource)throws Exception{
-//		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-//		sessionFactory.setDataSource(dataSource);
-////		sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mappers/*.xml"));
-//		return sessionFactory.getObject();
-//	}
 }

@@ -20,6 +20,9 @@ public class SampleServiceImpl implements SampleService {
     @Autowired
     private SampleMapper sampleMapper;
 
+    @Autowired
+    private SampleRepository sampleRepository;
+
     @Override
     public List<String> getSampleList() {
         List<String> samples = new ArrayList<>();
@@ -29,6 +32,7 @@ public class SampleServiceImpl implements SampleService {
         samples.add("Hello");
         samples.add(sampleDAO.getSampleData());
         samples.add(sampleMapper.getSampleData());
+        samples.add(sampleRepository.getDate());
 
         return samples;
     }

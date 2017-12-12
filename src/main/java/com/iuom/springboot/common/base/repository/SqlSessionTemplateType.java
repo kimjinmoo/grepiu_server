@@ -9,9 +9,11 @@ package com.iuom.springboot.common.base.repository;
  */
 public enum SqlSessionTemplateType {
 
-    MARIA_READONLY("mariadb_readonly"),
+    MARIA_READONLY("mariaReadOnly"),
 
-    MONGO_READONLY("mongodb_readonly");
+    MARIA_WRITE("mariaWrite"),
+
+    MONGO_READONLY("mongoReadOnly");
 
     private String id;
 
