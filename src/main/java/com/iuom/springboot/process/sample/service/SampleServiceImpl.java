@@ -18,7 +18,7 @@ public class SampleServiceImpl implements SampleService {
     private SampleDAO sampleDAO;
 
     @Autowired
-    private SampleMapper apiMapper;
+    private SampleMapper sampleMapper;
 
     @Override
     public List<String> getSampleList() {
@@ -28,7 +28,7 @@ public class SampleServiceImpl implements SampleService {
         samples.add("Test");
         samples.add("Hello");
         samples.add(sampleDAO.getSampleData());
-        samples.add(apiMapper.getSampleData());
+        samples.add(sampleMapper.getSampleData());
 
         return samples;
     }

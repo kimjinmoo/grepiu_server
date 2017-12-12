@@ -5,6 +5,7 @@ import com.iuom.springboot.common.util.StringUtils;
 import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
+import com.iuom.springboot.process.sample.service.SampleTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,9 @@ public class SampleRestController {
 
     @Autowired
     private SampleService apiService;
+
+    @Autowired
+    private SampleTaskService sampleTaskService;
 
     @GetMapping(value = "/")
     public ModelAndView index() {
@@ -89,6 +93,20 @@ public class SampleRestController {
     public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
         TestUser testUser = repository.findByFirstName(firstName);
         return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+    }
+
+    /**
+     *
+     * 병렬 처리 테스트
+     *
+     * @return
+     */
+    @GetMapping("/sample/parallelTask")
+    public ResponseEntity<Void> parallelTask() {
+        // 병렬 처리를 한다.
+        sampleTaskService.process();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }
 
