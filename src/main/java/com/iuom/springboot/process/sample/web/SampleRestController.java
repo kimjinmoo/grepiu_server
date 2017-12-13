@@ -22,8 +22,10 @@ import java.util.Optional;
 
 /**
  *
- * API 컨트롤러이다.
+ * 샘플 컨트롤러이다.
  *
+ * @author jm
+ * @since 2017.11.01
  */
 @Slf4j
 @RestController
@@ -44,6 +46,15 @@ public class SampleRestController {
         return new ModelAndView("index");
     }
 
+    /**
+     *
+     * 날짜를 가져온다.
+     * JAVA8 LocalDateTime 이용
+     * https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
+     *
+     * @param type
+     * @return
+     */
     @GetMapping(value = "/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
         log.debug("apiService : " + sampleService.getSampleList());
@@ -80,12 +91,16 @@ public class SampleRestController {
     /**
      *
      * 몽고 DB 유저 등록
+     * RestAPI
      *
      * @return
      */
     @PostMapping("/mongodb/users")
-    public ResponseEntity<Void> addSampleUser() {
-        repository.save(new TestUser("test", "hello"));
+    public ResponseEntity<Void> addSampleUser(@RequestParam String id,
+                                               @RequestParam String firstName,
+                                               @RequestParam String lastName,
+                                               @RequestParam String email) {
+        repository.save(new TestUser(id,firstName, lastName,email));
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
