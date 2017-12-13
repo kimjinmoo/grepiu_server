@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,24 +18,29 @@ import java.util.List;
 public class SampleTaskService {
 
     @Autowired
-    private Task getDate;
+    private Task getSampleTask1;
 
     @Autowired
-    private Task getWeather;
+    private Task getSampleTask2;
 
     private List<Task> taskList;
 
     @PostConstruct
     void setUp() {
         taskList = Lists.newArrayList();
-        taskList.add(getDate);
-        taskList.add(getWeather);
+        taskList.add(getSampleTask1);
+        taskList.add(getSampleTask2);
     }
 
-    public void process(){
+    /**
+     *
+     * 테스트크를 병렬 처리한다.
+     *
+     */
+    public void process(Map<String, Object> returnMap, Map<String, Object> params){
         taskList.parallelStream().forEach(task->{
             try {
-                task.run();
+                task.run(returnMap, params);
             } catch (Exception e) {
                 e.printStackTrace();
             }

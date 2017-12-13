@@ -6,10 +6,10 @@ import java.util.function.Supplier;
 
 /**
  *
- * String 유틸리티.
+ * Collection 유틸리티.
  * v1.0
  */
-public class StringUtils {
+public class CollectionUtils {
 
     public static String getHelloWorld() {
         return "Hello World";

@@ -1,7 +1,9 @@
 package com.iuom.springboot.process.sample.web;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.iuom.springboot.common.util.DateUtils;
-import com.iuom.springboot.common.util.StringUtils;
+import com.iuom.springboot.common.util.CollectionUtils;
 import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  *
@@ -66,12 +71,10 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/sample/list")
-    public ResponseEntity<Test> getSampleList() {
-        Test t = new Test();
-        System.out.print("is Null :" + StringUtils.isNull(()->t.getTest()).isPresent());
-        //apiService.getSampleList()
-        return new ResponseEntity<Test>(t,HttpStatus.OK);
+    @GetMapping("/list")
+    public ResponseEntity<Object> getSampleList() {
+        Optional<List<String>> value = CollectionUtils.isNull(Lists::newArrayList);
+        return new ResponseEntity<Object>(value.get(),HttpStatus.OK);
     }
 
     /**
@@ -80,7 +83,7 @@ public class SampleRestController {
      *
      * @return
      */
-    @PostMapping("/sample/mongodb/users")
+    @PostMapping("/mongodb/users")
     public ResponseEntity<Void> addSampleUser() {
         repository.save(new TestUser("test", "hello"));
         return new ResponseEntity<Void>(HttpStatus.OK);
@@ -92,7 +95,7 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/sample/mongodb/users/{firstName}")
+    @GetMapping("/mongodb/users/{firstName}")
     public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
         TestUser testUser = repository.findByFirstName(firstName);
         return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
@@ -104,23 +107,13 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/sample/parallelTask")
-    public ResponseEntity<Void> parallelTask() {
+    @GetMapping("/parallelTask")
+    public ResponseEntity<Object> parallelTask() {
+        Map<String, Object> returnMap = Maps.newHashMap();
+        Map<String, Object> params = Maps.newHashMap();
         // 병렬 처리를 한다.
-        sampleTaskService.process();
+        sampleTaskService.process(returnMap, params);
 
-        return new ResponseEntity<Void>(HttpStatus.OK);
-    }
-}
-
-class Test{
-    String test;
-
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
+        return new ResponseEntity<Object>(returnMap, HttpStatus.OK);
     }
 }
