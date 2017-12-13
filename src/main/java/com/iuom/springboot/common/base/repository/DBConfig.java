@@ -80,14 +80,14 @@ public class DBConfig {
         return factory;
     }
 
-    @Bean(value = "mariaReadOnly")
+    @Bean(value = "mariaReadOnly", destroyMethod = "clearCache")
     @Primary
     public SqlSessionTemplate mariaReadOnly() throws Exception {
         SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(getSqlReadOnlySessionFactory());
         return sqlSessionTemplate;
     }
 
-    @Bean(value = "mariaWrite")
+    @Bean(value = "mariaWrite", destroyMethod = "clearCache")
     public SqlSessionTemplate mariaWrite() throws Exception {
         SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(getSqlReadWriteSessionFactory());
         return sqlSessionTemplate;

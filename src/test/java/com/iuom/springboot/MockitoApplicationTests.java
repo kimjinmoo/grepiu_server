@@ -31,6 +31,6 @@ public class MockitoApplicationTests {
         List<String> t1 = new ArrayList<>();
         t1.add("hello");
 
-        assertEquals(2, t1.size());
+        assertEquals(1, t1.size());
     }
 }

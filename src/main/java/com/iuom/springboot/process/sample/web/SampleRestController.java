@@ -8,6 +8,7 @@ import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
 import com.iuom.springboot.process.sample.service.SampleTaskService;
+import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,6 @@ public class SampleRestController {
      */
     @GetMapping(value = "/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
-        log.debug("apiService : " + sampleService.getSampleList());
         String result = "";
         switch (type) {
             case "data" :
@@ -73,7 +73,7 @@ public class SampleRestController {
                 result = "option을 확인 하여 주십시오.";
                 break;
         }
-        return new ResponseEntity<String>(sampleService.getSampleList()+result,HttpStatus.OK);
+        return new ResponseEntity<String>(result,HttpStatus.OK);
     }
 
     /**
@@ -84,7 +84,9 @@ public class SampleRestController {
      */
     @GetMapping("/list")
     public ResponseEntity<Object> getSampleList() {
-        Optional<List<String>> value = CollectionUtils.isNull(Lists::newArrayList);
+        Optional<List<String>> value = CollectionUtils.isNull(()->{
+            return sampleService.getSampleList();
+        });
         return new ResponseEntity<Object>(value.get(),HttpStatus.OK);
     }
 
@@ -100,7 +102,11 @@ public class SampleRestController {
                                                @RequestParam String firstName,
                                                @RequestParam String lastName,
                                                @RequestParam String email) {
-        repository.save(new TestUser(id,firstName, lastName,email));
+        try {
+            repository.save(new TestUser(id, firstName, lastName, email));
+        } catch (DuplicateKeyException e) {
+            log.debug("error : {}", e.getMessage());
+        }
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

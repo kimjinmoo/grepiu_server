@@ -1,5 +1,7 @@
 package com.iuom.springboot;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -16,27 +18,12 @@ public class ListSort {
 
     public static void main(String[] args) {
         // 임시 domain
+        @Data
         class Vo {
             private int age;
             private String name;
             public Vo(int age,String name) {
                 this.age = age;
-                this.name = name;
-            }
-
-            public int getAge() {
-                return age;
-            }
-
-            public void setAge(int age) {
-                this.age = age;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
                 this.name = name;
             }
         }
