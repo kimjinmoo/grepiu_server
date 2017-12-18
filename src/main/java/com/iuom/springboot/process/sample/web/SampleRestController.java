@@ -30,7 +30,7 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
-@RequestMapping("/sample/")
+@RequestMapping("/sample")
 public class SampleRestController {
 
     @Autowired

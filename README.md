@@ -32,6 +32,9 @@ db.createUser( { user: "<username>",
            pwd: "<password>",
            roles: [ "readWrite"  ] 
 })
+ex)
+use study
+db.createUser( { user: "iukim21c", pwd: "xptmxm1!", roles: [ { role: "readWrite", db: "study" } ] })
 </pre>
 step4. 유저등록 후 몽고 서비스 재기동<br>
 <pre>
@@ -43,6 +46,5 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-struct
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 <br><br>build&execute<br>
 gradlew build && java -jar build/libs/springboot-0.0.1.jar
-
 DEV환경
 특징-메인 개발-시작

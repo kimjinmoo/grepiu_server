@@ -40,12 +40,6 @@ public class DBConfig {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.data.mongodb")
-    public DataSource mongoDbDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean
     public ServiceLocatorFactoryBean serviceLocatorFactoryBean(){
         ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
         bean.setServiceLocatorInterface(RoutingSqlSessionTemplateFactory.class);
