@@ -1,7 +1,7 @@
 package com.iuom.springboot.process.sample.service;
 
 import com.google.common.collect.Lists;
-import com.iuom.springboot.process.sample.task.Task;
+import com.iuom.springboot.common.job.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  *
- * 샘플 병렬 처리 Task 이다.
+ * 샘플 병렬 처리 VoidTask 이다.
  *
  */
 @Service
