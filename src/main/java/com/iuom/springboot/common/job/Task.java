@@ -1,5 +1,6 @@
 package com.iuom.springboot.common.job;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -9,5 +10,5 @@ import java.util.Map;
  */
 public interface Task {
     // 맵에 return 처리
-    void run(Map<String, Object>...object) throws Exception;
+    HashMap<String,Object> run(Map<String, Object>...object);
 }
