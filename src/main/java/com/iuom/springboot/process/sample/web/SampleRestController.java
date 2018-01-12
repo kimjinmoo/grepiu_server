@@ -30,7 +30,6 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
-@RequestMapping("/sample")
 public class SampleRestController {
 
     @Autowired
@@ -42,8 +41,8 @@ public class SampleRestController {
     @Autowired
     private SampleTaskService sampleTaskService;
 
-    @GetMapping(value = "/")
-    public ModelAndView index() {
+    @GetMapping(value = "/sample/helloworld")
+    public ModelAndView helloWorld() {
         return new ModelAndView("index");
     }
 
@@ -56,7 +55,7 @@ public class SampleRestController {
      * @param type
      * @return
      */
-    @GetMapping(value = "/util/now/{type}")
+    @GetMapping(value = "/sample/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
         String result = "";
         switch (type) {
@@ -82,7 +81,7 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("/sample/list")
     public ResponseEntity<Object> getSampleList() {
         Optional<List<String>> value = CollectionUtils.isNull(()->{
             return sampleService.getSampleList();
@@ -97,7 +96,7 @@ public class SampleRestController {
      *
      * @return
      */
-    @PostMapping("/mongodb/users")
+    @PostMapping("/sample/mongodb/users")
     public ResponseEntity<Void> addSampleUser(@RequestParam String id,
                                                @RequestParam String firstName,
                                                @RequestParam String lastName,
@@ -116,7 +115,7 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/mongodb/users/{firstName}")
+    @GetMapping("/sample/mongodb/users/{firstName}")
     public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
         TestUser testUser = repository.findByFirstName(firstName);
         return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
@@ -128,7 +127,7 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/parallelTask")
+    @GetMapping("/sample/parallelTask")
     public ResponseEntity<Object> parallelTask() {
         Map<String, Object> returnMap = Maps.newHashMap();
         Map<String, Object> params = Maps.newHashMap();

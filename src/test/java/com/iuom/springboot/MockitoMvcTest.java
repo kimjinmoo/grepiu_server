@@ -1,8 +1,8 @@
 package com.iuom.springboot;
 
 import com.iuom.springboot.process.sample.service.SampleService;
+import com.iuom.springboot.process.sample.service.SampleTaskService;
 import com.iuom.springboot.process.sample.web.SampleRestController;
-import org.apache.catalina.filters.CorsFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
@@ -65,17 +67,27 @@ public class MockitoMvcTest {
      *
      * @throws Exception
      */
-//    @Test
+    @Test
     public void mongoAdd() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(post("/sample/mongodb/users")
-                .param("id","iukim21c")
-                .param("firstName","kim")
-                .param("lastName","jinmoo")
-                .param("email","iukim21c@naver.com"))
+        MvcResult mvcResult = mockMvc.perform(post("/sample/mongodb/users"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 
         String v = mvcResult.toString();
     }
+
+    /**
+     *
+     * 테스트
+     *
+     * @throws Exception
+     */
+    @Test
+    public void serviceTest() throws Exception {
+        //given
+        SampleTaskService sampleTaskService = Mockito.mock(SampleTaskService.class);
+        sampleTaskService.process(null,null);
+    }
+
 }
