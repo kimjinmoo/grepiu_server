@@ -1,4 +1,4 @@
-package com.iuom.springboot;
+package com.iuom.springboot.test;
 
 import com.iuom.springboot.process.sample.service.SampleService;
 import com.iuom.springboot.process.sample.service.SampleTaskService;
@@ -87,7 +87,6 @@ public class MockitoMvcTest {
     public void serviceTest() throws Exception {
         //given
         SampleTaskService sampleTaskService = Mockito.mock(SampleTaskService.class);
-        sampleTaskService.process(null,null);
     }
 
 }
