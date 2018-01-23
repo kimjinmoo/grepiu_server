@@ -50,8 +50,8 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-struct
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 ##build&execute
 Windows<br>
-gradlew build && java -jar build/libs/springboot-0.0.1.jar<br>
+gradlew build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
 centos-local<br>
-gradle build && java -jar build/libs/springboot-0.0.1.jar<br>
+gradle build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
 centos-prod<br>
-gradle build -Pprofile=prod && java -jar build/libs/springboot-0.0.1.jar<br>
+gradle build -Pprofile=prod && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
