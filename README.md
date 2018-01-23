@@ -49,4 +49,9 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-struct
 <br>properties 설정 참조</br>
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 ##build&execute
+Windows<br>
 gradlew build && java -jar build/libs/springboot-0.0.1.jar<br>
+centos-local<br>
+gradle build && java -jar build/libs/springboot-0.0.1.jar<br>
+centos-prod<br>
+gradle build -Pprofile=prod && java -jar build/libs/springboot-0.0.1.jar<br>
