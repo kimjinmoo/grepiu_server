@@ -1,4 +1,4 @@
-package com.iuom.springboot;
+package com.iuom.springboot.test;
 
 import lombok.Data;
 

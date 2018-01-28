@@ -1,4 +1,4 @@
-package com.iuom.springboot;
+package com.iuom.springboot.test;
 
 import com.iuom.springboot.common.util.FilterUtils;
 import org.apache.ibatis.session.SqlSessionFactory;

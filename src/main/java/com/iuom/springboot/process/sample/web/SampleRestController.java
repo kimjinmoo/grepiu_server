@@ -130,11 +130,9 @@ public class SampleRestController {
      */
     @GetMapping("/parallelTask")
     public ResponseEntity<Object> parallelTask() {
-        Map<String, Object> returnMap = Maps.newHashMap();
         Map<String, Object> params = Maps.newHashMap();
-        // 병렬 처리를 한다.
-        sampleTaskService.process(returnMap, params);
 
-        return new ResponseEntity<Object>(returnMap, HttpStatus.OK);
+        // 병렬 처리를 한다.
+        return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
     }
 }
