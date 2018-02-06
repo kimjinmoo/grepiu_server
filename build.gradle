@@ -85,6 +85,10 @@ if(ext.profile == 'local') {
 	compileJava.dependsOn(preBuild,executeJob)
 }
 
+springBoot {
+	executable = true
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-aop')
@@ -98,6 +102,9 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 	compile 'org.projectlombok:lombok:1.16.18'
+
+	//auth
+	compile 'com.google.firebase:firebase-auth:10.0.1'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
