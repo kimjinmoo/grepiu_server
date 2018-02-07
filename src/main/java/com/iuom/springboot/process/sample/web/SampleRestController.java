@@ -9,6 +9,9 @@ import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
 import com.iuom.springboot.process.sample.service.SampleTaskService;
 import com.mongodb.DuplicateKeyException;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +58,8 @@ public class SampleRestController {
      * @param type
      * @return
      */
+    @ApiOperation(value = "시간조회하기")
+    @ApiImplicitParams({@ApiImplicitParam(name = "type", value="시간값[data/time/datatime]", required = true, dataType = "string")})
     @GetMapping(value = "/sample/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
         String result = "";
@@ -81,6 +86,7 @@ public class SampleRestController {
      *
      * @return
      */
+    @ApiOperation(value = "샘플리스트")
     @GetMapping("/sample/list")
     public ResponseEntity<Object> getSampleList() {
         Optional<List<String>> value = CollectionUtils.isNull(()->{
@@ -96,6 +102,7 @@ public class SampleRestController {
      *
      * @return
      */
+    @ApiOperation(value = "몽고 DB 유저등록")
     @PostMapping("/sample/mongodb/users")
     public ResponseEntity<Void> addSampleUser(@RequestParam String id,
                                                @RequestParam String firstName,
@@ -115,6 +122,7 @@ public class SampleRestController {
      *
      * @return
      */
+    @ApiOperation(value = "몽고DB 조회")
     @GetMapping("/sample/mongodb/users/{firstName}")
     public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
         TestUser testUser = repository.findByFirstName(firstName);
@@ -127,6 +135,7 @@ public class SampleRestController {
      *
      * @return
      */
+    @ApiOperation(value = "병렬테스트")
     @GetMapping("/sample/parallelTask")
     public ResponseEntity<Object> parallelTask() {
         Map<String, Object> params = Maps.newHashMap();
@@ -134,4 +143,5 @@ public class SampleRestController {
         // 병렬 처리를 한다.
         return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
     }
+
 }
