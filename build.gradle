@@ -103,6 +103,9 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 	compile 'org.projectlombok:lombok:1.16.18'
 
+	// https://mvnrepository.com/artifact/org.jsoup/jsoup 크롤링
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
 	//auth
 	//compile 'com.google.firebase:firebase-auth:10.0.1'
 
