@@ -1,6 +1,6 @@
 package com.iuom.springboot.process.sample.web;
 
-import com.iuom.springboot.process.sample.domain.Greeting;
+import com.iuom.springboot.process.sample.domain.ChatMessages;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SampleSocketController {
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting gretting(SampleMessage message) throws Exception {
-        Thread.sleep(1000);
-        return new Greeting("Hello," + message.getName() + "!");
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public ChatMessages gretting(SampleMessage message) throws Exception {
+        Thread.sleep(500);
+        return new ChatMessages(message.getName() + " : " + message.getMessage());
     }
 }

@@ -1,11 +1,11 @@
 package com.iuom.springboot.process.sample.domain;
 
-public class Greeting {
+public class ChatMessages {
 
     private String content;
 
-    public Greeting() {}
-    public Greeting(String content) {
+    public ChatMessages() {}
+    public ChatMessages(String content) {
         this.content = content;
     }
 
