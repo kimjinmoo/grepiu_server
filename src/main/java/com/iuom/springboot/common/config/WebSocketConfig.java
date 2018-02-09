@@ -6,6 +6,11 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
+/**
+ *
+ * 웹소켕을 처리한다.
+ *
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig  extends AbstractWebSocketMessageBrokerConfigurer {

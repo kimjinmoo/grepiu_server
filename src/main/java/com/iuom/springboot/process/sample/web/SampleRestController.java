@@ -1,9 +1,12 @@
 package com.iuom.springboot.process.sample.web;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.iuom.springboot.common.crawler.CrawlerUtils;
+import com.iuom.springboot.common.crawler.Observer;
 import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.common.util.CollectionUtils;
+import com.iuom.springboot.process.sample.domain.Crawler;
+import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
 import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
@@ -16,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,13 +40,19 @@ import java.util.Optional;
 public class SampleRestController {
 
     @Autowired
-    TestMongoDBRepository repository;
+    private TestMongoDBRepository repository;
+
+    @Autowired
+    private TestMongoDBCrawler crawlerDB;
 
     @Autowired
     private SampleService sampleService;
 
     @Autowired
     private SampleTaskService sampleTaskService;
+
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @ApiOperation(value = "헬로월드")
     @GetMapping(value = "/sample/helloworld")
@@ -143,6 +153,23 @@ public class SampleRestController {
 
         // 병렬 처리를 한다.
         return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "크롤링테스트")
+    @GetMapping("/sample/crawling")
+    public ResponseEntity<Object> crawler() {
+        log.debug("start=============>");
+        CrawlerUtils cw = new CrawlerUtils();
+
+        cw.addObserver(new Observer() {
+            @Override
+            public void update(Crawler obj) {
+                crawlerDB.save(obj);
+                }
+            }
+        );
+        cw.run("http://www.lottecinema.co.kr/LCHS/Contents/Cinema/Cinema-Detail.aspx?divisionCode=1&detailDivisionCode=1&cinemaID=1001");
+        return new ResponseEntity<Object>(null, HttpStatus.OK);
     }
 
 }
