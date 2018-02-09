@@ -60,7 +60,7 @@ public class SampleRestController {
      * @return
      */
     @ApiOperation(value = "시간조회하기")
-    @ApiImplicitParams({@ApiImplicitParam(name = "type", value="시간값[data/time/datatime]", required = true, dataType = "string")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "type", value="시간값[data/time/datatime]", required = true, dataType = "String")})
     @GetMapping(value = "/sample/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
         String result = "";

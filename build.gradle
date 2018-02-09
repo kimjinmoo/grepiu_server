@@ -106,6 +106,14 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.jsoup/jsoup 크롤링
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
 
+	// websocket
+	compile("org.springframework.boot:spring-boot-starter-websocket")
+	compile("org.webjars:webjars-locator")
+	compile("org.webjars:sockjs-client:1.0.2")
+	compile("org.webjars:stomp-websocket:2.3.3")
+	compile("org.webjars:bootstrap:3.3.7")
+	compile("org.webjars:jquery:3.1.0")
+
 	//auth
 	//compile 'com.google.firebase:firebase-auth:10.0.1'
 
