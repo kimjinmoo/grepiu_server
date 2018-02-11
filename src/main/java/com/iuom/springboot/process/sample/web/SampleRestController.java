@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,9 +49,6 @@ public class SampleRestController {
 
     @Autowired
     private SampleTaskService sampleTaskService;
-
-    @Autowired
-    private SimpMessagingTemplate template;
 
     @ApiOperation(value = "헬로월드")
     @GetMapping(value = "/sample/helloworld")
