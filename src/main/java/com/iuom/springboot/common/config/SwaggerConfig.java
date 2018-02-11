@@ -26,7 +26,7 @@ public class SwaggerConfig {
      */
     @Bean
     public Docket sampleApi(){
-        return new Docket(DocumentationType.SPRING_WEB)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.iuom.springboot.process.sample.web"))
                 .paths(PathSelectors.any()).build();

@@ -12,5 +12,4 @@ import java.util.List;
 public interface TestMongoDBRepository extends MongoRepository<TestUser, String> {
     TestUser findByFirstName(String firstName);
     List<TestUser> findByLastName(String lastName);
-
 }

@@ -85,6 +85,10 @@ if(ext.profile == 'local') {
 	compileJava.dependsOn(preBuild,executeJob)
 }
 
+springBoot {
+	executable = true
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-aop')
@@ -95,10 +99,24 @@ dependencies {
 	compile('mysql:mysql-connector-java:5.1.38')
 	compile('org.apache.commons:commons-collections4:4.1')
 	compile group: 'com.google.guava', name: 'guava', version: '23.0'
-	compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.16'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 	compile 'org.projectlombok:lombok:1.16.18'
 
-	testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '0.9.28'
+	// https://mvnrepository.com/artifact/org.jsoup/jsoup 크롤링
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
+	// websocket
+	compile("org.springframework.boot:spring-boot-starter-websocket")
+	compile("org.webjars:webjars-locator")
+	compile("org.webjars:sockjs-client:1.0.2")
+	compile("org.webjars:stomp-websocket:2.3.3")
+	compile("org.webjars:bootstrap:3.3.7")
+	compile("org.webjars:jquery:3.1.0")
+
+	//auth
+	//compile 'com.google.firebase:firebase-auth:10.0.1'
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

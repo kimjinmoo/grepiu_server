@@ -1,18 +1,25 @@
 package com.iuom.springboot.process.sample.web;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.iuom.springboot.common.crawler.CrawlerUtils;
+import com.iuom.springboot.common.crawler.Observer;
 import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.common.util.CollectionUtils;
+import com.iuom.springboot.process.sample.domain.Crawler;
+import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
 import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
 import com.iuom.springboot.process.sample.service.SampleTaskService;
 import com.mongodb.DuplicateKeyException;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,11 +37,13 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
-@RequestMapping("/sample")
 public class SampleRestController {
 
     @Autowired
-    TestMongoDBRepository repository;
+    private TestMongoDBRepository repository;
+
+    @Autowired
+    private TestMongoDBCrawler crawlerDB;
 
     @Autowired
     private SampleService sampleService;
@@ -42,8 +51,12 @@ public class SampleRestController {
     @Autowired
     private SampleTaskService sampleTaskService;
 
-    @GetMapping(value = "")
-    public ModelAndView index() {
+    @Autowired
+    private SimpMessagingTemplate template;
+
+    @ApiOperation(value = "헬로월드")
+    @GetMapping(value = "/sample/helloworld")
+    public ModelAndView helloWorld() {
         return new ModelAndView("index");
     }
 
@@ -56,7 +69,9 @@ public class SampleRestController {
      * @param type
      * @return
      */
-    @GetMapping(value = "/util/now/{type}")
+    @ApiOperation(value = "시간조회하기")
+    @ApiImplicitParams({@ApiImplicitParam(name = "type", value="시간값[data/time/datatime]", required = true, dataType = "String")})
+    @GetMapping(value = "/sample/util/now/{type}")
     public ResponseEntity<String> currentTime(@PathVariable("type") String type) {
         String result = "";
         switch (type) {
@@ -82,7 +97,8 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/list")
+    @ApiOperation(value = "샘플리스트")
+    @GetMapping("/sample/list")
     public ResponseEntity<Object> getSampleList() {
         Optional<List<String>> value = CollectionUtils.isNull(()->{
             return sampleService.getSampleList();
@@ -97,7 +113,8 @@ public class SampleRestController {
      *
      * @return
      */
-    @PostMapping("/mongodb/users")
+    @ApiOperation(value = "몽고 DB 유저등록")
+    @PostMapping("/sample/mongodb/users")
     public ResponseEntity<Void> addSampleUser(@RequestParam String id,
                                                @RequestParam String firstName,
                                                @RequestParam String lastName,
@@ -116,7 +133,8 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/mongodb/users/{firstName}")
+    @ApiOperation(value = "몽고DB 조회")
+    @GetMapping("/sample/mongodb/users/{firstName}")
     public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
         TestUser testUser = repository.findByFirstName(firstName);
         return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
@@ -128,11 +146,30 @@ public class SampleRestController {
      *
      * @return
      */
-    @GetMapping("/parallelTask")
+    @ApiOperation(value = "병렬테스트")
+    @GetMapping("/sample/parallelTask")
     public ResponseEntity<Object> parallelTask() {
         Map<String, Object> params = Maps.newHashMap();
 
         // 병렬 처리를 한다.
         return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
     }
+
+    @ApiOperation(value = "크롤링테스트")
+    @GetMapping("/sample/crawling")
+    public ResponseEntity<Object> crawler() {
+        log.debug("start=============>");
+        CrawlerUtils cw = new CrawlerUtils();
+
+        cw.addObserver(new Observer() {
+            @Override
+            public void update(Crawler obj) {
+                crawlerDB.save(obj);
+                }
+            }
+        );
+        cw.run("http://www.lottecinema.co.kr/LCHS/Contents/Cinema/Cinema-Detail.aspx?divisionCode=1&detailDivisionCode=1&cinemaID=1001");
+        return new ResponseEntity<Object>(null, HttpStatus.OK);
+    }
+
 }

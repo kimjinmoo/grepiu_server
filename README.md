@@ -44,6 +44,11 @@ mongod --auth
 [host]:[port]/swagger-ui.html
 </pre>
 
+##WebSocket 적용 - STOMP
+<pre>
+[host]:[port]/ws
+</pre>
+
 ##참조
 https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-structuring-your-code.html
 <br>properties 설정 참조</br>
