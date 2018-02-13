@@ -164,6 +164,12 @@ public class SampleRestController {
                 }
             }
         );
+        cw.addObserver(new Observer() {
+            @Override
+            public void update(Crawler obj) {
+                log.debug("update obj : {}", obj);
+            }
+        });
         cw.run("http://www.lottecinema.co.kr/LCHS/Contents/Cinema/Cinema-Detail.aspx?divisionCode=1&detailDivisionCode=1&cinemaID=1001");
         return new ResponseEntity<Object>(null, HttpStatus.OK);
     }

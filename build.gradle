@@ -114,6 +114,9 @@ dependencies {
 	compile("org.webjars:bootstrap:3.3.7")
 	compile("org.webjars:jquery:3.1.0")
 
+	//  동적 사이트 크롤링을 위해 추가
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.41.0'
+
 	//auth
 	//compile 'com.google.firebase:firebase-auth:10.0.1'
 
