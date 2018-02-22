@@ -1,15 +1,12 @@
 package com.iuom.springboot.process.sample.service;
 
-import com.google.common.collect.Lists;
+import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.common.job.Task;
 import com.iuom.springboot.common.job.TaskHelper;
-import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +22,9 @@ public class SampleTaskService {
 
     @Autowired
     private Task getSampleTask2;
+
+    @Autowired
+    private Task crawlerLotteCinema;
 
     /**
      *
@@ -43,5 +43,14 @@ public class SampleTaskService {
             e.printStackTrace();
         }
         return taskHelper.getReturnMaps();
+    }
+
+    /**
+     *
+     * 크롤링테스트 - 비동기처리
+     *
+     */
+    public Object lotteRun() {
+        return new LotteCinemaNode().executeLogic();
     }
 }

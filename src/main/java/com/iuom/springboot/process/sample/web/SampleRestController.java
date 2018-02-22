@@ -1,11 +1,8 @@
 package com.iuom.springboot.process.sample.web;
 
 import com.google.common.collect.Maps;
-import com.iuom.springboot.common.crawler.CrawlerUtils;
-import com.iuom.springboot.common.crawler.Observer;
-import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.common.util.CollectionUtils;
-import com.iuom.springboot.process.sample.domain.Crawler;
+import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
 import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
@@ -154,24 +151,7 @@ public class SampleRestController {
     @ApiOperation(value = "크롤링테스트")
     @GetMapping("/sample/crawling")
     public ResponseEntity<Object> crawler() {
-        log.debug("start=============>");
-        CrawlerUtils cw = new CrawlerUtils();
-
-        cw.addObserver(new Observer() {
-            @Override
-            public void update(Crawler obj) {
-                crawlerDB.save(obj);
-                }
-            }
-        );
-        cw.addObserver(new Observer() {
-            @Override
-            public void update(Crawler obj) {
-                log.debug("update obj : {}", obj);
-            }
-        });
-        cw.run("http://www.lottecinema.co.kr/LCHS/Contents/Cinema/Cinema-Detail.aspx?divisionCode=1&detailDivisionCode=1&cinemaID=1001");
-        return new ResponseEntity<Object>(null, HttpStatus.OK);
+        return new ResponseEntity<Object>( sampleTaskService.lotteRun(), HttpStatus.OK);
     }
 
 }

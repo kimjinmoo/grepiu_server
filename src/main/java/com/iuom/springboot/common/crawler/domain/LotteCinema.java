@@ -1,6 +1,7 @@
 package com.iuom.springboot.common.crawler.domain;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.List;
 @Document(collection="lottecinema")
 public class LotteCinema implements Serializable {
 
+    @Indexed
     private String sido; // 시도
     private String area; // 지역
     private List<Movie> movieInfo; // 영화 정보
