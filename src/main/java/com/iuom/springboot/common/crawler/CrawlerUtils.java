@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -151,16 +150,5 @@ public class CrawlerUtils implements Executor{
                 }
             }
         }
-    }
-
-    public static void main(String...args) {
-        try {
-            CrawlerUtils cu = new CrawlerUtils();
-            cu.run("http://www.lottecinema.co.kr/LCHS/Contents/Cinema/Cinema-Detail.aspx?divisionCode=1&detailDivisionCode=101&cinemaID=2011");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 }

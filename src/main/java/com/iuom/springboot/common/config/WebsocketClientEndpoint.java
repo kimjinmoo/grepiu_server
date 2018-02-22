@@ -1,4 +1,4 @@
-package com.iuom.springboot.common.crawler;
+package com.iuom.springboot.common.config;
 
 import javax.websocket.*;
 import java.net.URI;

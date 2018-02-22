@@ -76,10 +76,11 @@ public class CrawlingTest {
                         Thread.sleep(1500);
                         WebElement times = driver.findElement(By.className("time_box"));
                         List<WebElement> movies = times.findElements(By.className("time_line"));
+                        List<LotteCinema.Movie> movieInfo = new ArrayList<>();
                         movies.forEach(movTimes->{
                             // set 영화명
                             LotteCinema.Movie movie = lotteCinema.new Movie();
-                            List<LotteCinema.Movie> movieInfo = new ArrayList<>();
+
                             movie.setMovieName(movTimes.findElement(By.cssSelector("dt")).getText());;
                             List<WebElement> regTime = movTimes.findElements(By.cssSelector(".theater_time li"));
                             regTime.forEach(t->{
@@ -91,8 +92,8 @@ public class CrawlingTest {
                                 movie.setSeat(t.findElements(By.tagName("span")).get(2).getText());
                                 movieInfo.add(movie);
                             });
-                            lotteCinema.setMovieInfo(movieInfo);
                         });
+                        lotteCinema.setMovieInfo(movieInfo);
                         actions.moveToElement(subV.findElement(By.cssSelector("a"))).click().perform();
                         Thread.sleep(1000);
 
