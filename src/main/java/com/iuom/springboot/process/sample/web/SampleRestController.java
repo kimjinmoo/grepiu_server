@@ -148,10 +148,11 @@ public class SampleRestController {
         return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "크롤링테스트")
+    @ApiOperation(value = "크롤링 데이터 보기")
     @GetMapping("/sample/crawling")
     public ResponseEntity<Object> crawler() {
-        return new ResponseEntity<Object>( sampleTaskService.lotteRun(), HttpStatus.OK);
+
+        return new ResponseEntity<Object>(HttpStatus.OK);
     }
 
 }
