@@ -2,7 +2,6 @@ package com.iuom.springboot.process.sample.task;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.common.job.Task;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -55,18 +54,6 @@ public class TaskGroup {
                     job.add(i);
                 });
                 result.put("task2", job);
-                return result;
-            }
-        };
-    }
-
-    @Bean
-    public Task crawlerLotteCinema() {
-        return new Task() {
-            @Override
-            public HashMap<String, Object> run(Map<String, Object>... object) {
-                HashMap<String, Object> result = Maps.newHashMap();
-                result.put("jsonString", new LotteCinemaNode().executeLogic());
                 return result;
             }
         };

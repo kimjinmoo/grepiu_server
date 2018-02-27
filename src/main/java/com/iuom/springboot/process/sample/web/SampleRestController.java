@@ -151,7 +151,7 @@ public class SampleRestController {
     @ApiOperation(value = "크롤링 데이터 보기")
     @GetMapping("/sample/crawling")
     public ResponseEntity<Object> crawler() {
-
+        sampleService.lotteRun();
         return new ResponseEntity<Object>(HttpStatus.OK);
     }
 

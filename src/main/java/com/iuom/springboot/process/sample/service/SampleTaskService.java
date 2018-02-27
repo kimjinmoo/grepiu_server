@@ -1,6 +1,5 @@
 package com.iuom.springboot.process.sample.service;
 
-import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.common.job.Task;
 import com.iuom.springboot.common.job.TaskHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ public class SampleTaskService {
     @Autowired
     private Task getSampleTask2;
 
-    @Autowired
-    private Task crawlerLotteCinema;
 
     /**
      *
@@ -43,14 +40,5 @@ public class SampleTaskService {
             e.printStackTrace();
         }
         return taskHelper.getReturnMaps();
-    }
-
-    /**
-     *
-     * 크롤링테스트 - 비동기처리
-     *
-     */
-    public Object lotteRun() {
-        return new LotteCinemaNode().executeLogic();
     }
 }

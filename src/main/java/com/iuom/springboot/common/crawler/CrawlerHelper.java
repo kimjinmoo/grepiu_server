@@ -13,6 +13,7 @@ import java.util.UUID;
  *
  * 크롤러 유틸
  *
+ * auth JM
  */
 @Slf4j
 public class CrawlerHelper implements Executor{
@@ -45,6 +46,7 @@ public class CrawlerHelper implements Executor{
     @Override
     public void execute() {
         executeNodes.parallelStream().forEach(v->{
+            v.setEventListener();
             data.put(UUID.randomUUID().toString(),v.executeLogic());
         });
         notifyObserver();

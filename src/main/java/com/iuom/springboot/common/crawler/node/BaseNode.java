@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *
@@ -27,10 +28,20 @@ public abstract class BaseNode<T> {
         sleep();
     }
 
+    /**
+     *
+     * 엘리먼트 클릭
+     *
+     * @param webElement
+     */
     public void elementClick(WebElement webElement) {
         Actions actions = new Actions(driver);
         actions.moveToElement(webElement).click().perform();
         sleep();
+    }
+
+    public void setEventListener(Consumer listener) {
+
     }
 
     /**
