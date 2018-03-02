@@ -29,21 +29,25 @@ public class ScheduleJob {
      *
      * 크롤링 스케쥴러
      *
+     * 6시간기준으로 갱신
      */
-    @Scheduled(fixedDelay = 1000*60*60)
+    @Scheduled(fixedDelay = 1000*60*60*6)
     public void crawler() {
         log.info(" start crawler=======================");
-        //step1. DB delete
-        mongoDBCrawler.deleteAll();
 
-        //step2. Collect Data
+        //step1. Collect Data
         CrawlerHelper ch = new CrawlerHelper();
         ch.addNode(new LotteCinemaNode());
         ch.execute();
 
-        //step3. data insert
+        //step2. data set
         List<Cinema> data = ch.getData();
-        data.forEach(v->{
+
+        //step3. DB delete
+        mongoDBCrawler.deleteAll();
+
+        //step4 DB insert
+        data.parallelStream().forEach(v->{
             mongoDBCrawler.insert(v);
         });
         log.info("insert Data  : {} ", new Gson().toJson(data));
