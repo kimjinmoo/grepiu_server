@@ -2,7 +2,7 @@ package com.iuom.springboot.test;
 
 import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.Observer;
-import com.iuom.springboot.common.crawler.domain.LotteCinema;
+import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class CrawlingTest {
                 o.forEach((key, value)->{
 
                 });
-                log.debug("obj event처리 ===>{}", (LotteCinema) obj);
+                log.debug("obj event처리 ===>{}", (Cinema) obj);
             }
         });
         crawler.execute();
