@@ -1,5 +1,6 @@
 package com.iuom.springboot.common.crawler.node;
 
+import com.iuom.springboot.common.crawler.domain.Cinema;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +12,8 @@ import java.util.function.Consumer;
 
 /**
  *
- * 기본 노드
+ * 크롤링 기본 노드
+ *    - selenuum 기반 개발
  *
  */
 public abstract class BaseNode<T> {
@@ -20,6 +22,12 @@ public abstract class BaseNode<T> {
     private WebDriver driver;
     private String driverType = "CHROME";
 
+    /**
+     *
+     * 크롬으로 초기화
+     *
+     * @param url
+     */
     public void initChrome(String url){
         System.setProperty("webdriver.chrome.driver", "c:\\workspace\\sw\\selenium\\chromedriver.exe");
         this.driver = new ChromeDriver();
@@ -40,7 +48,18 @@ public abstract class BaseNode<T> {
         sleep();
     }
 
-    public void setEventListener(Consumer listener) {
+    /**
+     *
+     * 이벤트 리스너 등록
+     *
+     * @param listener
+     */
+    public void onUpdate(Consumer<Object> listener) {
+        try {
+            listener.accept(listener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -94,5 +113,15 @@ public abstract class BaseNode<T> {
         }
     }
 
-    public abstract T executeLogic();
+    /**
+     *
+     * 실 구동 로직 구현
+     * <pre>
+     *     BaseNode를 상속받아 executeLogic 로직 구현
+     *     특정 이벤트처리를 위해 onUpdate 지정하여 사용
+     * </pre>
+     *
+     * @return
+     */
+    public abstract List<Cinema> executeLogic();
 }

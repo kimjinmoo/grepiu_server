@@ -1,6 +1,7 @@
 package com.iuom.springboot.process.sample.web;
 
 import com.google.common.collect.Maps;
+import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.util.CollectionUtils;
 import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
@@ -12,6 +13,7 @@ import com.mongodb.DuplicateKeyException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -148,11 +150,11 @@ public class SampleRestController {
         return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "크롤링 데이터 보기")
-    @GetMapping("/sample/crawling")
+    @ApiOperation(value = "크롤링데이터 리스트")
+    @ApiResponse(code = 200, message = "조회성공")
+    @GetMapping("/sample/crawler")
     public ResponseEntity<Object> crawler() {
-        sampleService.lotteRun();
-        return new ResponseEntity<Object>(HttpStatus.OK);
+        List<Cinema> cinemas = crawlerDB.findAllBy();
+        return new ResponseEntity<Object>(cinemas, HttpStatus.OK);
     }
-
 }

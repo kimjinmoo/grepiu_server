@@ -9,12 +9,4 @@ import java.util.List;
 public interface SampleService {
 
     public List<String> getSampleList();
-
-
-    /**
-     *
-     * 크롤링테스트 - 비동기처리
-     *
-     */
-    public void lotteRun();
 }
