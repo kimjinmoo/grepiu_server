@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 /**
  *
  * 크롤링 기본 노드
- *    - selenuum 기반 개발
+ *    - selenium 기반 개발
  *
  */
 public abstract class BaseNode<T> {
@@ -22,7 +22,7 @@ public abstract class BaseNode<T> {
     private WebDriver driver;
     private String driverType = "CHROME";
 
-    private final String chromePath =  "/usr/lib64/chromium-browser/chromedriver";
+    private final String chromePath =  "/usr/bin/chromedriver";
     /**
      *
      * 크롬으로 초기화
