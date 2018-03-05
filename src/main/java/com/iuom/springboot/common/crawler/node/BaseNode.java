@@ -22,6 +22,7 @@ public abstract class BaseNode<T> {
     private WebDriver driver;
     private String driverType = "CHROME";
 
+    private final String chromePath =  "/usr/lib64/chromium-browser/chromedriver";
     /**
      *
      * 크롬으로 초기화
@@ -29,7 +30,8 @@ public abstract class BaseNode<T> {
      * @param url
      */
     public void initChrome(String url){
-        System.setProperty("webdriver.chrome.driver", "c:\\workspace\\sw\\selenium\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", chromePath);
+//        System.setProperty("webdriver.chrome.driver", "c:\\workspace\\sw\\selenium\\chromedriver.exe");
         this.driver = new ChromeDriver();
         this.driver.get(url);;
         this.driverType = "CHROME";
