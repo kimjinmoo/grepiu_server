@@ -22,7 +22,7 @@ public class LotteCinemaNode<T> extends BaseNode {
     @Override
     public List<Cinema> executeLogic() {
         // 크롬 초기화
-        initChrome(url);
+        initFirefox(url);
         // return 데이터 타입 Set
         List<Cinema> data = new ArrayList<>();
 
