@@ -1,10 +1,13 @@
 package com.iuom.springboot.common.crawler.node;
 
+import com.google.common.collect.ImmutableMap;
 import com.iuom.springboot.common.crawler.domain.Cinema;
+import java.io.File;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
@@ -23,6 +26,8 @@ public abstract class BaseNode<T> {
     private String driverType = "CHROME";
 
     private final String chromePath =  "/usr/bin/chromedriver";
+    public static ChromeDriverService service;
+
     /**
      *
      * 크롬으로 초기화
@@ -30,9 +35,22 @@ public abstract class BaseNode<T> {
      * @param url
      */
     public void initChrome(String url){
+        try {
+            if(service == null) {
+                service = new ChromeDriverService.Builder()
+                    .usingDriverExecutable(new File(chromePath))
+                    .usingAnyFreePort()
+                    .withEnvironment(ImmutableMap.of("DISPLAY",":0"))
+                    .withSilent(true)
+                    .build();
+                service.start();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.setProperty("webdriver.chrome.driver", chromePath);
 //        System.setProperty("webdriver.chrome.driver", "c:\\workspace\\sw\\selenium\\chromedriver.exe");
-        this.driver = new ChromeDriver();
+        this.driver = new ChromeDriver(service);
         this.driver.get(url);;
         this.driverType = "CHROME";
         sleep();
@@ -82,6 +100,7 @@ public abstract class BaseNode<T> {
         switch (this.driverType) {
             case "CHROME" :
                 getDriver().quit();
+                if(service != null) service.stop();
                 break;
             default :
                 break;
@@ -91,7 +110,6 @@ public abstract class BaseNode<T> {
     public WebDriver getDriver() {
         switch (this.driverType) {
             case "CHROME" :
-                if(driver == null) return new ChromeDriver();
                 return driver;
             default :
                 return null;
