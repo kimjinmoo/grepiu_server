@@ -2,6 +2,7 @@ package com.iuom.springboot.common.job;
 
 import com.google.gson.Gson;
 import com.iuom.springboot.common.crawler.CrawlerHelper;
+import com.iuom.springboot.common.crawler.Observer;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
@@ -38,6 +39,12 @@ public class ScheduleJob {
         //step1. Collect Data
         CrawlerHelper ch = new CrawlerHelper();
         ch.addNode(new LotteCinemaNode());
+        ch.addObserver(new Observer() {
+            @Override
+            public void update(Object obj) {
+                //완료 후 최종 이벤트 처리
+            }
+        });
         ch.execute();
 
         //step2. data set

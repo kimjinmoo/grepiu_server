@@ -1,7 +1,9 @@
 package com.iuom.springboot.common.crawler.node;
 
+import com.google.common.collect.Maps;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.domain.CinemaDetailInfo;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -22,12 +24,13 @@ public class LotteCinemaNode<T> extends BaseNode {
     @Override
     public List<Cinema> executeLogic() {
         // 크롬 초기화
-        initFirefox(url);
+        initChrome(url);
         // return 데이터 타입 Set
         List<Cinema> data = new ArrayList<>();
 
         getDriver().findElements(By.cssSelector("[class^=area00]")).forEach(v->{
             Cinema lotteCinema = new Cinema();
+            HashMap<String, List<CinemaDetailInfo>> areaMovieInfo = Maps.newHashMap();
             // Set 시도
             lotteCinema.setSido(v.findElement(By.className("area_zone")).getText());
             String processAria = v.findElement(By.className("area_zone")).getText();
@@ -36,7 +39,7 @@ public class LotteCinemaNode<T> extends BaseNode {
             List<WebElement> areasList = findElements(v, By.cssSelector(".area_cont ul li"));
             areasList.forEach(subV->{
                 // set 상영관
-                lotteCinema.setArea(subV.getText());
+                String area = subV.getText();
                 elementClick(subV.findElement(By.cssSelector("a")));
 
                 WebElement times = getDriver().findElement(By.className("time_box"));
@@ -59,7 +62,8 @@ public class LotteCinemaNode<T> extends BaseNode {
                         movieInfo.add(movie);
                     });
                 });
-                lotteCinema.setMovieInfo(movieInfo);
+                areaMovieInfo.put(area, movieInfo);
+                lotteCinema.setMovieInfo(areaMovieInfo);
                 elementClick(subV.findElement(By.cssSelector("a")));
             });
             data.add(lotteCinema);
