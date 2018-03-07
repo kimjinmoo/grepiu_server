@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -25,6 +26,7 @@ public class Cinema implements Serializable {
     private String sido; // 시도
 
     @CreatedDate
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createDate; // 시간
     private HashMap<String, List<CinemaDetailInfo>> movieInfo; // 영화 정보
 
