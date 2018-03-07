@@ -1,12 +1,9 @@
 package com.iuom.springboot.common.job;
 
 import com.iuom.springboot.common.crawler.CrawlerHelper;
-import com.iuom.springboot.common.crawler.Observer;
-import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
 import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -37,25 +34,18 @@ public class ScheduleJob {
     //step1. Collect Data
     CrawlerHelper ch = new CrawlerHelper();
     ch.addNode(new LotteCinemaNode());
-    ch.addObserver(new Observer() {
-      @Override
-      public void update(Object obj) {
-        //완료 후 최종 이벤트 처리
-        template.convertAndSend("/topic/messages", new SampleMessage("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
-      }
+    ch.addObserver(o -> {
+      //DB delete
+      mongoDBCrawler.deleteAll();
+      //DB Insert
+      o.parallelStream().forEach(v -> {
+        mongoDBCrawler.insert(v);
+      });
+      //완료 후 최종 이벤트 처리
+      template.convertAndSend("/topic/messages",
+          new SampleMessage("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
     });
     ch.execute();
-
-    //step2. data set
-    List<Cinema> data = ch.getData();
-
-    //step3. DB delete
-    mongoDBCrawler.deleteAll();
-
-    //step4 DB insert
-    data.parallelStream().forEach(v -> {
-      mongoDBCrawler.insert(v);
-    });
     log.info(" finished crawler=======================");
   }
 }

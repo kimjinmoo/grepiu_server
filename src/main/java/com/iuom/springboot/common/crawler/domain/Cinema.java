@@ -26,7 +26,7 @@ public class Cinema implements Serializable {
     private String sido; // 시도
 
     @CreatedDate
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,style = "yyyy/MM/dd")
     private Date createDate; // 시간
     private HashMap<String, List<CinemaDetailInfo>> movieInfo; // 영화 정보
 
