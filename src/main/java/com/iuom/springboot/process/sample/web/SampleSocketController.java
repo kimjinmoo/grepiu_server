@@ -17,7 +17,7 @@ public class SampleSocketController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
-    public ChatMessages gretting(SampleMessage message) throws Exception {
+    public ChatMessages greeting(SampleMessage message) throws Exception {
         Thread.sleep(500);
         return new ChatMessages(message.getName() + " : " + message.getMessage());
     }
