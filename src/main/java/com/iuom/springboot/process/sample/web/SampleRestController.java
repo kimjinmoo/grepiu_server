@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -154,6 +155,7 @@ public class SampleRestController {
 
     @ApiOperation(value = "크롤링데이터 리스트")
     @ApiResponse(code = 200, message = "조회성공")
+    @CrossOrigin(origins = "*")
     @GetMapping("/sample/crawler")
     public ResponseEntity<Object> crawler() {
         return new ResponseEntity<Object>(crawlerDB.findAllBy(), HttpStatus.OK);
