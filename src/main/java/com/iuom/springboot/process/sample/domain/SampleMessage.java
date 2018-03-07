@@ -3,8 +3,14 @@ package com.iuom.springboot.process.sample.domain;
 public class SampleMessage {
     private String name;
     private String message;
+    private String content;
 
     public SampleMessage() {}
+
+    public SampleMessage(String name, String message) {
+        this.name = name;
+        this.message = message;
+    }
 
     public SampleMessage(String name) {
         this.name = name;
@@ -24,5 +30,9 @@ public class SampleMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getContent() {
+        return this.name+" : "+this.message;
     }
 }
