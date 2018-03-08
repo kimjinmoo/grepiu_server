@@ -4,6 +4,7 @@ import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.Observer;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ public class CrawlingTest {
         crawler.addNode(new LotteCinemaNode());
         crawler.addObserver(new Observer() {
             @Override
-            public void update(Object obj) {
+            public void update(List<Cinema> obj) {
                 HashMap<String, Object> o = (HashMap<String, Object>) obj;
                 o.forEach((key, value)->{
 
