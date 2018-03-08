@@ -1,7 +1,7 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.RELEASE'
-	}
+        springBootVersion = '2.0.0.RELEASE'
+    }
 	repositories {
 		mavenCentral()
 	}
@@ -14,15 +14,15 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 // Junit 테스트는 빌드시 제외
 test {
@@ -82,17 +82,14 @@ if(ext.profile == 'local') {
 	compileJava.dependsOn(preBuild,executeJob)
 }
 
-springBoot {
-	executable = true
-}
-
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-aop')
-	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter')
-	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-	compile('org.springframework.boot:spring-boot-starter-freemarker')
-	compile('org.springframework.boot:spring-boot-starter-batch')
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-freemarker', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-batch', version: '2.0.0.RELEASE'
+    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.3.1'
 	compile('mysql:mysql-connector-java:5.1.38')
 	compile('org.apache.commons:commons-collections4:4.1')
 	compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
@@ -104,8 +101,8 @@ dependencies {
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
 
 	// websocket
-	compile("org.springframework.boot:spring-boot-starter-websocket")
-	compile("org.webjars:webjars-locator")
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.0.0.RELEASE'
+	compile group: 'org.webjars', name: 'webjars-locator', version: '0.32'
 	compile("org.webjars:sockjs-client:1.0.2")
 	compile("org.webjars:stomp-websocket:2.3.3")
 	compile("org.webjars:bootstrap:3.3.7")
