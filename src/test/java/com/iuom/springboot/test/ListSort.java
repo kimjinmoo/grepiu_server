@@ -1,17 +1,14 @@
 package com.iuom.springboot.test;
 
-import lombok.Data;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import lombok.Data;
 
 /**
  *
- * 리스트 소팅
+ * stream 소팅
  *
  */
 public class ListSort {

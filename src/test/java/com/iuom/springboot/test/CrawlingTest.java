@@ -4,14 +4,13 @@ import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.Observer;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
+import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.HashMap;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -33,7 +32,6 @@ public class CrawlingTest {
             public void update(List<Cinema> obj) {
                 HashMap<String, Object> o = (HashMap<String, Object>) obj;
                 o.forEach((key, value)->{
-
                 });
                 log.debug("obj event처리 ===>{}", (Cinema) obj);
             }
