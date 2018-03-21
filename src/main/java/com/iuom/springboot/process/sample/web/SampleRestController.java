@@ -64,7 +64,10 @@ public class SampleRestController {
   }
 
   /**
-   * 날짜를 가져온다. JAVA8 LocalDateTime 이용 https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
+   *
+   * 날짜를 가져온다. JAVA8 LocalDateTime 이용
+   * https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
+   *
    */
   @ApiOperation(value = "시간조회하기")
   @ApiImplicitParams({
@@ -122,6 +125,7 @@ public class SampleRestController {
    * 몽고DB 리스트 가져오기
    */
   @ApiOperation(value = "몽고DB 조회")
+  @CrossOrigin(origins="*")
   @GetMapping("/sample/mongodb/users/{firstName}")
   public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
     TestUser testUser = repository.findByFirstName(firstName);
@@ -132,6 +136,7 @@ public class SampleRestController {
    * 병렬 처리 테스트
    */
   @ApiOperation(value = "병렬테스트")
+  @CrossOrigin(origins="*")
   @GetMapping("/sample/parallelTask")
   public ResponseEntity<Object> parallelTask() {
     Map<String, Object> params = Maps.newHashMap();

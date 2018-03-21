@@ -12,6 +12,18 @@ import org.springframework.stereotype.Component;
 
 /**
  * 스케쥴 Job
+ *
+ * cron 표현
+ * 초 분 시간 일 월 요일(1 일요일- 7 토요일 OR MON,SUN) 년도(Optional)
+ *
+ * * : 모든 수
+ * ? : Day of Month, Day of Week 에서 사용 가능
+ * - : 기간을 설정 ex) 1-2
+ * , : 특정 시간을 설정
+ * / : 증가를 표현 ex) 초 0/15 는 15초간격
+ * L : Day of Month 에서만 사용 마지막일
+ * W : Day of Month 에서만 사용 가능  가장 가까운 평일
+ * # : Day Of Week 에서 사용 가능 ex) 1#3 3번째 주 일요일 실행
  */
 @Slf4j
 @Component
@@ -28,7 +40,7 @@ public class ScheduleJob {
    *
    * 6시간기준으로 갱신
    */
-  @Scheduled(fixedDelay = 1000 * 60 * 60 * 6)
+  @Scheduled(cron = "0 0 12 * * *")
   public void crawler() {
     log.info(" start crawler=======================");
     //step1. Collect Data
