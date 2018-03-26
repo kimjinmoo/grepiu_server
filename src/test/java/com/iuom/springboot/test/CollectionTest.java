@@ -46,7 +46,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  *   빠른 순서 ↑
  *   상수 시간    O(1)
  *   로그시간     O(log N)
- *   직선형 시간  O(logN)
+ *   직선형 시간  O(N)
  *   2차 시간     O(n^2)
  *   지수 시간    O(C^n)
  *   느린 순서 ↓
@@ -79,7 +79,11 @@ public class CollectionTest {
      * get             : O(1)
      * Contains        : O(n)
      * iterator.remove : O(n)
-     * 특징 :
+     * java 1.2에 추가 thread-safe 보장 안함
+     * 특징 :  데이터 추가,삭제를 위해 임시 배열을 생성해 데이터를 복사
+     *   - 대량의 자료를 추가/삭제시 복사가 일어 나게 되어 성능 저하를 일이킴
+     *   - 데이터의 인덱스를 가지고 있어 데이터 검색시 빠름
+     *   -
      */
     List<String> arrayList = new ArrayList<>();
 
@@ -91,7 +95,10 @@ public class CollectionTest {
      * get             : O(n)
      * Contains        : O(n)
      * iterator.remove : O(1)
-     *
+     * java 1.2에 추가 thread-safe 보장 안함
+     * 특징 : 데이터를 저장하는 각 노드가 이전 노드와 다음 노드의 상태만 알고 있다.
+     *   - 데이터 추가/삭제시 빠름
+     *   - 데이터 검색시 처음부터 노드를 순화해야 되기 때문에 느림
      */
     List<String> linkedList = new LinkedList<>();
 
@@ -103,7 +110,9 @@ public class CollectionTest {
      * get             : O(1)
      * Contains        : O(n)
      * iterator.remove : O(n)
-     *
+     * java 5 추가 thread-safe 보장, 병렬처리
+     * 특징 : 처리에 여분의 오버로드를 가져오지만 순회 작업의 수에 비해 수정 횟수가 최소일때 효과적 이다.
+     *    - add는 ArrayList, LinkedList 보다 느리지만 get은 LinkedList보단 빠르고 ArrayList보단 살짝 느리다.
      */
     List<String> copyOnWriteArraylist = new CopyOnWriteArrayList<>();
   }
@@ -115,7 +124,11 @@ public class CollectionTest {
      * add         :   O(1)
      * contains    :   O(1)
      * next        :   o(h/n) h는 테이블 용량
-     *
+     * thread-safe 보장 안함
+     * 특징 : 객체들을 순서없이 저장하고 동일한 객체를 중복 저장하지 않는다.
+     *    - 중복되지 않는 값을 등록할때 용의
+     *    - 순서없이 저장되는것 주위
+     *    - null을 허용한다.
      */
     Set<String> hashSet = new HashSet<>();
 
@@ -125,6 +138,10 @@ public class CollectionTest {
      * add       : O(1)
      * contains  : O(1)
      * next      : O(1)
+     * thread-safe 보장 안함
+     * 특징 : 속도는 hashSet에 비해 느리지만 좋은 성능을 보장한다.
+     *    - 등록한 순으로 정렬을 한다.
+     *    - null을 허용한다.
      */
     Set<String> linkedHashSet = new LinkedHashSet<>();
 
@@ -134,6 +151,8 @@ public class CollectionTest {
      * add       : O(n)
      * contains  : O(n)
      * next      : O(1)
+     * Java5에서 나옴, 병렬처리, thread-safe 보장, 병렬 보장
+     * 특징 : 중복을 허용하지 않는 thread-safe 보장하는 콜렉션인경우 용의
      */
     CopyOnWriteArraySet<String> copyOnWriteArraySet = new CopyOnWriteArraySet<>();
 
@@ -143,7 +162,10 @@ public class CollectionTest {
      * add       : O(1)
      * contains  : O(1)
      * next      : O(1)
-     *
+     * Java5에서 나옴
+     * 특징 : 적은 메모리를 사용
+     *      - 빠르다
+     *      - null을 사용 할 수 없다.
      */
     Set<days> enumSet = EnumSet.of(days.FRIDAY);
 
@@ -153,7 +175,9 @@ public class CollectionTest {
      * add       : O(log n)
      * contains  : O(log n)
      * next      : O(long n)
-     *
+     * thread-safe 보장 안함
+     * 특징 : 객체기준으로 정렬을 한다. 느리다.
+     *    - null을 허용하지 않는다.
      */
     Set<String> treeSet = new TreeSet<>();
 
@@ -163,6 +187,9 @@ public class CollectionTest {
      * add       : O(log n)
      * contains  : O(log n)
      * next      : O(1)
+     * 병렬처리, thread-safe 보장, 병렬 보장
+     * 특징 : Null을 허용하지 않는다.
+     *  - Tree set 처럼 정렬을 한다.
      */
     ConcurrentSkipListSet<String> concurrentSkipListSet = new ConcurrentSkipListSet<>();
   }
