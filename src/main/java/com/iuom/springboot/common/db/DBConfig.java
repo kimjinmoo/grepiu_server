@@ -1,6 +1,6 @@
-package com.iuom.springboot.common.base.repository;
+package com.iuom.springboot.common.db;
 
-import com.iuom.springboot.common.base.repository.factory.RoutingSqlSessionTemplateFactory;
+import com.iuom.springboot.common.db.factory.RoutingSqlSessionTemplateFactory;
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

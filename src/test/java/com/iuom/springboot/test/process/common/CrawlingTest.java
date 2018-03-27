@@ -1,4 +1,4 @@
-package com.iuom.springboot.test;
+package com.iuom.springboot.test.process.common;
 
 import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.Observer;
