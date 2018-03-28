@@ -1,18 +1,14 @@
 package com.iuom.springboot;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import javax.sql.DataSource;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  *
@@ -24,11 +20,24 @@ import javax.sql.DataSource;
  *
  */
 @SpringBootApplication
+@EnableAsync
 @EnableAspectJAutoProxy
+@EnableScheduling
+@EnableMongoAuditing
 public class SpringbootApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
+	}
+
+	@Bean
+	public TaskExecutor taskExecutor() {
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(2);
+		executor.setMaxPoolSize(2);
+		executor.setQueueCapacity(500);
+		executor.initialize();
+		return executor;
 	}
 
 }

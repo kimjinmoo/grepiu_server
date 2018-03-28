@@ -2,6 +2,8 @@ package com.iuom.springboot.process.sample.service;
 
 import com.iuom.springboot.process.sample.dao.SampleDAO;
 import com.iuom.springboot.process.sample.dao.SampleMapper;
+import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.List;
  * Api 서비스
  */
 @Service
+@Slf4j
 public class SampleServiceImpl implements SampleService {
 
     @Autowired
@@ -19,6 +22,9 @@ public class SampleServiceImpl implements SampleService {
 
     @Autowired
     private SampleMapper sampleMapper;
+
+    @Autowired
+    private TestMongoDBRepository repository;
 
     @Override
     public List<String> getSampleList() {

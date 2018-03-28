@@ -1,15 +1,18 @@
 package com.iuom.springboot.test;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * 자료 구조
+ * Stack
  */
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
+@Slf4j
 public class DataStructure {
     // Innser class 스택 구현
     class Stack {

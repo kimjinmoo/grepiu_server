@@ -1,14 +1,13 @@
-package com.iuom.springboot.common.base.repository;
+package com.iuom.springboot.common.db;
 
 
-import com.iuom.springboot.common.base.repository.factory.RoutingSqlSessionTemplateFactory;
+import com.iuom.springboot.common.db.factory.RoutingSqlSessionTemplateFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 import java.util.Map;

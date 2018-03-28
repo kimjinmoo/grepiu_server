@@ -1,4 +1,4 @@
-package com.iuom.springboot.common.base.repository;
+package com.iuom.springboot.common.db;
 
 /**
  *

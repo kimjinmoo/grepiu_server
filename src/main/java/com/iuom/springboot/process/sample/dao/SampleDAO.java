@@ -1,10 +1,6 @@
 package com.iuom.springboot.process.sample.dao;
 
-import com.iuom.springboot.common.base.repository.RoutingBaseSqlSessionRepository;
-import com.iuom.springboot.common.base.repository.factory.RoutingSqlSessionTemplateFactory;
-import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.iuom.springboot.common.db.RoutingBaseSqlSessionRepository;
 import org.springframework.stereotype.Repository;
 
 /**
