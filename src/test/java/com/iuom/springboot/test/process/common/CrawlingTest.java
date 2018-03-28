@@ -30,10 +30,10 @@ public class CrawlingTest {
         crawler.addObserver(new Observer() {
             @Override
             public void update(List<Cinema> obj) {
-                HashMap<String, Object> o = (HashMap<String, Object>) obj;
-                o.forEach((key, value)->{
+                obj.forEach((v)->{
+                    log.debug("obj event처리 ===>{}", v.getMovieInfo());
                 });
-                log.debug("obj event처리 ===>{}", (Cinema) obj);
+
             }
         });
         crawler.execute();
