@@ -48,6 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
         .and().httpBasic()
         .and().rememberMe();
 
+
+
   }
 
   @Override
