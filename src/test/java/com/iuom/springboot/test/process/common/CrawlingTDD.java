@@ -4,18 +4,14 @@ import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.Observer;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
+import com.iuom.springboot.test.process.config.IntegrationTestBase;
 import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
 @Slf4j
-public class CrawlingTest {
+public class CrawlingTDD extends IntegrationTestBase {
 
 
     /**

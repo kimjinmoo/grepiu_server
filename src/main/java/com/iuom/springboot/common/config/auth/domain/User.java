@@ -1,43 +1,26 @@
 package com.iuom.springboot.common.config.auth.domain;
 
-import java.util.Collection;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-public class User implements UserDetails {
+@Data
+@Builder
+@Document(collection = "member")
+public class User {
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
-  }
+  @Id
+  private String id;
 
-  @Override
-  public String getPassword() {
-    return null;
-  }
+  private String email;
 
-  @Override
-  public String getUsername() {
-    return null;
-  }
+  private String passwordHash;
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return false;
-  }
+  private Role role;
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return false;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return false;
-  }
-
-  @Override
-  public boolean isEnabled() {
-    return false;
+  public static User build(String email, String plainPassword, Role role) {
+    return builder().email(email).passwordHash(new BCryptPasswordEncoder().encode(plainPassword)).role(role).build();
   }
 }

@@ -60,7 +60,7 @@ public class SampleRestController {
   @ApiOperation(value = "헬로월드")
   @GetMapping(value = "/sample/helloworld")
   public ModelAndView helloWorld() {
-    return new ModelAndView("index");
+    return new ModelAndView("home");
   }
 
   /**
