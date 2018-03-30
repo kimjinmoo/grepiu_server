@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
+    http.csrf().disable().authorizeRequests()
         // 일반적인 Open 정책
         .antMatchers("/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages")
         .permitAll()
