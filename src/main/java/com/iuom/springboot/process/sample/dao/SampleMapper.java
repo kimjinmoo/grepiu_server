@@ -15,5 +15,5 @@ import org.springframework.stereotype.Repository;
 public interface SampleMapper{
 
     @Select("SELECT NOW()")
-    public String getSampleData();
+    public String getSampleData(); 
 }
