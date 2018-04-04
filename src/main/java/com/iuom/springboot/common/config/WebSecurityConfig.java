@@ -25,19 +25,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable().authorizeRequests()
+    http.authorizeRequests()
         // 일반적인 Open 정책
-        .antMatchers("/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages")
-        .permitAll()
+        .antMatchers("/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages").permitAll()
         .antMatchers("/", "/home").permitAll()
         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
             "/configuration/security", "/swagger-resources/configuration/ui",
-            "/swagger-resources/configuration/security", "/swagger-ui.html", "/null/**").hasAuthority("USER")
+            "/swagger-resources/configuration/security", "/null/**").permitAll()
+        .antMatchers("swagger-ui.html").hasRole("USER")
+        .anyRequest().authenticated()
         .and()
-        .formLogin().usernameParameter("email").permitAll()
+        .formLogin().usernameParameter("email").defaultSuccessUrl("/", true).permitAll()
         .and().logout().logoutSuccessUrl("/").permitAll()
         .and().httpBasic()
-        .and().rememberMe();
+        .and().rememberMe()
+        .and().oauth2Login().redirectionEndpoint().baseUri("/test");
   }
 
   @Override
