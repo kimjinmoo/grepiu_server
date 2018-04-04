@@ -25,7 +25,7 @@
 <div id="main-content" class="container">
    <#if currentUser??>
   <form action="/logout" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="hidden" name="${_csrf.parameterName!}" value="${_csrf.token!}"/>
     <button type="submit">Log out</button>
   </form>
      ${currentUser.email}

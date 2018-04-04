@@ -15,8 +15,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,7 +139,7 @@ public class SampleRestController {
   @CrossOrigin(origins="*")
   @GetMapping("/sample/parallelTask")
   public ResponseEntity<Object> parallelTask() {
-    Map<String, Object> params = Maps.newHashMap();
+    HashMap<String, Object> params = Maps.newHashMap();
 
     // 병렬 처리를 한다.
     return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
