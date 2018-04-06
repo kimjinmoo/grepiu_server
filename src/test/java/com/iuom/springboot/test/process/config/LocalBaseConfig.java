@@ -1,5 +1,6 @@
 package com.iuom.springboot.test.process.config;
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,6 +16,13 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @SpringBootTest
 @WebAppConfiguration
 @ActiveProfiles("local")
-public class IntegrationTestBase {
+public abstract class LocalBaseConfig {
 
+  /**
+   *
+   * 초기화 설정
+   *
+   */
+  @Before
+  public abstract void setUp();
 }

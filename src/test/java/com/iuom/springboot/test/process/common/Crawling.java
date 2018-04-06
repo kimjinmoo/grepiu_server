@@ -4,15 +4,19 @@ import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.Observer;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
-import com.iuom.springboot.test.process.config.IntegrationTestBase;
-import java.util.HashMap;
+import com.iuom.springboot.test.process.config.LocalBaseConfig;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 @Slf4j
-public class CrawlingTDD extends IntegrationTestBase {
+public class Crawling extends LocalBaseConfig {
 
+
+    @Override
+    public void setUp() {
+
+    }
 
     /**
      *

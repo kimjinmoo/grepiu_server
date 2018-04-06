@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.sample.web;
+package com.iuom.springboot.process.sample.controller;
 
 import com.iuom.springboot.process.sample.domain.ChatMessages;
 import com.iuom.springboot.process.sample.domain.SampleMessage;

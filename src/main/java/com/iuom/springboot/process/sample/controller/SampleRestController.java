@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.sample.web;
+package com.iuom.springboot.process.sample.controller;
 
 import com.google.common.collect.Maps;
 import com.iuom.springboot.common.util.CollectionUtils;

@@ -6,6 +6,7 @@ import com.iuom.springboot.common.task.ParallelTask;
 import com.iuom.springboot.common.task.ParallelTaskHelper;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class SampleTaskService {
      * 테스트크를 병렬 처리한다.
      *
      */
-    public HashMap<String, Object> process(HashMap<String, Object> params){
+    public Map<String, Object> process(HashMap<String, Object> params){
         ParallelTaskHelper taskHelper = new ParallelTaskHelper();
         taskHelper.addTask(getSampleTask1,getSampleTask2);
 

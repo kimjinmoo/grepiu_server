@@ -38,8 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
         .formLogin().usernameParameter("email").defaultSuccessUrl("/", true).permitAll()
         .and().logout().logoutSuccessUrl("/").permitAll()
         .and().httpBasic()
-        .and().rememberMe()
-        .and().oauth2Login().redirectionEndpoint().baseUri("/test");
+        .and().rememberMe();
   }
 
   @Override

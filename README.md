@@ -49,10 +49,55 @@ mongod --auth
 [host]:[port]/ws
 </pre>
 
-##참조
-https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-structuring-your-code.html
-<br>properties 설정 참조</br>
-https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+##Spring Security 적용
+ <pre>
+[host]:[port]/login
+</pre>
+##구조
+<pre>
+test
+   java 
+      com.iuom.springboot.test
+          process   - 업무용 TDD
+          [*] - 일반적인 샘플러
+src
+   main
+      java
+         com.iuom.springboot
+              common - 공통기능[global use]
+                   config - 설정
+                   crawler - 크롤러 
+                   db - DB factory
+                   develop - 개발자 도구
+                   job - 배치
+                   task - task 단위 처리 Helper
+                   util - 유틸
+               process
+                   api - api /{ver}/기능
+                       controller  - 컨트롤러
+                       dao - repository 
+                       domain - 도메인 
+                       service - 서비스
+                    sample - 기능 샘플[참조]
+                        controller - 컨트롤러
+                        dao - repository
+                        domain - 도메인
+                        service - service
+      resources-dev  - 개발 환경
+          mappers  - mybatis xml
+          static   - 정적파일
+          templates - 어플리케이션 템플릿[freemarker]
+      resources-local - 로컬 환경
+          mappers  - mybatis xml
+          static   - 정적파일
+          templates - 어플리케이션 템플릿[freemarker]
+      resources-prod  - 운영 환경
+          mappers  - mybatis xml
+          static   - 정적파일
+          templates - 어플리케이션 템플릿[freemarker]
+build.gradle - gradle build 파일         
+</pre>
+
 ##build&execute
 Windows<br>
 gradlew build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
@@ -60,3 +105,8 @@ centos-local<br>
 gradle build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
 centos-prod<br>
 gradle build -Pprofile=prod && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
+
+##참조
+https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-structuring-your-code.html
+<br>properties 설정 참조</br>
+https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html

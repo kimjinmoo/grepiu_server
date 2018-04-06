@@ -4,16 +4,15 @@ import com.iuom.springboot.common.config.auth.dao.UserRepository;
 import com.iuom.springboot.common.config.auth.domain.Role;
 import com.iuom.springboot.common.config.auth.domain.User;
 import com.iuom.springboot.common.config.auth.service.UserService;
-import com.iuom.springboot.test.process.config.IntegrationTestBase;
+import com.iuom.springboot.test.process.config.LocalBaseConfig;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-public class LoginTDD extends IntegrationTestBase {
+public class Login extends LocalBaseConfig {
 
   @Autowired
   private UserService userService;
@@ -21,13 +20,8 @@ public class LoginTDD extends IntegrationTestBase {
   @Autowired
   private UserRepository userRepository;
 
-  /**
-   *
-   * 초기화
-   *
-   */
-  @Before
-  public void setup() {
+  @Override
+  public void setUp() {
     userRepository.deleteAll();
   }
 

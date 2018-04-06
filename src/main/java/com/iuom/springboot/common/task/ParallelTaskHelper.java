@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -71,8 +72,8 @@ public class ParallelTaskHelper {
      * @return
      * @throws Exception
      */
-    public HashMap<String, Object> run(HashMap<String, Object> params) {
-        HashMap<String, Object> r = Maps.newHashMap();
+    public Map<String, Object> run(HashMap<String, Object> params) {
+        Map<String, Object> r = Maps.newConcurrentMap();
         taskLists.parallelStream().forEach(task -> {
             r.putAll(task.run(params));
         });

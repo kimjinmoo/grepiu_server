@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
-import com.iuom.springboot.process.sample.web.SampleRestController;
+import com.iuom.springboot.process.sample.controller.SampleRestController;
 import org.apache.catalina.filters.CorsFilter;
 import org.junit.Before;
 import org.junit.Test;

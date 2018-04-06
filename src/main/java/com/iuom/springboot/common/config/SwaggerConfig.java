@@ -37,7 +37,7 @@ public class SwaggerConfig {
     public Docket sampleApi(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.iuom.springboot.process.sample.web"))
+                .apis(RequestHandlerSelectors.basePackage("com.iuom.springboot.process.sample.controller"))
                 .paths(PathSelectors.any()).build()
             .apiInfo(apiInfo()).pathProvider(new RelativePathProvider(context))
             .useDefaultResponseMessages(false);

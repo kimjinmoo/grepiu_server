@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.sample.web;
+package com.iuom.springboot.process.sample.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

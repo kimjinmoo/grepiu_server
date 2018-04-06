@@ -9,13 +9,15 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
  *
  * SpringBootApplication 설정
  * Configuration,EnableAutoConfiguration ComponentScan 어노테이션을 동등하게 호출
  * Configuration - 주입 설정
- * EnableAutoConfiguration - 자동 설정(embed 톰캣 또는 spring-mvc 같은경우 web.xml에 dispath-서블릿 적용)
+ * EnableAutoConfiguration - 자동 설정(embed 톰캣 또는 spring-mvc 같은경우 controller.xml에 dispath-서블릿 적용)
  * ComponentScan - 스프링 컨퍼넌트 자동 스캔
  *
  */
@@ -24,6 +26,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableAspectJAutoProxy
 @EnableScheduling
 @EnableMongoAuditing
+@EnableAuthorizationServer
+@EnableResourceServer
 public class SpringbootApplication {
 
 	public static void main(String[] args) {

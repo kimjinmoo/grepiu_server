@@ -3,15 +3,16 @@ package com.iuom.springboot.test.process.common;
 import com.google.common.collect.Maps;
 import com.iuom.springboot.common.task.ParallelTask;
 import com.iuom.springboot.common.task.ParallelTaskHelper;
-import com.iuom.springboot.test.process.config.IntegrationTestBase;
+import com.iuom.springboot.test.process.config.LocalBaseConfig;
 import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-public class ParallelTaskTDD extends IntegrationTestBase {
+public class ParallelTaskTDD extends LocalBaseConfig {
 
   @Autowired
   private ParallelTask getSampleTask1;
@@ -36,7 +37,7 @@ public class ParallelTaskTDD extends IntegrationTestBase {
     ParallelTaskHelper taskHelper = new ParallelTaskHelper();
     taskHelper.addTask(getSampleTask1, getSampleTask2);
     log.info(" task size : {} ", taskHelper.getTaskSize());
-    HashMap<String, Object> v = taskHelper.run(params);
+    Map<String, Object> v = taskHelper.run(params);
     log.info(" return : {}", v);
   }
 }
