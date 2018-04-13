@@ -21,11 +21,13 @@ use study 엔터
 </pre>
 step4. 유저 등록
 <pre>
+관지자 계정
 use admin
 db.createUser( { user: "<username>",
            pwd: "<password>",
-           roles: [ "userAdminAnyDatabase" ]
+           roles: [ "root" ]
 })
+ex) db.createUser( { user: "iukim21c",pwd: "test1!", roles: [ "root" ]});
 use study
 db.createUser( { user: "<username>",
            pwd: "<password>",
