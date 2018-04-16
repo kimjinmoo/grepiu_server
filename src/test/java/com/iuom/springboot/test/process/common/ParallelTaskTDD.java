@@ -34,10 +34,11 @@ public class ParallelTaskTDD extends LocalBaseConfig {
    */
   @Test
   public void process(){
-    ParallelTaskHelper taskHelper = new ParallelTaskHelper();
+    ParallelTaskHelper<Map<String, Object>> taskHelper = new ParallelTaskHelper(Maps.newHashMap());
     taskHelper.addTask(getSampleTask1, getSampleTask2);
     log.info(" task size : {} ", taskHelper.getTaskSize());
-    Map<String, Object> v = taskHelper.run(params);
+    taskHelper.run(params);
+    Map<String, Object> v = taskHelper.getResultMap();
     log.info(" return : {}", v);
   }
 }

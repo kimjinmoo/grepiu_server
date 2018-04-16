@@ -1,7 +1,6 @@
 package com.iuom.springboot.common.task;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,10 @@ import java.util.Map;
  * 멀티 ParallelTask 유틸이다.
  *
  */
-public class ParallelTaskHelper {
+public class ParallelTaskHelper<T extends Map> {
+
+    // 리턴 Maps
+    private T resultMap;
 
     // ParallelTask 저장소
     private List<ParallelTask> taskLists;
@@ -20,9 +22,11 @@ public class ParallelTaskHelper {
      *
      * Task 생성자
      *
+     * @param returnMaps 리턴할 Map을 초기화 한다
      */
-    public ParallelTaskHelper() {
+    public ParallelTaskHelper(T returnMaps) {
         this.taskLists = Lists.newArrayList();
+        this.resultMap = returnMaps;
     }
 
     /**
@@ -68,15 +72,23 @@ public class ParallelTaskHelper {
      *
      * Task를 실행한다.
      *
-     * @param params
+     * @param params 파라메터
      * @return
      * @throws Exception
      */
-    public Map<String, Object> run(HashMap<String, Object> params) {
-        Map<String, Object> r = Maps.newConcurrentMap();
+    public void run(HashMap<String, Object> params) {
         taskLists.parallelStream().forEach(task -> {
-            r.putAll(task.run(params));
+            resultMap.putAll(task.run(params));
         });
-        return r;
+    }
+
+    /**
+     *
+     * 처리한 데이터를 가져온다.
+     *
+     * @return
+     */
+    public T getResultMap() {
+        return resultMap;
     }
 }

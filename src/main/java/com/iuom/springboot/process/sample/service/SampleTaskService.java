@@ -35,10 +35,10 @@ public class SampleTaskService {
      *
      */
     public Map<String, Object> process(HashMap<String, Object> params){
-        ParallelTaskHelper taskHelper = new ParallelTaskHelper();
+        ParallelTaskHelper<HashMap<String, Object>> taskHelper = new ParallelTaskHelper(Maps.newHashMap());
         taskHelper.addTask(getSampleTask1,getSampleTask2);
-
-        return taskHelper.run(params);
+        taskHelper.run(params);
+        return taskHelper.getResultMap();
     }
 
     @Bean
