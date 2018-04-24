@@ -26,7 +26,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableAspectJAutoProxy
 @EnableScheduling
 @EnableMongoAuditing
-@EnableAuthorizationServer
+
 @EnableResourceServer
 public class SpringbootApplication {
 

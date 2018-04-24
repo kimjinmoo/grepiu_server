@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Cinema implements Serializable {
 
     @Id
-    private String _id;
+    private String id;
     @Indexed
     private String sido; // 시도
 

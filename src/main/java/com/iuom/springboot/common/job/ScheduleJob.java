@@ -1,6 +1,7 @@
 package com.iuom.springboot.common.job;
 
 import com.iuom.springboot.common.crawler.CrawlerHelper;
+import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
 import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
@@ -44,7 +45,7 @@ public class ScheduleJob {
   public void crawler() {
     log.info(" start crawler=======================");
     //step1. Collect Data
-    CrawlerHelper ch = new CrawlerHelper();
+    CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
     ch.addNode(new LotteCinemaNode());
     ch.addObserver(o -> {
       //DB delete

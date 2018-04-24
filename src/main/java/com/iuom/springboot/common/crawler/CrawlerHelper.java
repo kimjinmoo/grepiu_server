@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * auth JM
  */
 @Slf4j
-public class CrawlerHelper implements Executor {
+public class CrawlerHelper<T> implements Executor<T> {
 
     private List<Observer> observers; //처리내역
     private List<BaseNode> executeNodes; // 실행 노드들
@@ -65,7 +65,7 @@ public class CrawlerHelper implements Executor {
      * @param node
      */
     @Override
-    public void addNode(BaseNode node) {
+    public void addNode(BaseNode<T> node) {
         executeNodes.add(node);
     }
 

@@ -1,6 +1,9 @@
 package com.iuom.springboot.test.process.common;
 
 import com.iuom.springboot.common.crawler.CrawlerHelper;
+import com.iuom.springboot.common.crawler.domain.Cinema;
+import com.iuom.springboot.common.crawler.domain.CinemaLocation;
+import com.iuom.springboot.common.crawler.node.LotteCinemaLocationNode;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
 import com.iuom.springboot.test.process.config.LocalBaseConfig;
@@ -26,7 +29,7 @@ public class Crawling extends LocalBaseConfig {
      */
     @Test
     public void reg() throws Exception {
-        CrawlerHelper crawler = new CrawlerHelper();
+        CrawlerHelper<Cinema> crawler = new CrawlerHelper<>();
         crawler.addNode(new LotteCinemaNode());
         crawler.addObserver(o -> {
             //DB delete
@@ -38,6 +41,19 @@ public class Crawling extends LocalBaseConfig {
         });
         crawler.execute();
         log.debug("lotte : {}", crawler.getData());
+    }
+
+    /**
+     *
+     * 롯데 시네마 위치 정보 수집
+     *
+     * @throws Exception
+     */
+    @Test
+    public void lotteLocationSearch() throws Exception {
+        CrawlerHelper<CinemaLocation> crawlerHelper = new CrawlerHelper<>();
+        crawlerHelper.addNode(new LotteCinemaLocationNode());
+        crawlerHelper.execute();
     }
 
     /**

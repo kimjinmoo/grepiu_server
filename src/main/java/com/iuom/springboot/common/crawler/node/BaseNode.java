@@ -1,6 +1,5 @@
 package com.iuom.springboot.common.crawler.node;
 
-import com.iuom.springboot.common.crawler.domain.Cinema;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,13 +23,13 @@ public abstract class BaseNode<T> {
   /**
    * 크롬으로 초기화
    */
-  public void initChrome(String url) {
+  public void initChrome(String startUrl) {
 
 //    System.setProperty("webdriver.chrome.driver", chromePath);
         System.setProperty("webdriver.chrome.driver", "c:\\workspace\\sw\\selenium\\chromedriver.exe");
     this.driver = new ChromeDriver();
-    this.driver.get(url);
-    ;
+    this.driver.get(startUrl);
+
     this.driverType = "CHROME";
     sleep();
   }
@@ -124,5 +123,5 @@ public abstract class BaseNode<T> {
    *     특정 이벤트처리를 위해 onUpdate 지정하여 사용
    * </pre>
    */
-  public abstract List<Cinema> executeLogic();
+  public abstract List<T> executeLogic();
 }

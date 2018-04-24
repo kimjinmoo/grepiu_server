@@ -1,15 +1,15 @@
 package com.iuom.springboot.common.crawler.node;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.domain.CinemaDetailInfo;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -17,17 +17,14 @@ import java.util.List;
  *
  */
 @Slf4j
-public class LotteCinemaNode<T> extends BaseNode {
-
-    final String url = "http://www.lottecinema.co.kr/LCHS/Contents/ticketing/ticketing.aspx";
+public class LotteCinemaNode extends BaseNode<Cinema> {
 
     @Override
     public List<Cinema> executeLogic() {
         // 크롬 초기화
-        initChrome(url);
+        initChrome("http://www.lottecinema.co.kr/LCHS/Contents/ticketing/ticketing.aspx");
         // return 데이터 타입 Set
-        List<Cinema> data = new ArrayList<>();
-
+        List<Cinema> cinemaNodeList = Lists.newArrayList();
         getDriver().findElements(By.cssSelector("[class^=area00]")).forEach(v->{
             Cinema lotteCinema = new Cinema();
             HashMap<String, List<CinemaDetailInfo>> areaMovieInfo = Maps.newHashMap();
@@ -66,9 +63,9 @@ public class LotteCinemaNode<T> extends BaseNode {
                 lotteCinema.setMovieInfo(areaMovieInfo);
                 elementClick(subV.findElement(By.cssSelector("a")));
             });
-            data.add(lotteCinema);
+            cinemaNodeList.add(lotteCinema);
         });
         quit();
-        return data;
+        return cinemaNodeList;
     }
 }
