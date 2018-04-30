@@ -21,6 +21,7 @@ public class LotteCinemaLocationNode extends BaseNode<CinemaLocation> {
     // return 데이터 타입 Set
     List<CinemaLocation> cinemaNodeList = Lists.newArrayList();
     getDriver().findElements(By.cssSelector("[class^=depth]")).forEach(v->{
+      log.info("v : {} ",v.getTagName());
       v.findElements(By.cssSelector("ul")).forEach(li -> {
         elementClick(li.findElement(By.cssSelector("li")));
         log.info("d : {}", li.getText());

@@ -1,6 +1,5 @@
 package com.iuom.springboot.common.util;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -11,12 +10,8 @@ import java.util.function.Supplier;
  */
 public class CollectionUtils {
 
-    public static String getHelloWorld() {
-        return "Hello World";
-    }
-
     public static <T> Optional<T> isNull(Supplier<T> resolver) {
-        try{
+        try {
             T result = resolver.get();
             return Optional.ofNullable(result);
         } catch (NullPointerException e) {
