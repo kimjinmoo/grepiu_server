@@ -1,5 +1,6 @@
-package com.iuom.springboot.process.sample.domain;
+package com.iuom.springboot.process.sample.dao;
 
+import com.iuom.springboot.process.sample.domain.TestUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

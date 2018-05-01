@@ -19,6 +19,5 @@ public class CinemaLocation {
   @Indexed
   private String storeName;  // 매장명
   private String address;     // 주소
-  private String lat;         // 위도
-  private String lon;         // 경도
+  private CinemaGeo position; // 좌표
 }

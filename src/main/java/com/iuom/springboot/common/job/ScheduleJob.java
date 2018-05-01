@@ -4,7 +4,7 @@ import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
-import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
+import com.iuom.springboot.process.sample.dao.TestMongoDBCrawler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -42,7 +42,7 @@ public class ScheduleJob {
    * 6시간기준으로 갱신
    */
   @Scheduled(cron = "0 0 12 * * *")
-  public void crawler() {
+  public void crawler() throws Exception {
     log.info(" start crawler=======================");
     //step1. Collect Data
     CrawlerHelper<Cinema> ch = new CrawlerHelper<>();

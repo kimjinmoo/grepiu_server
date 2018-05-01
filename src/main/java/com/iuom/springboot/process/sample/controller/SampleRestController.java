@@ -3,9 +3,10 @@ package com.iuom.springboot.process.sample.controller;
 import com.google.common.collect.Maps;
 import com.iuom.springboot.common.util.CollectionUtils;
 import com.iuom.springboot.common.util.DateUtils;
+import com.iuom.springboot.process.sample.dao.LotteCineLocalRepository;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
-import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
-import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
+import com.iuom.springboot.process.sample.dao.TestMongoDBCrawler;
+import com.iuom.springboot.process.sample.dao.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
 import com.iuom.springboot.process.sample.service.SampleTaskService;
@@ -46,6 +47,9 @@ public class SampleRestController {
 
   @Autowired
   private TestMongoDBCrawler crawlerDB;
+
+  @Autowired
+  private LotteCineLocalRepository lotteCineLocalRepository;
 
   @Autowired
   private SampleService sampleService;
@@ -119,7 +123,7 @@ public class SampleRestController {
       log.debug("error : {}", e.getMessage());
     }
     return new ResponseEntity<Void>(HttpStatus.OK);
-  }
+  };
 
   /**
    * 몽고DB 리스트 가져오기
@@ -145,12 +149,20 @@ public class SampleRestController {
     return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
   }
 
-  @ApiOperation(value = "크롤링데이터 리스트")
+  @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
   @ApiResponse(code = 200, message = "조회성공")
   @CrossOrigin(origins = "*")
-  @GetMapping("/sample/crawler")
+  @GetMapping("/sample/crawler/lotteCine")
   public ResponseEntity<Object> crawler() {
     return new ResponseEntity<Object>(crawlerDB.findAllBy(), HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "롯데 시네마 매장 정보")
+  @ApiResponse(code = 200, message = "조회성공")
+  @CrossOrigin(origins = "*")
+  @GetMapping("/sample/crawler/lotteCineLocale")
+  public ResponseEntity<Object> lotteCineLocale() {
+    return new ResponseEntity<Object>(lotteCineLocalRepository.findAllBy(), HttpStatus.OK);
   }
 
   @ApiOperation(value = "메인채팅방에 정보전달")

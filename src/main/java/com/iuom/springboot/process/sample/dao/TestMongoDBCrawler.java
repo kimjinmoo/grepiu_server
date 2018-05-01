@@ -1,4 +1,4 @@
-package com.iuom.springboot.process.sample.domain;
+package com.iuom.springboot.process.sample.dao;
 
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import org.springframework.data.mongodb.repository.MongoRepository;

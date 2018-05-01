@@ -2,7 +2,7 @@ package com.iuom.springboot.process.sample.service;
 
 import com.iuom.springboot.process.sample.dao.SampleDAO;
 import com.iuom.springboot.process.sample.dao.SampleMapper;
-import com.iuom.springboot.process.sample.domain.TestMongoDBRepository;
+import com.iuom.springboot.process.sample.dao.TestMongoDBRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

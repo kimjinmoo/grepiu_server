@@ -9,9 +9,9 @@ import com.iuom.springboot.common.crawler.node.BaseNode;
  */
 public interface Executor<T> {
 
-    public void addObserver(Observer observer);
-    public void removeObserver(Observer observer);
-    public void notifyObserver();
-    public void addNode(BaseNode<T> node);
-    public void execute();
+    public void addObserver(Observer<T> observer);
+    public void removeObserver(Observer<T> observer);
+    public void callObserver();
+    public void addExecuteNode(BaseNode<T> node);
+    public void execute() throws Exception;
 }

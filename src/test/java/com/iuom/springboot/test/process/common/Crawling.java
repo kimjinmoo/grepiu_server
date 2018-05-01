@@ -5,7 +5,7 @@ import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.domain.CinemaLocation;
 import com.iuom.springboot.common.crawler.node.LotteCinemaLocationNode;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
-import com.iuom.springboot.process.sample.domain.TestMongoDBCrawler;
+import com.iuom.springboot.process.sample.dao.TestMongoDBCrawler;
 import com.iuom.springboot.test.process.config.LocalBaseConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -28,9 +28,9 @@ public class Crawling extends LocalBaseConfig {
      * @throws Exception
      */
     @Test
-    public void reg() throws Exception {
+    public void collect() throws Exception {
         CrawlerHelper<Cinema> crawler = new CrawlerHelper<>();
-        crawler.addNode(new LotteCinemaNode());
+        crawler.addExecuteNode(new LotteCinemaNode());
         crawler.addObserver(o -> {
             //DB delete
             mongoDBCrawler.deleteAll();
@@ -52,7 +52,7 @@ public class Crawling extends LocalBaseConfig {
     @Test
     public void lotteLocationSearch() throws Exception {
         CrawlerHelper<CinemaLocation> crawlerHelper = new CrawlerHelper<>();
-        crawlerHelper.addNode(new LotteCinemaLocationNode());
+        crawlerHelper.addExecuteNode(new LotteCinemaLocationNode());
         crawlerHelper.execute();
     }
 
