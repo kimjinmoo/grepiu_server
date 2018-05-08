@@ -46,7 +46,7 @@ public class ScheduleJob {
     log.info(" start crawler=======================");
     //step1. Collect Data
     CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
-    ch.addNode(new LotteCinemaNode());
+    ch.addExecuteNode(new LotteCinemaNode());
     ch.addObserver(o -> {
       //DB delete
       mongoDBCrawler.deleteAll();
