@@ -2,6 +2,8 @@ package com.iuom.springboot.process.sample.dao;
 
 import com.iuom.springboot.common.crawler.domain.CinemaLocation;
 import java.util.List;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -11,4 +13,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface LotteCineLocalRepository extends MongoRepository<CinemaLocation, String> {
   List<CinemaLocation> findAllBy();
+  List<CinemaLocation> findByLocationNear(Point p, Distance d);
 }

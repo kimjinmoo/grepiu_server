@@ -2,7 +2,6 @@ package com.iuom.springboot.test.process.common;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iuom.springboot.common.crawler.domain.CinemaGeo;
 import com.iuom.springboot.common.crawler.domain.CinemaLocation;
 import com.iuom.springboot.common.util.MapUtils;
 import com.iuom.springboot.common.util.domain.MapGoogleResultGeometryVO;
@@ -10,10 +9,10 @@ import com.iuom.springboot.process.sample.dao.LotteCineLocalRepository;
 import com.iuom.springboot.test.process.config.LocalBaseConfig;
 import java.io.InputStream;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 @Slf4j
 public class MapsTDD extends LocalBaseConfig {
@@ -45,17 +44,17 @@ public class MapsTDD extends LocalBaseConfig {
     ObjectMapper mapper = new ObjectMapper();
     InputStream is = this.getClass().getResourceAsStream("/lotteCinemaLocation.json");
     try {
+      lotteCineLocalRepository.deleteAll();
        List<CinemaLocation> list = mapper.readValue(is, new TypeReference<List<CinemaLocation>>(){});
-       list.parallelStream().map(v->{
-         MapGoogleResultGeometryVO geo = m.searchLocalePointWithGoogle(v.getAddress()).getResults().get(0).getGeometry();
-         CinemaGeo g = new CinemaGeo();
-         g.setLat(geo.getLocationLat());
-         g.setLng(geo.getLocationLng());
-         v.setPosition(g);
-         return v;
-       }).collect(Collectors.toList());
+      for(CinemaLocation v : list) {
+        if(m.searchLocalePointWithGoogle(v.getAddress()).getResults().size() > 0) {
+          MapGoogleResultGeometryVO geo = m.searchLocalePointWithGoogle(v.getAddress()).getResults().get(0).getGeometry();
+          final GeoJsonPoint locationPoint = new GeoJsonPoint(geo.getLocationLng(), geo.getLocationLat());
+          v.setLocation(locationPoint);
+        }
+      }
+       log.info("info : {} ",list);
        // db 저장
-       lotteCineLocalRepository.deleteAll();
        lotteCineLocalRepository.insert(list);
     } catch (Exception e) {
       e.printStackTrace();

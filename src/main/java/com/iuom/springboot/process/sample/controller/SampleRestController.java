@@ -4,9 +4,9 @@ import com.google.common.collect.Maps;
 import com.iuom.springboot.common.util.CollectionUtils;
 import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.process.sample.dao.LotteCineLocalRepository;
-import com.iuom.springboot.process.sample.domain.SampleMessage;
 import com.iuom.springboot.process.sample.dao.TestMongoDBCrawler;
 import com.iuom.springboot.process.sample.dao.TestMongoDBRepository;
+import com.iuom.springboot.process.sample.domain.SampleMessage;
 import com.iuom.springboot.process.sample.domain.TestUser;
 import com.iuom.springboot.process.sample.service.SampleService;
 import com.iuom.springboot.process.sample.service.SampleTaskService;
@@ -14,6 +14,7 @@ import com.mongodb.DuplicateKeyException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -21,6 +22,9 @@ import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -163,6 +167,19 @@ public class SampleRestController {
   @GetMapping("/sample/crawler/lotteCineLocale")
   public ResponseEntity<Object> lotteCineLocale() {
     return new ResponseEntity<Object>(lotteCineLocalRepository.findAllBy(), HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "인접한 영화 찾기")
+  @ApiResponse(code = 200, message = "조회성공")
+  @CrossOrigin(origins = "*")
+  @GetMapping("/sample/crawler/find")
+  public ResponseEntity<Object> findNearCinema(
+      @ApiParam(value = "위도") @RequestParam("lat") String lat,
+      @ApiParam(value = "경도") @RequestParam("lng") String lng,
+      @ApiParam(value = "미터") @RequestParam("number") Integer number) {
+    return new ResponseEntity<Object>(lotteCineLocalRepository
+        .findByLocationNear(new Point(Double.valueOf("36.5"), Double.valueOf("25")),
+            new Distance(number.longValue(), Metrics.MILES)), HttpStatus.OK);
   }
 
   @ApiOperation(value = "메인채팅방에 정보전달")
