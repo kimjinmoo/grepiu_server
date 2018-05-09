@@ -59,8 +59,7 @@ public class LotteCinemaNode extends BaseNode<Cinema> {
                         movieInfo.add(movie);
                     });
                 });
-                areaMovieInfo.put("storeName", area);
-                areaMovieInfo.put("data", movieInfo);
+                areaMovieInfo.put(area, movieInfo);
                 lotteCinema.setMovieInfo(areaMovieInfo);
                 elementClick(subV.findElement(By.cssSelector("a")));
             });

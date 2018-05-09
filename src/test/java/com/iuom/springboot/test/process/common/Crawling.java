@@ -40,7 +40,7 @@ public class Crawling extends LocalBaseConfig {
             });
         });
         crawler.execute();
-        log.debug("lotte : {}", crawler.getData());
+        log.info("lotte : {}", crawler.getData());
     }
 
     /**
