@@ -4,7 +4,7 @@ import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
-import com.iuom.springboot.process.sample.dao.TestMongoDBCrawler;
+import com.iuom.springboot.process.sample.dao.LotteCineDBRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 public class ScheduleJob {
 
   @Autowired
-  private TestMongoDBCrawler mongoDBCrawler;
+  private LotteCineDBRepository mongoDBCrawler;
 
   @Autowired
   private SimpMessagingTemplate template;

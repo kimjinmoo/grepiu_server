@@ -3,7 +3,6 @@ package com.iuom.springboot.common.crawler.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -28,6 +27,6 @@ public class Cinema implements Serializable {
     @CreatedDate
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,style = "yyyy/MM/dd")
     private Date createDate; // 시간
-    private HashMap<String, List<CinemaDetailInfo>> movieInfo; // 영화 정보
+    private HashMap<String, Object> movieInfo; // 영화 정보
 
 }

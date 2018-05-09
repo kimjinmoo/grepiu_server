@@ -5,7 +5,7 @@ import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.domain.CinemaLocation;
 import com.iuom.springboot.common.crawler.node.LotteCinemaLocationNode;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
-import com.iuom.springboot.process.sample.dao.TestMongoDBCrawler;
+import com.iuom.springboot.process.sample.dao.LotteCineDBRepository;
 import com.iuom.springboot.test.process.config.LocalBaseConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Crawling extends LocalBaseConfig {
 
     @Autowired
-    private TestMongoDBCrawler mongoDBCrawler;
+    private LotteCineDBRepository mongoDBCrawler;
 
     @Override
     public void setUp() {

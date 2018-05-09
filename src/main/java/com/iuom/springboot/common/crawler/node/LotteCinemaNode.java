@@ -27,7 +27,7 @@ public class LotteCinemaNode extends BaseNode<Cinema> {
         List<Cinema> cinemaNodeList = Lists.newArrayList();
         getDriver().findElements(By.cssSelector("[class^=area00]")).forEach(v->{
             Cinema lotteCinema = new Cinema();
-            HashMap<String, List<CinemaDetailInfo>> areaMovieInfo = Maps.newHashMap();
+            HashMap<String, Object> areaMovieInfo = Maps.newHashMap();
             // Set 시도
             lotteCinema.setSido(v.findElement(By.className("area_zone")).getText());
             String processAria = v.findElement(By.className("area_zone")).getText();
@@ -59,7 +59,8 @@ public class LotteCinemaNode extends BaseNode<Cinema> {
                         movieInfo.add(movie);
                     });
                 });
-                areaMovieInfo.put(area, movieInfo);
+                areaMovieInfo.put("storeName", area);
+                areaMovieInfo.put("data", movieInfo);
                 lotteCinema.setMovieInfo(areaMovieInfo);
                 elementClick(subV.findElement(By.cssSelector("a")));
             });

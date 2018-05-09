@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.iuom.springboot.common.util.CollectionUtils;
 import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.process.sample.dao.LotteCineLocalRepository;
-import com.iuom.springboot.process.sample.dao.TestMongoDBCrawler;
+import com.iuom.springboot.process.sample.dao.LotteCineDBRepository;
 import com.iuom.springboot.process.sample.dao.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
 import com.iuom.springboot.process.sample.domain.TestUser;
@@ -50,7 +50,7 @@ public class SampleRestController {
   private TestMongoDBRepository repository;
 
   @Autowired
-  private TestMongoDBCrawler crawlerDB;
+  private LotteCineDBRepository lotteCineDBRepository;
 
   @Autowired
   private LotteCineLocalRepository lotteCineLocalRepository;
@@ -157,8 +157,16 @@ public class SampleRestController {
   @ApiResponse(code = 200, message = "조회성공")
   @CrossOrigin(origins = "*")
   @GetMapping("/sample/crawler/lotteCine")
-  public ResponseEntity<Object> crawler() {
-    return new ResponseEntity<Object>(crawlerDB.findAllBy(), HttpStatus.OK);
+  public ResponseEntity<Object> findLotteCine() {
+    return new ResponseEntity<Object>(lotteCineDBRepository.findAllBy(), HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
+  @ApiResponse(code = 200, message = "조회성공")
+  @CrossOrigin(origins = "*")
+  @GetMapping("/sample/crawler/lotteCine/{storeName}")
+  public ResponseEntity<Object> findLotteCineByStoreName(@PathVariable("storeName") String storeName) {
+    return new ResponseEntity<Object>(lotteCineDBRepository.findByMovieInfoStoreName(storeName), HttpStatus.OK);
   }
 
   @ApiOperation(value = "롯데 시네마 매장 정보")
@@ -178,8 +186,8 @@ public class SampleRestController {
       @ApiParam(value = "경도") @RequestParam("lng") String lng,
       @ApiParam(value = "미터") @RequestParam("number") Integer number) {
     return new ResponseEntity<Object>(lotteCineLocalRepository
-        .findByLocationNear(new Point(Double.valueOf("36.5"), Double.valueOf("25")),
-            new Distance(number.longValue(), Metrics.MILES)), HttpStatus.OK);
+        .findByLocationNear(new Point(Double.valueOf(lng), Double.valueOf(lat)),
+            new Distance(number.longValue(), Metrics.KILOMETERS)), HttpStatus.OK);
   }
 
   @ApiOperation(value = "메인채팅방에 정보전달")
