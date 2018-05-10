@@ -28,5 +28,4 @@ public class Cinema implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,style = "yyyy/MM/dd")
     private Date createDate; // 시간
     private HashMap<String, Object> movieInfo; // 영화 정보
-
 }

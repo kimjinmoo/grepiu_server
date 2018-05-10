@@ -1,10 +1,8 @@
 package com.iuom.springboot.process.sample.dao;
 
 import com.iuom.springboot.common.crawler.domain.Cinema;
-import org.springframework.data.mongodb.repository.MongoRepository;
-
 import java.util.List;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
@@ -12,6 +10,4 @@ import org.springframework.data.mongodb.repository.Query;
  */
 public interface LotteCineDBRepository extends MongoRepository<Cinema, String> {
     List<Cinema> findAllBy();
-    @Query(value = "{'movieInfo.storeName' : ?0}")
-    Cinema findByMovieInfoStoreName(String storeName);
 }

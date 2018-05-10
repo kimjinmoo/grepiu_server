@@ -1,10 +1,11 @@
 package com.iuom.springboot.process.sample.controller;
 
 import com.google.common.collect.Maps;
+import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.util.CollectionUtils;
 import com.iuom.springboot.common.util.DateUtils;
-import com.iuom.springboot.process.sample.dao.LotteCineLocalRepository;
 import com.iuom.springboot.process.sample.dao.LotteCineDBRepository;
+import com.iuom.springboot.process.sample.dao.LotteCineLocalRepository;
 import com.iuom.springboot.process.sample.dao.TestMongoDBRepository;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
 import com.iuom.springboot.process.sample.domain.TestUser;
@@ -166,7 +167,10 @@ public class SampleRestController {
   @CrossOrigin(origins = "*")
   @GetMapping("/sample/crawler/lotteCine/{storeName}")
   public ResponseEntity<Object> findLotteCineByStoreName(@PathVariable("storeName") String storeName) {
-    return new ResponseEntity<Object>(lotteCineDBRepository.findByMovieInfoStoreName(storeName), HttpStatus.OK);
+    Optional<Cinema> o = lotteCineDBRepository.findAllBy().parallelStream()
+        .filter(v -> v.getMovieInfo().containsKey(storeName)).findFirst();
+    o.orElse(new Cinema());
+    return new ResponseEntity<>(o.get().getMovieInfo().get(storeName), HttpStatus.OK);
   }
 
   @ApiOperation(value = "롯데 시네마 매장 정보")

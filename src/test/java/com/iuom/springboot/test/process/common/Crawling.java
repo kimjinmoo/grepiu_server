@@ -2,8 +2,6 @@ package com.iuom.springboot.test.process.common;
 
 import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.domain.Cinema;
-import com.iuom.springboot.common.crawler.domain.CinemaLocation;
-import com.iuom.springboot.common.crawler.node.LotteCinemaLocationNode;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
 import com.iuom.springboot.process.sample.dao.LotteCineDBRepository;
 import com.iuom.springboot.test.process.config.LocalBaseConfig;
@@ -16,6 +14,9 @@ public class Crawling extends LocalBaseConfig {
 
     @Autowired
     private LotteCineDBRepository mongoDBCrawler;
+
+    @Autowired
+    private LotteCineDBRepository lotteCineDBRepository;
 
     @Override
     public void setUp() {
@@ -51,9 +52,10 @@ public class Crawling extends LocalBaseConfig {
      */
     @Test
     public void lotteLocationSearch() throws Exception {
-        CrawlerHelper<CinemaLocation> crawlerHelper = new CrawlerHelper<>();
-        crawlerHelper.addExecuteNode(new LotteCinemaLocationNode());
-        crawlerHelper.execute();
+        log.info("{}", lotteCineDBRepository.findAllBy().stream()
+            .filter(v -> v.getMovieInfo().containsKey("서울대입구")).findFirst().get().getMovieInfo()
+            .get("서울대입구"));
+
     }
 
     /**
