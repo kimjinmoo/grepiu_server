@@ -188,7 +188,7 @@ public class SampleRestController {
   public ResponseEntity<Object> findNearCinema(
       @ApiParam(value = "위도") @RequestParam("lat") String lat,
       @ApiParam(value = "경도") @RequestParam("lng") String lng,
-      @ApiParam(value = "미터") @RequestParam("number") Integer number) {
+      @ApiParam(value = "키로미터") @RequestParam("distance") Integer number) {
     return new ResponseEntity<Object>(lotteCineLocalRepository
         .findByLocationNear(new Point(Double.valueOf(lng), Double.valueOf(lat)),
             new Distance(number.longValue(), Metrics.KILOMETERS)), HttpStatus.OK);

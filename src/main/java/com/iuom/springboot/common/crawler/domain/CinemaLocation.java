@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * Mongodb에서 index 세팅
  * <pre>
+ * ref : https://docs.mongodb.com/manual/core/2dsphere/
  * use study;
  * db.cinemaLocation.createIndex({location : "2dsphere"});
  * </pre>
