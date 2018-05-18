@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.util.CollectionUtils;
 import com.iuom.springboot.common.util.DateUtils;
+import com.iuom.springboot.common.util.DistanceCalculator;
 import com.iuom.springboot.process.sample.dao.LotteCineDBRepository;
 import com.iuom.springboot.process.sample.dao.LotteCineLocalRepository;
 import com.iuom.springboot.process.sample.dao.TestMongoDBRepository;
@@ -21,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -186,12 +188,20 @@ public class SampleRestController {
   @CrossOrigin(origins = "*")
   @GetMapping("/sample/crawler/find")
   public ResponseEntity<Object> findNearCinema(
-      @ApiParam(value = "위도") @RequestParam("lat") String lat,
-      @ApiParam(value = "경도") @RequestParam("lng") String lng,
+      @ApiParam(value = "위도") @RequestParam("lat") Double lat,
+      @ApiParam(value = "경도") @RequestParam("lng") Double lng,
       @ApiParam(value = "키로미터") @RequestParam("distance") Integer number) {
     return new ResponseEntity<Object>(lotteCineLocalRepository
         .findByLocationNear(new Point(Double.valueOf(lng), Double.valueOf(lat)),
-            new Distance(number.longValue(), Metrics.KILOMETERS)), HttpStatus.OK);
+            new Distance(number.longValue(), Metrics.KILOMETERS)).stream().map(v -> {
+          double locationLat = v.getLocation().getX();
+          double locationLng = v.getLocation().getY();
+          // 거리 계산
+          v.setDistance(DistanceCalculator
+              .distance(lat, lng, locationLat, locationLng,
+                  Metrics.KILOMETERS));
+          return v;
+        }).collect(Collectors.toList()), HttpStatus.OK);
   }
 
   @ApiOperation(value = "메인채팅방에 정보전달")

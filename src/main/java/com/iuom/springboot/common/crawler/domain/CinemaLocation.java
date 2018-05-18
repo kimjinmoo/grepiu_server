@@ -27,6 +27,7 @@ public class CinemaLocation {
   private String storeName;  // 매장명
   private String address;     // 주소
   private GeoJsonPoint location; // 좌표
+  private Double distance;       // 거리
 
   public CinemaLocation(GeoJsonPoint location) {
     this.location = location;

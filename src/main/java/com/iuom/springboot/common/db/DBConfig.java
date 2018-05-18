@@ -25,13 +25,13 @@ public class DBConfig {
     @Bean
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource mysqlReadOnlyDataSource(){
+    public DataSource mysqlReadOnlyDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.mysql")
-    public DataSource mysqlWriteDataSource(){
+    public DataSource mysqlWriteDataSource() {
         return DataSourceBuilder.create().build();
     }
 

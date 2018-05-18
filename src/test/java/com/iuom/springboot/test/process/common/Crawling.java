@@ -29,7 +29,7 @@ public class Crawling extends LocalBaseConfig {
      * @throws Exception
      */
     @Test
-    public void collect() throws Exception {
+    public void doCollect() throws Exception {
         CrawlerHelper<Cinema> crawler = new CrawlerHelper<>();
         crawler.addExecuteNode(new LotteCinemaNode());
         crawler.addObserver(o -> {

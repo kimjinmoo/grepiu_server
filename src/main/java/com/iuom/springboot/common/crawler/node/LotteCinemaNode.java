@@ -55,7 +55,7 @@ public class LotteCinemaNode extends BaseNode<Cinema> {
                         // 시간
                         movie.setTime(t.findElements(By.tagName("span")).get(1).getText());
                         // 좌석
-                        movie.setSeat(t.findElements(By.tagName("span")).get(2).getText());
+                        movie.setSeat(t.findElements(By.tagName("span")).get(2).findElement(By.xpath("//em")).getText());
                         movieInfo.add(movie);
                     });
                 });

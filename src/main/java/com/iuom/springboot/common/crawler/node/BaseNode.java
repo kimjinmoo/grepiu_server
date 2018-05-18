@@ -13,7 +13,7 @@ import org.openqa.selenium.interactions.Actions;
  */
 public abstract class BaseNode<T> {
 
-  final int sleep_second = 2000;
+  final int sleep_second = 2500;
   private WebDriver driver;
   private String driverType = "CHROME";
 
