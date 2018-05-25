@@ -22,7 +22,7 @@ public class LotteCinemaNode extends BaseNode<Cinema> {
     @Override
     public List<Cinema> executeLogic() {
         // 크롬 초기화
-        initChrome("http://www.lottecinema.co.kr/LCHS/Contents/ticketing/ticketing.aspx");
+        initChromeRemote("http://www.lottecinema.co.kr/LCHS/Contents/ticketing/ticketing.aspx");
         // return 데이터 타입 Set
         List<Cinema> cinemaNodeList = Lists.newArrayList();
         getDriver().findElements(By.cssSelector("[class^=area00]")).forEach(v->{

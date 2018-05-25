@@ -1,5 +1,6 @@
 package com.iuom.springboot.common.crawler.node;
 
+import java.net.URL;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * 크롤링 기본 노드 - selenium 기반 개발
@@ -32,6 +35,16 @@ public abstract class BaseNode<T> {
 
     this.driverType = "CHROME";
     sleep();
+  }
+  public void initChromeRemote(String startUrl) {
+    try {
+      this.driver = new RemoteWebDriver(new URL("http://13.124.113.142:9200/wd/hub"),
+          DesiredCapabilities.chrome());
+      this.driver.get(startUrl);
+    } catch (Exception e) {
+      throw new RuntimeException("초기화에 실패 하였습니다.");
+    }
+
   }
 
   public void initFirefox(String url) {

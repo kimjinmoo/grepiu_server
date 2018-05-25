@@ -1,9 +1,7 @@
 package com.iuom.springboot.common.util;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 /**
  *
@@ -23,5 +21,18 @@ public class DateUtils {
     public static String now(DateTimeFormatter formatter){
         LocalDateTime localData = LocalDateTime.now();
         return formatter.format(localData);
+    }
+
+    /**
+     *
+     * 현재 시간을 패턴형식으로 가져온다.
+     *
+     * @param patten
+     * @return
+     */
+    public static String now(String patten) {
+        LocalDateTime localDate = LocalDateTime.now();
+
+        return DateTimeFormatter.ofPattern(patten).format(localDate);
     }
 }

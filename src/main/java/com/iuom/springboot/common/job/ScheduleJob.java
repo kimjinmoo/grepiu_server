@@ -3,6 +3,7 @@ package com.iuom.springboot.common.job;
 import com.iuom.springboot.common.crawler.CrawlerHelper;
 import com.iuom.springboot.common.crawler.domain.Cinema;
 import com.iuom.springboot.common.crawler.node.LotteCinemaNode;
+import com.iuom.springboot.common.util.DateUtils;
 import com.iuom.springboot.process.sample.domain.SampleMessage;
 import com.iuom.springboot.process.sample.dao.LotteCineDBRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +40,11 @@ public class ScheduleJob {
   /**
    * 크롤링 스케쥴러
    *
-   * 6시간기준으로 갱신
+   * 1시간에 한번씩 구현
    */
-  @Scheduled(cron = "0 0 12 * * *")
+  @Scheduled(fixedDelay = 1000*60*60)
   public void crawler() throws Exception {
-    log.info(" start crawler=======================");
+    log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
     //step1. Collect Data
     CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
     ch.addExecuteNode(new LotteCinemaNode());

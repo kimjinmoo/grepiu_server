@@ -43,7 +43,6 @@ public class Crawling extends LocalBaseConfig {
         crawler.execute();
         log.info("lotte : {}", crawler.getData());
     }
-
     /**
      *
      * 롯데 시네마 위치 정보 수집
