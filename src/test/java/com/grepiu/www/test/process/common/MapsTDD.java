@@ -2,16 +2,10 @@ package com.grepiu.www.test.process.common;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.grepiu.process.common.domain.MapGoogleResultGeometryVO;
-import com.grepiu.process.common.utils.MapUtil;
-import com.grepiu.springboot.common.crawler.domain.CinemaLocation;
-import com.grepiu.springboot.common.domain.MapGoogleResultGeometryVO;
-import com.grepiu.springboot.common.utils.MapUtil;
-import com.grepiu.springboot.process.sample.dao.LotteCineLocalRepository;
-import com.grepiu.springboot.test.process.config.LocalBaseConfig;
-import com.grepiu.test.process.config.LocalBaseConfig;
+import com.grepiu.www.process.common.crawler.domain.CinemaLocation;
 import com.grepiu.www.process.common.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.utils.MapUtil;
+import com.grepiu.www.process.sample.dao.LotteCineLocalRepository;
 import com.grepiu.www.test.process.config.LocalBaseConfig;
 import java.io.InputStream;
 import java.util.List;

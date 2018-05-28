@@ -5,9 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.grepiu.springboot.process.sample.controller.SampleRestController;
-import com.grepiu.springboot.process.sample.dao.TestMongoDBRepository;
-import com.grepiu.springboot.process.sample.domain.TestUser;
+import com.grepiu.www.process.sample.controller.SampleRestController;
+import com.grepiu.www.process.sample.dao.TestMongoDBRepository;
+import com.grepiu.www.process.sample.domain.TestUser;
 import org.apache.catalina.filters.CorsFilter;
 import org.junit.Before;
 import org.junit.Test;

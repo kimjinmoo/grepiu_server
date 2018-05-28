@@ -1,13 +1,10 @@
 package com.grepiu.www.test.process.common;
 
-import com.grepiu.process.common.config.auth.dao.UserRepository;
-import com.grepiu.springboot.common.config.auth.dao.UserRepository;
-import com.grepiu.springboot.common.config.auth.domain.Role;
-import com.grepiu.springboot.common.config.auth.domain.User;
-import com.grepiu.springboot.common.config.auth.service.UserService;
-import com.grepiu.springboot.test.process.config.LocalBaseConfig;
-import com.grepiu.test.process.config.LocalBaseConfig;
+
 import com.grepiu.www.process.common.config.auth.dao.UserRepository;
+import com.grepiu.www.process.common.config.auth.domain.Role;
+import com.grepiu.www.process.common.config.auth.domain.User;
+import com.grepiu.www.process.common.config.auth.service.UserService;
 import com.grepiu.www.test.process.config.LocalBaseConfig;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;

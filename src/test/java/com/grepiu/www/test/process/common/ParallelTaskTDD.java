@@ -1,12 +1,6 @@
 package com.grepiu.www.test.process.common;
 
 import com.google.common.collect.Maps;
-import com.grepiu.process.common.task.ParallelTask;
-import com.grepiu.process.common.task.ParallelTaskHelper;
-import com.grepiu.springboot.common.task.ParallelTask;
-import com.grepiu.springboot.common.task.ParallelTaskHelper;
-import com.grepiu.springboot.test.process.config.LocalBaseConfig;
-import com.grepiu.test.process.config.LocalBaseConfig;
 import com.grepiu.www.process.common.task.ParallelTask;
 import com.grepiu.www.process.common.task.ParallelTaskHelper;
 import com.grepiu.www.test.process.config.LocalBaseConfig;

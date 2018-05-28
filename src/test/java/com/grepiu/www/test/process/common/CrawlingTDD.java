@@ -1,11 +1,9 @@
 package com.grepiu.www.test.process.common;
 
-import com.grepiu.springboot.common.crawler.CrawlerHelper;
-import com.grepiu.springboot.common.crawler.domain.Cinema;
-import com.grepiu.springboot.common.crawler.node.LotteCinemaNode;
-import com.grepiu.springboot.process.sample.dao.LotteCineDBRepository;
-import com.grepiu.springboot.test.process.config.LocalBaseConfig;
-import com.grepiu.test.process.config.LocalBaseConfig;
+import com.grepiu.www.process.common.crawler.CrawlerHelper;
+import com.grepiu.www.process.common.crawler.domain.Cinema;
+import com.grepiu.www.process.common.crawler.node.LotteCinemaNode;
+import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
 import com.grepiu.www.test.process.config.LocalBaseConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

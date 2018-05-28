@@ -2,7 +2,7 @@ package com.grepiu.www.test.process.common;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.grepiu.springboot.test.process.config.LocalBaseConfig;
+import com.grepiu.www.test.process.config.LocalBaseConfig;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class FirebaseDatabaseTDD extends LocalBaseConfig {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("grepiu.menu");
 
-    DatabaseReference usersRef = ref.child("users");
+    DatabaseReference usersRef = ref.child("testmenu");
 
     Map<String, Object> users = new HashMap<>();
     users.put("test","test");
