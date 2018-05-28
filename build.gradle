@@ -26,7 +26,7 @@ repositories {
 
 // Junit 테스트는 빌드시 제외
 test {
-	exclude 'com/grepiu/www/test/**'
+	exclude 'com/grepiu/test/**'
 }
 sourceSets {
 	main {
