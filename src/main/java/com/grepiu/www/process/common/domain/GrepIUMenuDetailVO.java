@@ -1,0 +1,44 @@
+package com.grepiu.www.process.common.domain;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+/**
+ *
+ * 메뉴 상세 도메인 클레스
+ *
+ */
+@Data
+public class GrepIUMenuDetailVO {
+
+  /**
+   * 기본 생성자
+   */
+  public GrepIUMenuDetailVO() {
+  }
+
+  /**
+   *
+   * 일괄처리 생성자
+   *
+   * @param id
+   * @param name
+   * @param url
+   */
+  public GrepIUMenuDetailVO(int id, String name, String url) {
+    this.id = id;
+    this.name = name;
+    this.url = url;
+  }
+
+  @Id
+  @ApiModelProperty("ID index 값, PK개념")
+  private int id;
+  @ApiModelProperty("메뉴명")
+  private String name;
+  @ApiModelProperty("메뉴 URL")
+  private String url;
+}

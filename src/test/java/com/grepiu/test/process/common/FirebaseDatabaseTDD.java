@@ -1,9 +1,13 @@
 package com.grepiu.test.process.common;
 
+import com.google.common.collect.Lists;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.grepiu.test.process.config.LocalBaseConfig;
+import com.grepiu.www.process.common.domain.GrepIUMenuDetailVO;
+import com.grepiu.www.process.common.domain.GrepIUMenuVO;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -28,14 +32,28 @@ public class FirebaseDatabaseTDD extends LocalBaseConfig {
    */
   @Test
   public void save() {
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref = database.getReference("grepiu.menu");
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("/grepiu/menuLists");
 
-    DatabaseReference usersRef = ref.child("testmenu");
+    List<GrepIUMenuDetailVO> menus = Lists.newArrayList();
 
-    Map<String, Object> users = new HashMap<>();
-    users.put("test","test");
+    GrepIUMenuDetailVO menu1 = new GrepIUMenuDetailVO(1, "Lap1", "/lab");
+    GrepIUMenuDetailVO menu2 = new GrepIUMenuDetailVO(2, "Post2", "/post");
 
-    usersRef.setValueAsync(users);
+    menus.add(menu1);
+    menus.add(menu2);
+
+    ref.setValueAsync(menus);
+  }
+
+  /**
+   *
+   * 데이터 가져오기
+   *
+   */
+  @Test
+  public  void select() {
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("/grepiu/menuLists");
+
   }
 }

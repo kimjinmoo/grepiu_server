@@ -43,11 +43,6 @@ sourceSets {
 			srcDir "src/test/java"
 		}
 	}
-	generated {
-		java {
-			srcDirs = ['src/main/generated']
-		}
-	}
 }
 ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
 

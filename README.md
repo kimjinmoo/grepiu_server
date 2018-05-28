@@ -97,7 +97,7 @@ src
           mappers  - mybatis xml
           static   - 정적파일
           templates - 어플리케이션 템플릿[freemarker]
-build.gradle - gradle build 파일         
+      build.gradle - gradle build 파일         
 </pre>
 
 ##build&execute
