@@ -1,4 +1,4 @@
-package com.grepiu.www.test;
+package com.grepiu.test;
 
 import java.util.ArrayList;
 import java.util.Comparator;

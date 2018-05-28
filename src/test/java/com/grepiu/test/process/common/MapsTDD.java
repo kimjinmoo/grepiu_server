@@ -1,12 +1,12 @@
-package com.grepiu.www.test.process.common;
+package com.grepiu.test.process.common;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grepiu.test.process.config.LocalBaseConfig;
 import com.grepiu.www.process.common.crawler.domain.CinemaLocation;
 import com.grepiu.www.process.common.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.utils.MapUtil;
 import com.grepiu.www.process.sample.dao.LotteCineLocalRepository;
-import com.grepiu.www.test.process.config.LocalBaseConfig;
 import java.io.InputStream;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

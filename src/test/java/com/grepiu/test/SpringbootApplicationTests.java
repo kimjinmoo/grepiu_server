@@ -1,4 +1,4 @@
-package com.grepiu.www.test;
+package com.grepiu.test;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.grepiu.www.test;
+package com.grepiu.test;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

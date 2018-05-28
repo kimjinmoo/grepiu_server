@@ -1,9 +1,9 @@
-package com.grepiu.www.test.process.common;
+package com.grepiu.test.process.common;
 
 import com.google.common.collect.Maps;
+import com.grepiu.test.process.config.LocalBaseConfig;
 import com.grepiu.www.process.common.task.ParallelTask;
 import com.grepiu.www.process.common.task.ParallelTaskHelper;
-import com.grepiu.www.test.process.config.LocalBaseConfig;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;

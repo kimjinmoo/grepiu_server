@@ -1,8 +1,8 @@
-package com.grepiu.www.test.process.common;
+package com.grepiu.test.process.common;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.grepiu.www.test.process.config.LocalBaseConfig;
+import com.grepiu.test.process.config.LocalBaseConfig;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;

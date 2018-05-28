@@ -1,4 +1,4 @@
-package com.grepiu.www.test.process.develop;
+package com.grepiu.test.process.develop;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
