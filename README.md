@@ -1,13 +1,13 @@
-Springboot 2.0 Framework
-##인텔리J CLI 기본 프레임웍 구현
+Springboot 2.0 Framework<br>
+##인텔리J CLI 기본 프레임웍 구현<br>
 Web<br>
 Freemarker<br>
 Mybatis<br>
 MongoDB + Maria DB 이용<br>
 
-#구동 전 필수 세팅 
-###<b>1. Mongo DB 설치</b>
-ref.https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat
+#구동 전 필수 세팅 <br>
+###<b>1. Mongo DB 설치</b><br>
+ref.https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat<br>
 ###2. DB 유저 등록<br>
 step1. 몽고 DB 설치<br>
 step2. mongod 실행<br>
@@ -19,7 +19,7 @@ step3. mongo shell 시작<br>
 mongo 엔터
 use study 엔터
 </pre>
-step4. 유저 등록
+step4. 유저 등록<br>
 <pre>
 관지자 계정
 use admin
