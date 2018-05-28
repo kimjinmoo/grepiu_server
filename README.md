@@ -1,14 +1,14 @@
-Spring boot
-##인텔리J CLI
-패키지<br>
+Springboot 2.0 Framework
+##인텔리J CLI 기본 프레임웍 구현
 Web<br>
 Freemarker<br>
 Mybatis<br>
+MongoDB + Maria DB 이용<br>
 
-vue.js 이용 예정
-
-
-##로컬 몽고DB 유저 등록<br>
+#구동 전 필수 세팅 
+###<b>1. Mongo DB 설치</b>
+ref.https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat
+###2. DB 유저 등록<br>
 step1. 몽고 DB 설치<br>
 step2. mongod 실행<br>
 <pre>
@@ -59,22 +59,22 @@ mongod --auth
 <pre>
 test
    java 
-      com.iuom.springboot.test
+      com.grepiu.www.test
           process   - 업무용 TDD
           [*] - 일반적인 샘플러
 src
    main
       java
-         com.iuom.springboot
-              common - 공통기능[global use]
-                   config - 설정
-                   crawler - 크롤러 
-                   db - DB factory
-                   develop - 개발자 도구
-                   job - 배치
-                   task - task 단위 처리 Helper
-                   util - 유틸
+         com.grepiu.www
                process
+                   common - 공통기능[global use]
+                                  config - 설정
+                                  crawler - 크롤러 
+                                  db - DB factory
+                                  develop - 개발자 도구
+                                  job - 배치
+                                  task - task 단위 처리 Helper
+                                  util - 유틸
                    api - api /{ver}/기능
                        controller  - 컨트롤러
                        dao - repository 
