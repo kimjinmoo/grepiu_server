@@ -11,6 +11,7 @@ import com.grepiu.www.process.common.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,9 +42,9 @@ public class ScheduleJob {
   /**
    * 크롤링 스케쥴러
    *
-   * 1시간에 한번씩 구현
+   * 6시간에 한번씩 구현
    */
-//  @Scheduled(fixedDelay = 1000*60*60)
+  @Scheduled(fixedDelay = 1000*60*60*6)
   public void crawler() throws Exception {
     log.info(" start crawler======================= {}", DateUtil.now("yyyy/MM/dd hh:mm:ss"));
     //step1. Collect Data
