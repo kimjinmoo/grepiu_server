@@ -1,15 +1,24 @@
 package com.grepiu.www.process.common.job;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grepiu.www.process.common.crawler.domain.CinemaLocation;
+import com.grepiu.www.process.common.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.utils.DateUtil;
 import com.grepiu.www.process.common.crawler.CrawlerHelper;
 import com.grepiu.www.process.common.crawler.domain.Cinema;
 import com.grepiu.www.process.common.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.utils.DateUtil;
+import com.grepiu.www.process.common.utils.MapUtil;
 import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
+import com.grepiu.www.process.sample.dao.LotteCineLocalRepository;
 import com.grepiu.www.process.sample.domain.SampleMessage;
 import com.grepiu.www.process.common.utils.DateUtil;
+import java.io.InputStream;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -35,6 +44,9 @@ public class ScheduleJob {
 
   @Autowired
   private LotteCineDBRepository mongoDBCrawler;
+
+  @Autowired
+  private LotteCineLocalRepository lotteCineLocalRepository;
 
   @Autowired
   private SimpMessagingTemplate template;
@@ -63,5 +75,38 @@ public class ScheduleJob {
     });
     ch.execute();
     log.info(" finished crawler=======================");
+  }
+
+  /**
+   *
+   * 롯데 시네마 위치 정보 Set 새벽 03시에 초기화
+   *
+   * @throws Exception
+   */
+  @Scheduled(cron="00 03 00 * * *")
+  public void setLotteCinemaLocation() throws Exception {
+    // default Set
+    MapUtil m = new MapUtil();
+    ObjectMapper mapper = new ObjectMapper();
+
+    // file Get
+    InputStream is = this.getClass().getResourceAsStream("/lotteCinemaLocation.json");
+
+    List<CinemaLocation> list = mapper.readValue(is, new TypeReference<List<CinemaLocation>>(){});
+
+    // 로직 실행
+    if(list.size() > 0) {
+      lotteCineLocalRepository.deleteAll();
+
+      for(CinemaLocation v : list) {
+        if(m.searchLocalePointWithGoogle(v.getAddress()).getResults().size() > 0) {
+          MapGoogleResultGeometryVO geo = m.searchLocalePointWithGoogle(v.getAddress()).getResults().get(0).getGeometry();
+          final GeoJsonPoint locationPoint = new GeoJsonPoint(geo.getLocationLng(), geo.getLocationLat());
+          v.setLocation(locationPoint);
+        }
+      }
+      // db 저장
+      lotteCineLocalRepository.insert(list);
+    }
   }
 }
