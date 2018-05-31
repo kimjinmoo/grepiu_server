@@ -28,7 +28,6 @@ function connect() {
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             setConnected(true);
-            console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/messages', function (greeting) {
                 showChat(name, JSON.parse(greeting.body).content);
             });
