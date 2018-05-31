@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * 리소스 서버 설정 정보
  *
  */
-@Component
+//@Component
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
   @Override

@@ -1,10 +1,12 @@
 package com.grepiu.www.process.sample.controller;
 
+import com.google.gson.Gson;
 import com.grepiu.www.process.sample.domain.ChatMessages;
 import com.grepiu.www.process.sample.domain.SampleMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
@@ -17,8 +19,8 @@ public class SampleSocketController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
-    public ChatMessages greeting(SampleMessage message) throws Exception {
+    public Object greeting(SampleMessage message) throws Exception {
         Thread.sleep(500);
-        return new ChatMessages(message.getContent());
+        return message;
     }
 }

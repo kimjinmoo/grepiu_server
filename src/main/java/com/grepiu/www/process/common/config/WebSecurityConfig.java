@@ -25,9 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
+    http.cors().and().authorizeRequests()
         // 일반적인 Open 정책
-        .antMatchers("/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages").permitAll()
+        .antMatchers("/static/resources/css/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages").permitAll()
         .antMatchers("/", "/home").permitAll()
         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
             "/configuration/security", "/swagger-resources/configuration/ui",

@@ -3,7 +3,7 @@
 <head>
   <title>Hello World - IU</title>
   <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/resources/css/main.css" rel="stylesheet">
+  <link href="/resources/css/resources/css/main.css" rel="stylesheet">
   <script src="/webjars/jquery/jquery.min.js"></script>
   <script src="/webjars/sockjs-client/sockjs.min.js"></script>
   <script src="/webjars/stomp-websocket/stomp.min.js"></script>

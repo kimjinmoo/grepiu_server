@@ -19,8 +19,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
  * todo . jwt와 연동해서 토큰 생성
  *
  */
-@EnableAuthorizationServer
-@Configuration
+//@EnableAuthorizationServer
+//@Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
   @Autowired
