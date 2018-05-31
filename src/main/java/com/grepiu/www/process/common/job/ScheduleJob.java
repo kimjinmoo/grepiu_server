@@ -53,10 +53,11 @@ public class ScheduleJob {
 
   /**
    * 크롤링 스케쥴러
-   *
-   * 6시간에 한번씩 구현
+   * <second> <minute> <hour> <day-of-month> <month> <day-of-week> <year> <command>
+   * 매일 07시,12,17시
    */
-  @Scheduled(fixedDelay = 1000*60*60*6)
+//  @Scheduled(fixedDelay = 1000*60*60*3)
+  @Scheduled(cron="00 00 07,12,17 * * ?")
   public void crawler() throws Exception {
     log.info(" start crawler======================= {}", DateUtil.now("yyyy/MM/dd hh:mm:ss"));
     //step1. Collect Data
