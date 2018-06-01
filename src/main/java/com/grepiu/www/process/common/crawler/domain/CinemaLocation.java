@@ -24,6 +24,7 @@ public class CinemaLocation {
   @Id
   private String id;          // ID
   @Indexed
+  private String type;        // 영화관 타입
   private String storeName;  // 매장명
   private String address;     // 주소
   private GeoJsonPoint location; // 좌표

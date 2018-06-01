@@ -34,10 +34,10 @@ public class CrawlingTDD extends LocalBaseConfig {
         crawler.addExecuteNode(new LotteCinemaNode());
         crawler.addObserver(o -> {
             //DB delete
-//            mongoDBCrawler.deleteAll();
+            mongoDBCrawler.deleteAll();
             //DB Insert
             o.parallelStream().forEach(v -> {
-//                mongoDBCrawler.insert(v);
+                mongoDBCrawler.insert(v);
             });
         });
         crawler.execute();
