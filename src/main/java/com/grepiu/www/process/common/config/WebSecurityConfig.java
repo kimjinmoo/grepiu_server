@@ -27,13 +27,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().authorizeRequests()
         // 일반적인 Open 정책
+        .antMatchers("/sample/**").permitAll()
         .antMatchers("/static/resources/css/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages").permitAll()
         .antMatchers("/", "/home").permitAll()
         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
             "/configuration/security", "/swagger-resources/configuration/ui",
             "/swagger-resources/configuration/security", "/null/**").permitAll()
         .antMatchers("swagger-ui.html").hasRole("USER")
-        .anyRequest().authenticated()
+//        .anyRequest().authenticated()
         .and()
         .formLogin().usernameParameter("email").defaultSuccessUrl("/", true).permitAll()
         .and().logout().logoutSuccessUrl("/").permitAll()
