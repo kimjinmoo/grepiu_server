@@ -160,19 +160,19 @@ public class SampleRestController {
     return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
   }
 
-  @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
+  @ApiOperation(value = "상영 영화 크롤링 데이터 리스트")
   @ApiResponse(code = 200, message = "조회성공")
   @CrossOrigin(origins = "*")
-  @GetMapping("/sample/crawler/lotteCine")
-  public ResponseEntity<Object> findLotteCine() {
+  @GetMapping("/sample/crawler/cine/screen")
+  public ResponseEntity<Object> findCine() {
     return new ResponseEntity<Object>(lotteCineDBRepository.findAllBy(), HttpStatus.OK);
   }
 
   @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
   @ApiResponse(code = 200, message = "조회성공")
   @CrossOrigin(origins = "*")
-  @GetMapping("/sample/crawler/lotteCine/{storeName}")
-  public ResponseEntity<Object> findLotteCineByStoreName(@PathVariable("storeName") String storeName) {
+  @GetMapping("/sample/crawler/cine/screen/{storeName}")
+  public ResponseEntity<Object> findCineByStoreName(@PathVariable("storeName") String storeName) {
     Optional<Cinema> o = lotteCineDBRepository.findAllBy().parallelStream()
         .filter(v -> v.getMovieInfo().containsKey(storeName)).findFirst();
     o.orElse(new Cinema());
@@ -180,18 +180,18 @@ public class SampleRestController {
     return new ResponseEntity<>(o.isPresent()?o.get().getMovieInfo().get(storeName):null, HttpStatus.OK);
   }
 
-  @ApiOperation(value = "롯데 시네마 매장 정보")
+  @ApiOperation(value = "시네마 매장 정보")
   @ApiResponse(code = 200, message = "조회성공")
   @CrossOrigin(origins = "*")
-  @GetMapping("/sample/crawler/lotteCineLocale")
-  public ResponseEntity<Object> lotteCineLocale() {
+  @GetMapping("/sample/crawler/cine/locale")
+  public ResponseEntity<Object> getCineLocale() {
     return new ResponseEntity<Object>(lotteCineLocalRepository.findAllBy(), HttpStatus.OK);
   }
 
-  @ApiOperation(value = "인접한 영화 찾기")
+  @ApiOperation(value = "인접한 영화관 찾기")
   @ApiResponse(code = 200, message = "조회성공")
   @CrossOrigin(origins = "*")
-  @GetMapping("/sample/crawler/find")
+  @GetMapping("/sample/crawler/cine/near")
   public ResponseEntity<Object> findNearCinema(
       @ApiParam(value = "위도") @RequestParam("lat") Double lat,
       @ApiParam(value = "경도") @RequestParam("lng") Double lng,
