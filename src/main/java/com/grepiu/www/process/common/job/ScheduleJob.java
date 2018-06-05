@@ -57,7 +57,7 @@ public class ScheduleJob {
    * 매일 07시,12,17시
    */
 //  @Scheduled(fixedDelay = 1000*60*60*3)
-  @Scheduled(cron="00 00 07,12,17 * * ?")
+  @Scheduled(cron="00 30 08,12,17 * * ?")
   public void crawler() throws Exception {
     log.info(" start crawler======================= {}", DateUtil.now("yyyy/MM/dd hh:mm:ss"));
     //step1. Collect Data
@@ -97,8 +97,6 @@ public class ScheduleJob {
 
     // 로직 실행
     if(list.size() > 0) {
-      lotteCineLocalRepository.deleteAll();
-
       for(CinemaLocation v : list) {
         if(m.searchLocalePointWithGoogle(v.getAddress()).getResults().size() > 0) {
           MapGoogleResultGeometryVO geo = m.searchLocalePointWithGoogle(v.getAddress()).getResults().get(0).getGeometry();
@@ -106,6 +104,8 @@ public class ScheduleJob {
           v.setLocation(locationPoint);
         }
       }
+      // db 초기화
+      lotteCineLocalRepository.deleteAll();
       // db 저장
       lotteCineLocalRepository.insert(list);
     }

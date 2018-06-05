@@ -1,5 +1,10 @@
 package com.grepiu.www.process.sample.domain;
 
+/**
+ *
+ * 웹소켓 메세지 규격
+ *
+ */
 public class SampleMessage {
     private String name;
     private String message;
