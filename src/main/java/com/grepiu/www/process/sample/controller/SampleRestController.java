@@ -176,7 +176,8 @@ public class SampleRestController {
     Optional<Cinema> o = lotteCineDBRepository.findAllBy().parallelStream()
         .filter(v -> v.getMovieInfo().containsKey(storeName)).findFirst();
     o.orElse(new Cinema());
-    return new ResponseEntity<>(o.get().getMovieInfo().get(storeName), HttpStatus.OK);
+
+    return new ResponseEntity<>(o.isPresent()?o.get().getMovieInfo().get(storeName):null, HttpStatus.OK);
   }
 
   @ApiOperation(value = "롯데 시네마 매장 정보")

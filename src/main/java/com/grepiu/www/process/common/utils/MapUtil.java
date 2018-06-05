@@ -30,6 +30,7 @@ public class MapUtil {
     HttpHeaders headers = new HttpHeaders();
     headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 
+    log.debug("address : {}", address);
     UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(googleGeoCodingApi)
         .queryParam("address", address)
         .queryParam("key", "AIzaSyCdlJJ5RuA6jrq-VzexA-8ryqOJVqTJJ-Y");
