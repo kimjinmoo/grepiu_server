@@ -234,13 +234,13 @@ public class SampleRestController {
 
   @ApiOperation(value = "단일 파일업로드")
   @PostMapping(path = "/sample/upload/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<FileVO> fileUpload(@RequestPart(required=true) MultipartFile file) throws Exception {
+  public ResponseEntity<FileVO> fileUpload(@RequestParam(required=true) MultipartFile file) throws Exception {
     return new ResponseEntity<FileVO>(fileHelper.uploadFile(file), HttpStatus.OK);
   }
 
   @ApiOperation(value = "단일 파일업로드")
   @PostMapping(path = "/sample/upload/file/multiple", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<List<FileVO>> multipleFileUpload(@RequestPart(required=true) MultipartFile[] files) throws Exception {
+  public ResponseEntity<List<FileVO>> multipleFileUpload(@RequestParam(required=true) MultipartFile[] files) throws Exception {
     try {
       fileHelper.uploadFiles(files);
     } catch (Exception e) {
