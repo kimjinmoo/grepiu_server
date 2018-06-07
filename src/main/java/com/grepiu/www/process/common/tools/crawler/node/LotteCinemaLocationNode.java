@@ -1,7 +1,7 @@
-package com.grepiu.www.process.common.crawler.node;
+package com.grepiu.www.process.common.tools.crawler.node;
 
 import com.google.common.collect.Lists;
-import com.grepiu.www.process.common.crawler.domain.CinemaLocation;
+import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;

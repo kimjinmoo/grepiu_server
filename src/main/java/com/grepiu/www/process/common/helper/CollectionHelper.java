@@ -1,8 +1,9 @@
-package com.grepiu.www.process.common.devtools;
+package com.grepiu.www.process.common.helper;
 
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -11,7 +12,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class CollectionHelpTool {
+@Component
+public class CollectionHelper {
 
 
   /**

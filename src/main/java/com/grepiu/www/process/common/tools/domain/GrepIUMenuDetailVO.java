@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.domain;
+package com.grepiu.www.process.common.tools.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -4,11 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.grepiu.test.process.config.LocalBaseConfig;
-import com.grepiu.www.process.common.domain.GrepIUMenuDetailVO;
-import com.grepiu.www.process.common.domain.GrepIUMenuVO;
-import java.util.HashMap;
+import com.grepiu.www.process.common.tools.domain.GrepIUMenuDetailVO;
 import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

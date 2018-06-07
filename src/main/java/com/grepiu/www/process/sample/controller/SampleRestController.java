@@ -1,46 +1,58 @@
 package com.grepiu.www.process.sample.controller;
 
+import com.google.api.Http;
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.common.helper.FileHelper;
+import com.grepiu.www.process.common.tools.domain.FileVO;
 import com.grepiu.www.process.common.utils.CollectionUtil;
 import com.grepiu.www.process.common.utils.DateUtil;
-import com.grepiu.www.process.common.crawler.domain.Cinema;
-import com.grepiu.www.process.common.utils.CollectionUtil;
-import com.grepiu.www.process.common.utils.DateUtil;
+import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
 import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
 import com.grepiu.www.process.sample.dao.LotteCineLocalRepository;
+import com.grepiu.www.process.sample.dao.PostRepository;
 import com.grepiu.www.process.sample.dao.TestMongoDBRepository;
+import com.grepiu.www.process.sample.domain.Post;
 import com.grepiu.www.process.sample.domain.SampleMessage;
 import com.grepiu.www.process.sample.domain.TestUser;
+import com.grepiu.www.process.sample.service.PostService;
 import com.grepiu.www.process.sample.service.SampleService;
 import com.grepiu.www.process.sample.service.SampleTaskService;
-import com.grepiu.www.process.common.utils.CollectionUtil;
-import com.grepiu.www.process.common.utils.DateUtil;
 import com.mongodb.DuplicateKeyException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
+import java.io.File;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -49,6 +61,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @author jm
  * @since 2017.11.01
  */
+
+
+@CrossOrigin(origins = "*")
 @Slf4j
 @RestController
 public class SampleRestController {
@@ -70,6 +85,12 @@ public class SampleRestController {
 
   @Autowired
   private SimpMessagingTemplate template;
+
+  @Autowired
+  private PostService postService;
+
+  @Autowired
+  private FileHelper fileHelper;
 
 
   @ApiOperation(value = "헬로월드")
@@ -140,7 +161,6 @@ public class SampleRestController {
    * 몽고DB 리스트 가져오기
    */
   @ApiOperation(value = "몽고DB 조회")
-  @CrossOrigin(origins="*")
   @GetMapping("/sample/mongodb/users/{firstName}")
   public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
     TestUser testUser = repository.findByFirstName(firstName);
@@ -151,7 +171,6 @@ public class SampleRestController {
    * 병렬 처리 테스트
    */
   @ApiOperation(value = "병렬테스트")
-  @CrossOrigin(origins="*")
   @GetMapping("/sample/parallelTask")
   public ResponseEntity<Object> parallelTask() {
     HashMap<String, Object> params = Maps.newHashMap();
@@ -162,7 +181,6 @@ public class SampleRestController {
 
   @ApiOperation(value = "상영 영화 크롤링 데이터 리스트")
   @ApiResponse(code = 200, message = "조회성공")
-  @CrossOrigin(origins = "*")
   @GetMapping("/sample/crawler/cine/screen")
   public ResponseEntity<Object> findCine() {
     return new ResponseEntity<Object>(lotteCineDBRepository.findAllBy(), HttpStatus.OK);
@@ -170,7 +188,6 @@ public class SampleRestController {
 
   @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
   @ApiResponse(code = 200, message = "조회성공")
-  @CrossOrigin(origins = "*")
   @GetMapping("/sample/crawler/cine/screen/{storeName}")
   public ResponseEntity<Object> findCineByStoreName(@PathVariable("storeName") String storeName) {
     Optional<Cinema> o = lotteCineDBRepository.findAllBy().parallelStream()
@@ -182,7 +199,6 @@ public class SampleRestController {
 
   @ApiOperation(value = "시네마 매장 정보")
   @ApiResponse(code = 200, message = "조회성공")
-  @CrossOrigin(origins = "*")
   @GetMapping("/sample/crawler/cine/locale")
   public ResponseEntity<Object> getCineLocale() {
     return new ResponseEntity<Object>(lotteCineLocalRepository.findAllBy(), HttpStatus.OK);
@@ -190,7 +206,6 @@ public class SampleRestController {
 
   @ApiOperation(value = "인접한 영화관 찾기")
   @ApiResponse(code = 200, message = "조회성공")
-  @CrossOrigin(origins = "*")
   @GetMapping("/sample/crawler/cine/near")
   public ResponseEntity<Object> findNearCinema(
       @ApiParam(value = "위도") @RequestParam("lat") Double lat,
@@ -215,5 +230,53 @@ public class SampleRestController {
   public ResponseEntity<Object> sendChat() {
     this.template.convertAndSend("/topic/messages", new SampleMessage("시스템 알림","Sample Message가 전달 되었습니다."));
     return new ResponseEntity<Object>(HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "단일 파일업로드")
+  @PostMapping(path = "/sample/upload/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<FileVO> fileUpload(@RequestPart(required=true) MultipartFile file) throws Exception {
+    return new ResponseEntity<FileVO>(fileHelper.uploadFile(file), HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "단일 파일업로드")
+  @PostMapping(path = "/sample/upload/file/multiple", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<List<FileVO>> multipleFileUpload(@RequestPart(required=true) MultipartFile[] files) throws Exception {
+    try {
+      fileHelper.uploadFiles(files);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return new ResponseEntity<List<FileVO>>(fileHelper.uploadFiles(files), HttpStatus.OK);
+  }
+
+  @ApiOperation("포스트 등록")
+  @PostMapping("/sample/post")
+  public ResponseEntity<Object> savePost(@ModelAttribute Post post)  {
+    return new ResponseEntity<>(postService.save(post), HttpStatus.OK);
+  }
+
+  @ApiOperation("포스트 상세 업데이트")
+  @PutMapping("/sample/post/{id}")
+  public ResponseEntity<Object> updatePost(@PathVariable String id, @ModelAttribute Post post) {
+    return new ResponseEntity<>(postService.update(id, post), HttpStatus.OK);
+  }
+
+  @ApiOperation("포스트 전체 리스트 가져오기")
+  @GetMapping("/sample/post")
+  public ResponseEntity<Object> getPostAll() {
+    return new ResponseEntity<>(postService.findAll(), HttpStatus.OK);
+  }
+
+  @ApiOperation("포스트 상세 가져오기")
+  @GetMapping("/sample/post/{id}")
+  public ResponseEntity<Object> getPost(@PathVariable String id) {
+    return new ResponseEntity<>(postService.findOneByID(id), HttpStatus.OK);
+  }
+
+  @ApiOperation("포스트 삭제")
+  @DeleteMapping("/sample/post/{id}")
+  public ResponseEntity<Void> deletePost(@PathVariable String id) {
+    postService.deleteById(id);
+    return new ResponseEntity<Void>(HttpStatus.OK);
   }
 }

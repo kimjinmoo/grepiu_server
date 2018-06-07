@@ -2,8 +2,8 @@ package com.grepiu.www.process.sample.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.grepiu.www.process.common.task.ParallelTask;
-import com.grepiu.www.process.common.task.ParallelTaskHelper;
+import com.grepiu.www.process.common.tools.task.ParallelTask;
+import com.grepiu.www.process.common.tools.task.ParallelTaskHelper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.crawler.node;
+package com.grepiu.www.process.common.tools.crawler.node;
 
 import java.net.URL;
 import java.util.List;

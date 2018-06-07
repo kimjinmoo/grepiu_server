@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.task;
+package com.grepiu.www.process.common.tools.task;
 
 import com.google.common.collect.Lists;
 import java.util.HashMap;

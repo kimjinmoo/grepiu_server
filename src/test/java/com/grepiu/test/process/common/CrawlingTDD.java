@@ -1,9 +1,9 @@
 package com.grepiu.test.process.common;
 
 import com.grepiu.test.process.config.LocalBaseConfig;
-import com.grepiu.www.process.common.crawler.CrawlerHelper;
-import com.grepiu.www.process.common.crawler.domain.Cinema;
-import com.grepiu.www.process.common.crawler.node.LotteCinemaNode;
+import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
+import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

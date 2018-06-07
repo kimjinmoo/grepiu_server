@@ -1,6 +1,6 @@
 package com.grepiu.www.process.sample.dao;
 
-import com.grepiu.www.process.common.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

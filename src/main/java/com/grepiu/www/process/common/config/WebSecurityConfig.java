@@ -1,5 +1,6 @@
 package com.grepiu.www.process.common.config;
 
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  *
@@ -23,9 +27,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
   @Autowired
   private UserDetailsService currentUserDetailService;
 
+  /**
+   *
+   * CSRF = 크로스 사이트 요청 위조
+   * 사이트 내부에서 토큰적용하여 방어하는데
+   * API 서버로 이용 하려고 하여 disable 시킴
+   *
+   * @param http
+   * @throws Exception
+   */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().authorizeRequests()
+    http.cors().and().csrf().disable().authorizeRequests()
         // 일반적인 Open 정책
         .antMatchers("/sample/**").permitAll()
         .antMatchers("/static/resources/css/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages").permitAll()

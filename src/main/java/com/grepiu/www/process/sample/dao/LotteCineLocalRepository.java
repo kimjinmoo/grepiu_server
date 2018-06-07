@@ -1,6 +1,6 @@
 package com.grepiu.www.process.sample.dao;
 
-import com.grepiu.www.process.common.crawler.domain.CinemaLocation;
+import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
 import java.util.List;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;

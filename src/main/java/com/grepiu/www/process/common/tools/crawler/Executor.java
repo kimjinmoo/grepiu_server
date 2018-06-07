@@ -1,6 +1,6 @@
-package com.grepiu.www.process.common.crawler;
+package com.grepiu.www.process.common.tools.crawler;
 
-import com.grepiu.www.process.common.crawler.node.BaseNode;
+import com.grepiu.www.process.common.tools.crawler.node.BaseNode;
 
 /**
  *

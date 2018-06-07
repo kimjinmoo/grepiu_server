@@ -1,7 +1,7 @@
-package com.grepiu.www.process.common.crawler;
+package com.grepiu.www.process.common.tools.crawler;
 
 import com.google.common.collect.Lists;
-import com.grepiu.www.process.common.crawler.node.BaseNode;
+import com.grepiu.www.process.common.tools.crawler.node.BaseNode;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 

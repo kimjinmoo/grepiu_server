@@ -1,6 +1,6 @@
 package com.grepiu.www.process.common.utils;
 
-import com.grepiu.www.process.common.domain.MapGoogleVO;
+import com.grepiu.www.process.common.tools.domain.MapGoogleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  *
- * 지도 Helper
+ * 지도 유틸
  *
  */
 @Slf4j
