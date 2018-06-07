@@ -233,19 +233,14 @@ public class SampleRestController {
   }
 
   @ApiOperation(value = "단일 파일업로드")
-  @PostMapping(path = "/sample/upload/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping(path = "/sample/upload/file")
   public ResponseEntity<FileVO> fileUpload(@RequestParam(required=true, name = "file") MultipartFile file) throws Exception {
     return new ResponseEntity<FileVO>(fileHelper.uploadFile(file), HttpStatus.OK);
   }
 
   @ApiOperation(value = "단일 파일업로드")
-  @PostMapping(path = "/sample/upload/file/multiple", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping(path = "/sample/upload/file/multiple")
   public ResponseEntity<List<FileVO>> multipleFileUpload(@RequestParam(required=true, name="files") MultipartFile[] files) throws Exception {
-    try {
-      fileHelper.uploadFiles(files);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
     return new ResponseEntity<List<FileVO>>(fileHelper.uploadFiles(files), HttpStatus.OK);
   }
 
