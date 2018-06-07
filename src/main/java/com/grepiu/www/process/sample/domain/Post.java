@@ -19,19 +19,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Document(collection = "post")
 public class Post {
 
-  @ApiModelProperty(hidden = true, name = "아이디") @Id private String id;
-  @ApiModelProperty(required = true,  name = "제목") private String subject;
-  @ApiModelProperty(required = true, name = "내용") private String content;
+  @ApiModelProperty(hidden = true, value = "아이디") @Id private String id;
+  @ApiModelProperty(required = true,  value = "제목") private String subject;
+  @ApiModelProperty(required = true, value = "내용") private String content;
 
-  @ApiModelProperty(name="등록자") private String regId;
+  @ApiModelProperty(value="등록자") private String regId;
 
   @CreatedDate
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  @ApiModelProperty(hidden = true, name="등록일") private Date regDate;
+  @ApiModelProperty(hidden = true, value="등록일") private Date regDate;
 
-  @ApiModelProperty(name="수정자") private String modifyId;
+  @ApiModelProperty(value="수정자") private String modifyId;
 
   @LastModifiedDate
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  @ApiModelProperty(hidden = true, name="최종수정일") private Date modifyDate;
+  @ApiModelProperty(hidden = true, value="최종수정일") private Date modifyDate;
 }

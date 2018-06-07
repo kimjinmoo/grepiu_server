@@ -263,8 +263,9 @@ public class SampleRestController {
 
   @ApiOperation("포스트 전체 리스트 가져오기")
   @GetMapping("/sample/post")
-  public ResponseEntity<Object> getPostAll() {
-    return new ResponseEntity<>(postService.findAll(), HttpStatus.OK);
+  public ResponseEntity<Object> getPostPaging(@ApiParam(value = "페이지") @RequestParam int currentPage,
+      @RequestParam @ApiParam(value = "사이즈") int size) {
+    return new ResponseEntity<>(postService.findAllPage(currentPage, size), HttpStatus.OK);
   }
 
   @ApiOperation("포스트 상세 가져오기")

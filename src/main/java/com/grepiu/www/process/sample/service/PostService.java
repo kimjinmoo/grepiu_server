@@ -1,10 +1,15 @@
 package com.grepiu.www.process.sample.service;
 
 
+import com.google.common.collect.Maps;
 import com.grepiu.www.process.sample.dao.PostRepository;
 import com.grepiu.www.process.sample.domain.Post;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 /**
@@ -53,6 +58,22 @@ public class PostService {
    */
   public List<Post> findAll() {
     return postRepository.findAll();
+  }
+
+  /**
+   *
+   * 페이징 처리 리스트 가져오기
+   *
+   * @param page
+   * @return
+   */
+  public HashMap<String, Object> findAllPage(int page, int size) {
+    HashMap<String, Object> r = Maps.newHashMap();
+    Page<Post> p = postRepository.findAll(PageRequest.of(page,size, Direction.DESC, "regDate"));
+    r.put("list", p.getContent());
+    r.put("tPage", p.getTotalPages());
+    r.put("tCount", postRepository.count());
+    return r;
   }
 
   /**
