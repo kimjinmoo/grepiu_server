@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -246,13 +247,13 @@ public class SampleRestController {
 
   @ApiOperation("포스트 등록")
   @PostMapping("/sample/post")
-  public ResponseEntity<Object> savePost(@ModelAttribute Post post)  {
+  public ResponseEntity<Object> savePost(@RequestBody Post post)  {
     return new ResponseEntity<>(postService.save(post), HttpStatus.OK);
   }
 
   @ApiOperation("포스트 상세 업데이트")
   @PutMapping("/sample/post/{id}")
-  public ResponseEntity<Object> updatePost(@PathVariable String id, @ModelAttribute Post post) {
+  public ResponseEntity<Object> updatePost(@PathVariable String id, @RequestBody Post post) {
     return new ResponseEntity<>(postService.update(id, post), HttpStatus.OK);
   }
 
