@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Post {
 
   @ApiModelProperty(hidden = true, value = "일련번호") @Id private String id;
-  @ApiModelProperty(hidden = true, value = "범주") @Id private String category;
+  @ApiModelProperty(hidden = true, value = "범주") @NonNull private String category;
   @ApiModelProperty(required = true,  value = "제목") @NonNull private String subject;
   @ApiModelProperty(required = true, value = "내용") @NonNull private String content;
 
