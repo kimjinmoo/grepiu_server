@@ -3,6 +3,7 @@ package com.grepiu.www.process.sample.domain;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -19,9 +20,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Document(collection = "post")
 public class Post {
 
-  @ApiModelProperty(hidden = true, value = "아이디") @Id private String id;
-  @ApiModelProperty(required = true,  value = "제목") private String subject;
-  @ApiModelProperty(required = true, value = "내용") private String content;
+  @ApiModelProperty(hidden = true, value = "일련번호") @Id private String id;
+  @ApiModelProperty(hidden = true, value = "범주") @Id private String category;
+  @ApiModelProperty(required = true,  value = "제목") @NonNull private String subject;
+  @ApiModelProperty(required = true, value = "내용") @NonNull private String content;
 
   @ApiModelProperty(value="등록자") private String regId;
 
