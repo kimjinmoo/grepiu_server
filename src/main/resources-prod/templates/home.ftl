@@ -29,8 +29,7 @@
 <noscript><h2 style="color: #ff0000">자바스크립트를 지원하지 않습니다.</h2></noscript>
 <div id="main-content" class="container">
    <#if currentUser??>
-  <form action="/logout" method="post" name="frm_logout">
-    <input type="hidden" name="${_csrf.parameterName!}" value="${_csrf.token!}"/>
+  <form action="/logout" method="post" name="frm_logout">-->
     <button type="button" name="logout_btn" onclick="logout()">Log out</button>
   </form>
      <div><a href="/swagger-ui.html" target="_blank">Server API document</></div>
