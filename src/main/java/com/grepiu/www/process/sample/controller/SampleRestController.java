@@ -1,13 +1,20 @@
 package com.grepiu.www.process.sample.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.Http;
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.helper.FileHelper;
+import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
+import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
+import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.domain.FileVO;
+import com.grepiu.www.process.common.tools.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.utils.CollectionUtil;
 import com.grepiu.www.process.common.utils.DateUtil;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
+import com.grepiu.www.process.common.utils.MapUtil;
 import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
 import com.grepiu.www.process.sample.dao.LotteCineLocalRepository;
 import com.grepiu.www.process.sample.dao.PostRepository;
@@ -25,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import java.io.File;
+import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,6 +45,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -93,6 +102,8 @@ public class SampleRestController {
   @Autowired
   private FileHelper fileHelper;
 
+  @Autowired
+  private LotteCineDBRepository mongoDBCrawler;
 
   @ApiOperation(value = "헬로월드")
   @GetMapping(value = "/sample/helloworld")
@@ -178,6 +189,55 @@ public class SampleRestController {
 
     // 병렬 처리를 한다.
     return new ResponseEntity<Object>(sampleTaskService.process(params), HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "영화관 정보 등록 수동처리")
+  @GetMapping("/sample/saveCinemaLocationByManual")
+  public ResponseEntity<Object> saveCinemaLocationByManual() {
+    MapUtil m = new MapUtil();
+    ObjectMapper mapper = new ObjectMapper();
+    InputStream is = this.getClass().getResourceAsStream("/lotteCinemaLocation.json");
+    try {
+      lotteCineLocalRepository.deleteAll();
+      List<CinemaLocation> list = mapper.readValue(is, new TypeReference<List<CinemaLocation>>(){});
+      for(CinemaLocation v : list) {
+        if(m.searchLocalePointWithGoogle(v.getAddress()).getResults().size() > 0) {
+          MapGoogleResultGeometryVO geo = m.searchLocalePointWithGoogle(v.getAddress()).getResults().get(0).getGeometry();
+          final GeoJsonPoint locationPoint = new GeoJsonPoint(geo.getLocationLng(), geo.getLocationLat());
+          v.setLocation(locationPoint);
+        }
+      }
+      // db 저장
+      lotteCineLocalRepository.insert(list);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return new ResponseEntity<Object>(HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "영화 상영관 정보 수동 처리")
+  @GetMapping("/sample/saveCinemaInfoByManual")
+  public ResponseEntity<Object> saveCinemaInfoByManual() {
+    try {
+      //step1. Collect Data
+      CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
+      ch.addExecuteNode(new LotteCinemaNode());
+      ch.addObserver(o -> {
+        //DB delete
+        mongoDBCrawler.deleteAll();
+        //DB Insert
+        o.parallelStream().forEach(v -> {
+          mongoDBCrawler.insert(v);
+        });
+        //완료 후 최종 이벤트 처리
+        template.convertAndSend("/topic/messages",
+            new SampleMessage("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
+      });
+      ch.execute();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return new ResponseEntity<Object>(HttpStatus.OK);
   }
 
   @ApiOperation(value = "상영 영화 크롤링 데이터 리스트")
