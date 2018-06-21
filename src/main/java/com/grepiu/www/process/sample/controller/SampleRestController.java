@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.Http;
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.common.config.auth.dao.UserRepository;
+import com.grepiu.www.process.common.config.auth.domain.Role;
+import com.grepiu.www.process.common.config.auth.domain.User;
 import com.grepiu.www.process.common.helper.FileHelper;
 import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
@@ -77,6 +80,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @RestController
 public class SampleRestController {
+
+  @Autowired
+  private UserRepository userRepository;
 
   @Autowired
   private TestMongoDBRepository repository;
@@ -155,14 +161,12 @@ public class SampleRestController {
   /**
    * 몽고 DB 유저 등록 RestAPI
    */
-  @ApiOperation(value = "몽고 DB 유저등록")
+  @ApiOperation(value = "유저등록")
   @PostMapping("/sample/mongodb/users")
-  public ResponseEntity<Void> addSampleUser(@RequestParam String id,
-      @RequestParam String firstName,
-      @RequestParam String lastName,
-      @RequestParam String email) {
+  public ResponseEntity<Void> addSampleUser(@RequestParam String id, @RequestParam String password) {
     try {
-      repository.save(new TestUser(id, firstName, lastName, email));
+      User user = User.build(id, password, Role.USER);
+      userRepository.save(user);
     } catch (DuplicateKeyException e) {
       log.debug("error : {}", e.getMessage());
     }
@@ -173,10 +177,10 @@ public class SampleRestController {
    * 몽고DB 리스트 가져오기
    */
   @ApiOperation(value = "몽고DB 조회")
-  @GetMapping("/sample/mongodb/users/{firstName}")
-  public ResponseEntity<TestUser> getSampleUser(@PathVariable String firstName) {
-    TestUser testUser = repository.findByFirstName(firstName);
-    return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+  @GetMapping("/sample/mongodb/users")
+  public ResponseEntity<List<User>> getSampleUser() {
+    List<User> users = userRepository.findAll();
+    return new ResponseEntity<List<User>>(users, HttpStatus.OK);
   }
 
   /**
