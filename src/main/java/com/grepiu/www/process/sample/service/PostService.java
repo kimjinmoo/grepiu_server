@@ -46,6 +46,7 @@ public class PostService {
     Post p = postRepository.findById(id);
     p.setSubject(post.getSubject());
     p.setContent(post.getContent());
+    p.setCategory(post.getCategory());
     p.setModifyId("");
     return (Post) postRepository.save(p);
   }
