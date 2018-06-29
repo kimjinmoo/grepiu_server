@@ -38,7 +38,7 @@ public abstract class BaseNode<T> {
   }
   public void initChromeRemote(String startUrl) {
     try {
-      this.driver = new RemoteWebDriver(new URL("http://13.124.113.142:9200/wd/hub"),
+      this.driver = new RemoteWebDriver(new URL("http://selenium.grepiu.com/wd/hub"),
           DesiredCapabilities.chrome());
       this.driver.get(startUrl);
     } catch (Exception e) {
