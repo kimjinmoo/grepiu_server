@@ -108,8 +108,7 @@ public class SampleRestController {
   @Autowired
   private FileHelper fileHelper;
 
-  @Autowired
-  private LotteCineDBRepository mongoDBCrawler;
+
 
   @ApiOperation(value = "헬로월드")
   @GetMapping(value = "/sample/helloworld")
@@ -198,50 +197,16 @@ public class SampleRestController {
   @ApiOperation(value = "영화관 정보 등록 수동처리")
   @GetMapping("/sample/saveCinemaLocationByManual")
   public ResponseEntity<Object> saveCinemaLocationByManual() {
-    MapUtil m = new MapUtil();
-    ObjectMapper mapper = new ObjectMapper();
-    InputStream is = this.getClass().getResourceAsStream("/lotteCinemaLocation.json");
-    try {
-      lotteCineLocalRepository.deleteAll();
-      List<CinemaLocation> list = mapper.readValue(is, new TypeReference<List<CinemaLocation>>(){});
-      for(CinemaLocation v : list) {
-        if(m.searchLocalePointWithGoogle(v.getAddress()).getResults().size() > 0) {
-          MapGoogleResultGeometryVO geo = m.searchLocalePointWithGoogle(v.getAddress()).getResults().get(0).getGeometry();
-          final GeoJsonPoint locationPoint = new GeoJsonPoint(geo.getLocationLng(), geo.getLocationLat());
-          v.setLocation(locationPoint);
-        }
-      }
-      // db 저장
-      lotteCineLocalRepository.insert(list);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return new ResponseEntity<Object>(HttpStatus.OK);
+    sampleService.collectionCinemaLocation();
+    return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
   }
 
   @ApiOperation(value = "영화 상영관 정보 수동 처리")
   @GetMapping("/sample/saveCinemaInfoByManual")
   public ResponseEntity<Object> saveCinemaInfoByManual() {
-    try {
-      //step1. Collect Data
-      CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
-      ch.addExecuteNode(new LotteCinemaNode());
-      ch.addObserver(o -> {
-        //DB delete
-        mongoDBCrawler.deleteAll();
-        //DB Insert
-        o.parallelStream().forEach(v -> {
-          mongoDBCrawler.insert(v);
-        });
-        //완료 후 최종 이벤트 처리
-        template.convertAndSend("/topic/messages",
-            new SampleMessage("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
-      });
-      ch.execute();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return new ResponseEntity<Object>(HttpStatus.OK);
+    // 비동기 처리
+    sampleService.collectionCinemaMovieInfo();
+    return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
   }
 
   @ApiOperation(value = "상영 영화 크롤링 데이터 리스트")
