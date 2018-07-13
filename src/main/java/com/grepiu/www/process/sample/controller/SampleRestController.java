@@ -83,10 +83,7 @@ public class SampleRestController {
 
   @Autowired
   private UserRepository userRepository;
-
-  @Autowired
-  private TestMongoDBRepository repository;
-
+  
   @Autowired
   private LotteCineDBRepository lotteCineDBRepository;
 
@@ -160,7 +157,7 @@ public class SampleRestController {
   /**
    * 몽고 DB 유저 등록 RestAPI
    */
-  @ApiOperation(value = "유저등록")
+  @ApiOperation(value = "일반유저등록")
   @PostMapping("/sample/mongodb/users")
   public ResponseEntity<Void> addSampleUser(@RequestParam String id, @RequestParam String password) {
     try {
@@ -179,6 +176,7 @@ public class SampleRestController {
   @GetMapping("/sample/mongodb/users")
   public ResponseEntity<List<User>> getSampleUser() {
     List<User> users = userRepository.findAll();
+
     return new ResponseEntity<List<User>>(users, HttpStatus.OK);
   }
 

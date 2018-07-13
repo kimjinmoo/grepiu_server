@@ -8,7 +8,7 @@ import lombok.Data;
 public class UserCreateForm {
 
   @NotEmpty
-  private String email = "";
+  private String id = "";
 
   @NotEmpty
   private String password = "";

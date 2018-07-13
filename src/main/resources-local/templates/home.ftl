@@ -28,7 +28,7 @@
 <body>
 <noscript><h2 style="color: #ff0000">자바스크립트를 지원하지 않습니다.</h2></noscript>
 <div id="main-content" class="container">
-   <#if currentUser??>
+   <#if userInfo??>
   <form action="/logout" method="post" name="frm_logout">
     <button type="button" name="logout_btn" onclick="logout()">Log out</button>
   </form>
@@ -39,7 +39,7 @@
          <form class="form-inline">
            <div class="form-group">
              <label for="connect"></label>
-             <input type="text" id="name" class="form-control" placeholder="성명" value="${currentUser.email!}" readonly>
+             <input type="text" id="name" class="form-control" placeholder="성명" value="${userInfo.id!}" readonly>
              <button id="connect" class="btn btn-default" type="submit">접속</button>
              <button id="disconnect" class="btn btn-default" type="button" disabled="disabled">연결취소</button>
            </div>
@@ -68,7 +68,7 @@
        </div>
      </div>
    <#else>
-     <div>Hello !! WORLD</div>
+     <div>GrepIU</div>
      <div><a href="/login">로그인</div>
    </#if>
 </div>

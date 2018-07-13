@@ -13,12 +13,12 @@ public class UserService {
   @Autowired
   private UserRepository userRepository;
 
-  public Optional<User> findUserByEmail(String email) {
-    return userRepository.findUserByEmail(email);
+  public Optional<User> findUserById(String id) {
+    return userRepository.findUserById(id);
   }
 
   public User saveUser(UserCreateForm form) {
-    User user = User.build(form.getEmail(), form.getPassword(), form.getRole());
+    User user = User.build(form.getId(), form.getPassword(), form.getRole());
     return userRepository.save(user);
   }
 }

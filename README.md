@@ -1,9 +1,16 @@
 Springboot 2.0 Framework<br>
-##인텔리J CLI 기본 프레임웍 구현<br>
-Web<br>
+##프레임웍 구현<br>
+MVC Web<br>
 Freemarker<br>
 Mybatis<br>
-MongoDB + Maria DB 이용<br>
+MongoDB connect<br>
+MariaDB connect</br>
+
+History
+<pre>
+1. Spring Oauth => Spring cloud 변경
+=> Oauth 적용시 GlobalAuthenticationConfigurerAdapter 에러 발생으로 변경
+</pre>
 
 #구동 전 필수 세팅 <br>
 ###<b>1. Mongo DB 설치</b><br>
@@ -28,14 +35,14 @@ db.createUser( { user: "<username>",
            roles: [ "root" ]
 })
 ex) db.createUser( { user: "iukim21c",pwd: "test1!", roles: [ "root" ]});
-use study
+use grepiu
 db.createUser( { user: "<username>",
            pwd: "<password>",
            roles: [ "readWrite"  ] 
 })
 ex)
-use study
-db.createUser( { user: "iukim21c", pwd: "xptmxm1!", roles: [ { role: "readWrite", db: "study" } ] })
+use grepiu
+db.createUser( { user: "iukim21c", pwd: "xptmxm1!", roles: [ { role: "readWrite", db: "grepiu" } ] })
 </pre>
 step4. 유저등록 후 몽고 서비스 재기동<br>
 <pre>

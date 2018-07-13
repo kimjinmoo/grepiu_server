@@ -3,6 +3,7 @@ package com.grepiu.www.process.common.config.auth.domain;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -14,13 +15,11 @@ public class User {
   @Id
   private String id;
 
-  private String email;
-
   private String passwordHash;
 
   private Role role;
 
-  public static User build(String email, String plainPassword, Role role) {
-    return builder().email(email).passwordHash(new BCryptPasswordEncoder().encode(plainPassword)).role(role).build();
+  public static User build(String id, String plainPassword, Role role) {
+    return builder().id(id).passwordHash(new BCryptPasswordEncoder().encode(plainPassword)).role(role).build();
   }
 }

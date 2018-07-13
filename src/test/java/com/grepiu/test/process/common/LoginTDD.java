@@ -27,12 +27,20 @@ public class LoginTDD extends LocalBaseConfig {
   }
 
   @Test
+  public void searchId() {
+    Optional<User> user = userRepository.findUserById("iukim21c@gmail.com");
+    if(user.isPresent()) {
+      log.debug("user : {} ", user.get());
+    }
+  }
+
+  @Test
   public void createUser() {
     //given
-    User user = User.build("iukim21c@gmail.com","test", Role.USER);
+    User user = User.build("iukim21c@gmail.com","xptmxm1!@", Role.USER);
     //when
     userRepository.save(user);
-    Optional<User> userCheck = userService.findUserByEmail("iukim21c@gmail.com");
+    Optional<User> userCheck = userService.findUserById("iukim21c@gmail.com");
     //then
     Assert.assertTrue(userCheck.isPresent());
   }

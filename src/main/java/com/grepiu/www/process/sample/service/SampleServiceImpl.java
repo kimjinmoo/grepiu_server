@@ -39,9 +39,6 @@ public class SampleServiceImpl implements SampleService {
     private SampleMapper sampleMapper;
 
     @Autowired
-    private TestMongoDBRepository repository;
-
-    @Autowired
     private LotteCineDBRepository mongoDBCrawler;
 
     @Autowired
