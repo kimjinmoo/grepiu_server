@@ -3,16 +3,25 @@ package com.grepiu.www.process.common.tools.crawler.node;
 import java.net.URL;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * 크롤링 기본 노드 - selenium 기반 개발
+ * // 프록시 List : http://www.gatherproxy.com/proxylist/country/?c=Republic%20of%20Korea
+ * // 프록시 메뉴얼 : https://www.seleniumhq.org/docs/04_webdriver_advanced.jsp
+ *
  */
 public abstract class BaseNode<T> {
 
@@ -44,7 +53,27 @@ public abstract class BaseNode<T> {
     } catch (Exception e) {
       throw new RuntimeException("초기화에 실패 하였습니다.");
     }
+  }
 
+  public void initChromeRemote(String startUrl, boolean isProxy) {
+    try {
+      if(isProxy){
+        Proxy proxy = new Proxy();
+        proxy.setHttpProxy("14.63.226.198:80");
+        DesiredCapabilities cap = new DesiredCapabilities();
+        cap.setCapability(CapabilityType.PROXY, proxy);
+        cap.setBrowserName(BrowserType.CHROME);
+        cap.setPlatform(Platform.ANY);
+        this.driver = new RemoteWebDriver(new URL("http://selenium.grepiu.com/wd/hub"), cap);
+      } else {
+        this.driver = new RemoteWebDriver(new URL("http://selenium.grepiu.com/wd/hub"),
+            DesiredCapabilities.chrome());
+      }
+      this.driver.get(startUrl);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException("초기화에 실패 하였습니다.");
+    }
   }
 
   public void initFirefox(String url) {

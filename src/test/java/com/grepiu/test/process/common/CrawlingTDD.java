@@ -4,6 +4,7 @@ import com.grepiu.test.process.config.LocalBaseConfig;
 import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
+import com.grepiu.www.process.common.tools.crawler.node.SampleNode;
 import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -29,7 +30,19 @@ public class CrawlingTDD extends LocalBaseConfig {
      * @throws Exception
      */
     @Test
-    public void doCollect() throws Exception {
+    public void doCollectSample() throws Exception {
+        CrawlerHelper<Object> crawler = new CrawlerHelper<>();
+        crawler.addExecuteNode(new SampleNode());
+        crawler.execute();
+    }
+
+    /**
+     *
+     * 예매 사이트 데이터 가져오기
+     * @throws Exception
+     */
+    @Test
+    public void doCollectLotte() throws Exception {
         CrawlerHelper<Cinema> crawler = new CrawlerHelper<>();
         crawler.addExecuteNode(new LotteCinemaNode());
         crawler.addObserver(o -> {
@@ -43,6 +56,8 @@ public class CrawlingTDD extends LocalBaseConfig {
         crawler.execute();
         log.info("lotte : {}", crawler.getData());
     }
+
+
     /**
      *
      * 롯데 시네마 위치 정보 수집
