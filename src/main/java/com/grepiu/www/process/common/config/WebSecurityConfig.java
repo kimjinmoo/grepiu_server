@@ -77,18 +77,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(currentUserDetailService)
         .passwordEncoder(new BCryptPasswordEncoder());
+//      auth.inMemoryAuthentication()
+//          .withUser("min").password("min").roles("USER");
   }
 
   @Bean
-  public TokenStore tokenStore() {
-    return new JwtTokenStore(accessTokenConverter());
-  }
-
-  @Bean
-  public JwtAccessTokenConverter accessTokenConverter() {
-    JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-    converter.setSigningKey("123");
-    return converter;
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   @Override

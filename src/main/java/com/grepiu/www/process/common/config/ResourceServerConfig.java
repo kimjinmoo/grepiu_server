@@ -19,17 +19,17 @@ import org.springframework.stereotype.Component;
  * 리소스 서버 설정 정보
  *
  */
-//@Configuration
-//@EnableResourceServer
+@Configuration
+@EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-  private static final String RESOURCE_ID = "resource_id";
+  private static final String RESOURCE_ID = "grepiu";
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
     http.anonymous().disable()
         .authorizeRequests()
-        .antMatchers("/api/**").authenticated()
+        .antMatchers("/sample/crawler/cine/locale").access("#oauth2.hasScope('read')")
         .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
   }
 
