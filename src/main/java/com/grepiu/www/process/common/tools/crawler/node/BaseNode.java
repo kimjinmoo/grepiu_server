@@ -60,7 +60,7 @@ public abstract class BaseNode<T> {
       if(isProxy){
         Proxy proxy = new Proxy();
         //todo. DB or File Set 가능하게 변경 예정
-        proxy.setHttpProxy("61.78.100.240:80");
+        proxy.setHttpProxy("175.126.172.243:80");
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(CapabilityType.PROXY, proxy);
         cap.setBrowserName(BrowserType.CHROME);
