@@ -2,7 +2,6 @@ package com.grepiu.www.process.sample.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.Http;
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.config.auth.dao.UserRepository;
 import com.grepiu.www.process.common.config.auth.domain.Role;
