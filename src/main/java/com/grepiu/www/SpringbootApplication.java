@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -26,7 +27,6 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
  * EnableAspectJAutoProxy : AOP 사용하게 한다. ref. https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/EnableAspectJAutoProxy.html
  * EnableScheduling : Spring 스케쥴러를 사용 가능하게 한다. ref. https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableScheduling.html
  * EnableMongoAuditing : 스프링 Data MongoDB 를 사용가능하게 한다. ref. https://docs.spring.io/spring-data/mongodb/docs/1.5.6.RELEASE/reference/html/mongo.core.html
- * EnableResourceServer : Spring Oauth2 리소스 서버로 만들어준다. ref. https://docs.spring.io/spring-security/oauth/apidocs/org/springframework/security/oauth2/config/annotation/web/configuration/EnableResourceServer.html
  */
 @SpringBootApplication
 @EnableAsync

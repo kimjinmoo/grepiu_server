@@ -1,9 +1,11 @@
 package com.grepiu.www.process.common.config;
 
 import com.grepiu.www.process.common.config.auth.service.MongoClientDetailsService;
+import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -15,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  *
@@ -42,9 +45,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
   @Autowired
   private AuthenticationManager authenticationManager;
-
-  @Autowired
-  private MongoClientDetailsService mongoClientDetailsService;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -85,5 +85,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
   public TokenStore tokenStore() {
     return new InMemoryTokenStore();
   }
+
+//  @Bean
+//  public JedisConnectionFactory jedisConnectionFactory(){
+//    RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("52.78.158.161",6379);
+//    JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
+//    jedisClientConfiguration.connectTimeout(Duration.ofSeconds(60));// 60s connection timeout
+//    jedisClientConfiguration.usePooling();
+//
+//    JedisConnectionFactory factory = new JedisConnectionFactory(redisStandaloneConfiguration,
+//        jedisClientConfiguration.build());
+//    return factory;
+//  }
 
 }
