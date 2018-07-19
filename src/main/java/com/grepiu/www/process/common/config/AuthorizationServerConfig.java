@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration.JedisClientConfigurationBuilder;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -67,7 +71,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //    clients.withClientDetails(mongoClientDetailsService);
     clients.inMemory()
         .withClient(CLIEN_ID)
-        .authorizedGrantTypes(GRANT_TYPE_PASSWORD)
+        .authorizedGrantTypes(GRANT_TYPE_PASSWORD,"refresh_token")
         .authorities("USER")
         .scopes(SCOPE_READ, SCOPE_WRITE)
         .resourceIds("grepiu")
@@ -85,17 +89,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
   public TokenStore tokenStore() {
     return new InMemoryTokenStore();
   }
-
-//  @Bean
-//  public JedisConnectionFactory jedisConnectionFactory(){
-//    RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("52.78.158.161",6379);
-//    JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
-//    jedisClientConfiguration.connectTimeout(Duration.ofSeconds(60));// 60s connection timeout
-//    jedisClientConfiguration.usePooling();
-//
-//    JedisConnectionFactory factory = new JedisConnectionFactory(redisStandaloneConfiguration,
-//        jedisClientConfiguration.build());
-//    return factory;
-//  }
-
 }

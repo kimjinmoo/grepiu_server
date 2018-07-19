@@ -50,39 +50,39 @@ sourceSets {
 		}
 	}
 }
-ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+//ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
 
 // 환경 파일 Set
-if (project.hasProperty('profile')) {
-	sourceSets.main.resources.srcDirs += "src/main/resources-${project.getProperty('profile')}"
-} else {
-	sourceSets.main.resources.srcDirs += "src/main/resources-local"
-}
+//if (project.hasProperty('profile')) {
+//	sourceSets.main.resources.srcDirs += "src/main/resources-${project.getProperty('profile')}"
+//} else {
+//	sourceSets.main.resources.srcDirs += "src/main/resources-local"
+//}
 
 // local 개발 환경 시작
-if(ext.profile == 'local') {
-	// mongodb
-	println '로컬 환경을 테스트 check 합니다.'
-	println 'MongoDb 확인....'
-
-	task preBuild  {
-		def classesDir = new File('/data/db');
-		doFirst {
-			println 'DB 경로 : ' + classesDir.isDirectory();
-			if (classesDir.isDirectory()) {
-				println 'Mongo DB 디레토리 확인됨.'
-			} else {
-				println '경로가 없어 생성합니다.'
-				classesDir.mkdirs()
-			}
-			println 'MongoDb 확인 완료'
-		}
-	}
-	task executeJob {
-		println "Custom Job 등록"
-	}
-	compileJava.dependsOn(preBuild,executeJob)
-}
+//if(ext.profile == 'local') {
+//	// mongodb
+//	println '로컬 환경을 테스트 check 합니다.'
+//	println 'MongoDb 확인....'
+//
+//	task preBuild  {
+//		def classesDir = new File('/data/db');
+//		doFirst {
+//			println 'DB 경로 : ' + classesDir.isDirectory();
+//			if (classesDir.isDirectory()) {
+//				println 'Mongo DB 디레토리 확인됨.'
+//			} else {
+//				println '경로가 없어 생성합니다.'
+//				classesDir.mkdirs()
+//			}
+//			println 'MongoDb 확인 완료'
+//		}
+//	}
+//	task executeJob {
+//		println "Custom Job 등록"
+//	}
+//	compileJava.dependsOn(preBuild,executeJob)
+//}
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.3.RELEASE'
