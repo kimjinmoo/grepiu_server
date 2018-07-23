@@ -1,16 +1,21 @@
 package com.grepiu.www.process.common.config;
 
+import com.grepiu.www.process.common.config.auth.domain.Role;
 import com.grepiu.www.process.common.config.auth.service.MongoClientDetailsService;
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration.JedisClientConfigurationBuilder;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -45,10 +50,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
   static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
 
   @Autowired
-  private TokenStore tokenStore;
+  private AuthenticationManager authenticationManager;
 
   @Autowired
-  private AuthenticationManager authenticationManager;
+  private JedisConnectionFactory jedisConnectionFactory;
+
+  @Autowired
+  private UserDetailsService currentUserDetailService;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -68,25 +76,27 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
    */
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//    clients.withClientDetails(mongoClientDetailsService);
+/*//    clients.withClientDetails(mongoClientDetailsService);*/
     clients.inMemory()
         .withClient(CLIEN_ID)
-        .authorizedGrantTypes(GRANT_TYPE_PASSWORD,"refresh_token")
-        .authorities("USER")
+        .authorizedGrantTypes("password", "client_credentials", "authorization_code", "refresh_token")
+        .authorities(Role.USER.toString())
         .scopes(SCOPE_READ, SCOPE_WRITE)
-        .resourceIds("grepiu")
-        .secret(passwordEncoder.encode(CLIENT_SECRET));
+//        .resourceIds("grepiu")
+        .secret(new BCryptPasswordEncoder().encode(CLIENT_SECRET));
   }
 
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-//    endpoints.authenticationManager(authenticationManager);
-    endpoints.tokenStore(tokenStore)
-        .authenticationManager(authenticationManager);
+    endpoints.tokenStore(tokenStore())
+        .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+        .authenticationManager(authenticationManager)
+        .userDetailsService(currentUserDetailService);
   }
 
   @Bean
   public TokenStore tokenStore() {
     return new InMemoryTokenStore();
   }
+
 }

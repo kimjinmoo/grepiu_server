@@ -5,7 +5,7 @@
 </head>
 <body>
 <form action="/login" method="post">
-  <#if error??>
+  <#if RequestParameters.error??>
       잘못된 비밀번호입니다.
   </#if>
   <div><label> User Name : <input type="text" name="id"/> </label></div>

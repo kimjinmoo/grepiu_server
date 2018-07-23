@@ -3,12 +3,15 @@ package com.grepiu.www.process.common.config.auth.controller;
 import com.grepiu.www.process.common.config.auth.dao.UserRepository;
 import com.grepiu.www.process.common.config.auth.domain.User;
 import com.grepiu.www.process.common.config.auth.domain.UserCreateForm;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +48,11 @@ public class BaseController {
     }
     User user = User.build(form.getId(), form.getPassword(), form.getRole());
     return userRepository.save(user);
+  }
+
+  @GetMapping("/user")
+  public @ResponseBody Object user(Principal principal) {
+    return principal.getName();
   }
 
 

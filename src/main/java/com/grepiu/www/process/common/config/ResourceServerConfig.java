@@ -3,7 +3,9 @@ package com.grepiu.www.process.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -27,15 +29,27 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    http.anonymous().disable()
-        .authorizeRequests()
-        .antMatchers("/sample/crawler/cine/locale").access("#oauth2.hasScope('read')")
-        .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+    http.authorizeRequests()
+        .antMatchers(HttpMethod.GET, "/sample/ddff").access("#oauth2.hasScope('read')")
+        .antMatchers(HttpMethod.POST, "/login").permitAll();
+//        .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
+//        .antMatchers(HttpMethod.POST, "/**").permitAll()
+//        .antMatchers(HttpMethod.PATCH, "/**").access("#oauth2.hasScope('write')")
+//        .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
+//        .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')")
+//        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//        .and()
+//        .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
   }
 
   @Override
   public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-    resources.resourceId(RESOURCE_ID).stateless(false);
+    super.configure(resources);
   }
+
+//  @Override
+//  public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+//    resources.resourceId(RESOURCE_ID).stateless(false);
+//  }
 
 }

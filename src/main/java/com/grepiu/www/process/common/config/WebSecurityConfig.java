@@ -3,15 +3,19 @@ package com.grepiu.www.process.common.config;
 import com.grepiu.www.process.common.config.auth.domain.Role;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +23,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -46,23 +52,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable().authorizeRequests()
+    http.sessionManagement()
+          .maximumSessions(1) // 로그인은 한명만 허용
+        .and()
+        .and()
+        .cors()
+        .and()
+        .csrf()
+          .disable()
+        .authorizeRequests()
         // 일반적인 Open 정책
-        .antMatchers("/signUp").permitAll()
-        .antMatchers("/sample/**").permitAll()
-        .antMatchers("/static/resources/css/resources/**/*", "/webjars/**", "/ws/**/*", "/app/**", "/topic/messages").permitAll()
-        .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
+        .antMatchers("/sample/**", "/signUp", "/static/resources/css/resources/**/*", "/webjars/**",
+            "/ws/**/*", "/app/**", "/topic/messages", "/v2/api-docs", "/configuration/ui",
+            "/swagger-resources",
             "/configuration/security", "/swagger-resources/configuration/ui",
-            "/swagger-resources/configuration/security", "/null/**").permitAll()
-        .antMatchers("swagger-ui.html").hasRole("USER")
-        //.anyRequest().authenticated()
+            "/swagger-resources/configuration/security", "/null/**","/swagger-ui.html*","/").permitAll()
+        .anyRequest().authenticated()
         .and()
-        .formLogin().loginPage("/login").usernameParameter("id").passwordParameter("passwd")
-        .defaultSuccessUrl("/", true).permitAll()
+        .formLogin()
+          .loginPage("/login")
+          .usernameParameter("id")
+          .passwordParameter("passwd")
+          .defaultSuccessUrl("/", true)
+          .failureUrl("/login?error=true")
+         .permitAll()
         .and()
-        .logout().logoutSuccessUrl("/login").permitAll()
-        .and().httpBasic()
-        .and().rememberMe();
+        .logout()
+          .logoutSuccessUrl("/login")
+          .logoutSuccessUrl("/");
   }
 
   /**
@@ -76,13 +93,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(currentUserDetailService)
-        .passwordEncoder(new BCryptPasswordEncoder());
-//      auth.inMemoryAuthentication()
-//          .withUser("min").password("min").roles("USER");
+        .passwordEncoder(passwordEncoder());
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder(){
     return new BCryptPasswordEncoder();
   }
 

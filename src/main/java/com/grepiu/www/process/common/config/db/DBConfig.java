@@ -13,6 +13,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -21,6 +26,22 @@ public class DBConfig {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Bean
+    @Profile("local")
+    public JedisConnectionFactory jedisConnectionFactoryLocal() {
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("52.78.158.161", 6379);
+//        redisStandaloneConfiguration.setPassword(RedisPassword.of("yourRedisPasswordIfAny"));
+        return new JedisConnectionFactory(redisStandaloneConfiguration);
+    }
+
+    @Bean
+    @Profile("prod")
+    public JedisConnectionFactory jedisConnectionFactoryProd() {
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("127.0.0.1", 6379);
+//        redisStandaloneConfiguration.setPassword(RedisPassword.of("yourRedisPasswordIfAny"));
+        return new JedisConnectionFactory(redisStandaloneConfiguration);
+    }
 
     @Bean
     @Primary

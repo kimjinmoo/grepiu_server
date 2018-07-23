@@ -30,11 +30,13 @@ public class BaseControllerAdvice {
 
   @ExceptionHandler(value = Exception.class)
   public @ResponseBody Object exception(Exception e) {
+    e.printStackTrace();
     return new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage());
   }
 
   @ExceptionHandler(value = ValidationException.class)
   public @ResponseBody Object validationException(ValidationException e) {
+    e.printStackTrace();
     return new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage());
   }
 }
