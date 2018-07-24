@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -51,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
    * @throws Exception
    */
   @Override
+  @Order(Ordered.HIGHEST_PRECEDENCE)
   protected void configure(HttpSecurity http) throws Exception {
     http.sessionManagement()
           .maximumSessions(1) // 로그인은 한명만 허용
