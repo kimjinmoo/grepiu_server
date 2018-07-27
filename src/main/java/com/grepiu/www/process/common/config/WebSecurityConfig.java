@@ -2,14 +2,16 @@ package com.grepiu.www.process.common.config;
 
 import com.grepiu.www.process.common.config.auth.domain.Role;
 import java.util.Arrays;
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +30,7 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
@@ -58,17 +61,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
           .maximumSessions(1) // 로그인은 한명만 허용
         .and()
         .and()
-        .cors()
+        .cors().configurationSource(corsConfigurationSource())
         .and()
         .csrf()
           .disable()
         .authorizeRequests()
         // 일반적인 Open 정책
-        .antMatchers("/sample/**", "/signUp", "/static/resources/css/resources/**/*", "/webjars/**",
+        .antMatchers("/sample/**", "/signUp", "/resources/**/*", "/webjars/**",
             "/ws/**/*", "/app/**", "/topic/messages", "/v2/api-docs", "/configuration/ui",
             "/swagger-resources",
             "/configuration/security", "/swagger-resources/configuration/ui",
-            "/swagger-resources/configuration/security", "/null/**","/swagger-ui.html*","/").permitAll()
+            "/swagger-resources/configuration/security", "/null/**","/swagger-ui.html*"
+            ).permitAll()
         .anyRequest().authenticated()
         .and()
         .formLogin()
@@ -109,4 +113,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     return super.authenticationManagerBean();
   }
 
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("*"));
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
+    configuration.setAllowCredentials(true);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
 }

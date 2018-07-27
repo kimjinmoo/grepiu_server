@@ -1,29 +1,20 @@
 package com.grepiu.www.process.sample.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.config.auth.dao.UserRepository;
 import com.grepiu.www.process.common.config.auth.domain.Role;
 import com.grepiu.www.process.common.config.auth.domain.User;
+import com.grepiu.www.process.common.config.Oauth2ClientConfig;
 import com.grepiu.www.process.common.helper.FileHelper;
-import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
-import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
-import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.domain.FileVO;
-import com.grepiu.www.process.common.tools.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.utils.CollectionUtil;
 import com.grepiu.www.process.common.utils.DateUtil;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
-import com.grepiu.www.process.common.utils.MapUtil;
 import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
 import com.grepiu.www.process.sample.dao.LotteCineLocalRepository;
-import com.grepiu.www.process.sample.dao.PostRepository;
-import com.grepiu.www.process.sample.dao.TestMongoDBRepository;
 import com.grepiu.www.process.sample.domain.Post;
 import com.grepiu.www.process.sample.domain.SampleMessage;
-import com.grepiu.www.process.sample.domain.TestUser;
 import com.grepiu.www.process.sample.service.PostService;
 import com.grepiu.www.process.sample.service.SampleService;
 import com.grepiu.www.process.sample.service.SampleTaskService;
@@ -33,36 +24,27 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
-import java.io.File;
-import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -102,6 +84,10 @@ public class SampleRestController {
   private PostService postService;
 
   @Autowired
+  private Oauth2ClientConfig oauth2Service;
+
+
+  @Autowired
   private FileHelper fileHelper;
 
 
@@ -112,6 +98,11 @@ public class SampleRestController {
     return new ModelAndView("home");
   }
 
+  @ApiOperation("Oauth 기반 로그인")
+  @GetMapping("/sample/oauth/login")
+  public ResponseEntity<Object> oauthLogin(){
+    return new ResponseEntity<>(null, HttpStatus.OK);
+  }
   /**
    *
    * 날짜를 가져온다. JAVA8 LocalDateTime 이용

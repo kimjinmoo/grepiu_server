@@ -1,11 +1,15 @@
 package com.grepiu.www.process.common.config;
 
 import com.grepiu.www.process.common.config.auth.domain.Role;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +17,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestOperations;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.AccessTokenRequest;
+import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -24,7 +35,18 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.stereotype.Service;
+import redis.clients.jedis.JedisPoolConfig;
 
+/**
+ *
+ * Spring Oauth 설정
+ *   ref - https://spring.io/projects/spring-security-oauth
+ *         https://spring.io/guides/tutorials/spring-boot-oauth2/
+ *
+ *
+ */
 @Configuration
 public class Oauth2ServerConfig {
 
@@ -36,7 +58,8 @@ public class Oauth2ServerConfig {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-      http.anonymous().disable()
+      http
+          .anonymous().disable()
           .requestMatchers().antMatchers("/api/v1/**")
           .and().authorizeRequests()
           .antMatchers("/api/v1/**").access("#oauth2.hasScope('read')")
@@ -84,9 +107,13 @@ public class Oauth2ServerConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${grepiu.oauth.login}")
+    private String loginUrl;
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-      oauthServer.tokenKeyAccess("permitAll()")
+      oauthServer
+          .tokenKeyAccess("permitAll()")
           .checkTokenAccess("isAuthenticated()");
     }
 
@@ -100,27 +127,31 @@ public class Oauth2ServerConfig {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
       /*//    clients.withClientDetails(mongoClientDetailsService);*/
-      clients.inMemory()
+      clients
+          .inMemory()
           .withClient(CLIEN_ID)
           .authorizedGrantTypes("password", "client_credentials", "authorization_code", "refresh_token")
           .authorities(Role.USER.toString())
           .scopes(SCOPE_READ, SCOPE_WRITE)
 //        .resourceIds("grepiu")
-          .secret(new BCryptPasswordEncoder().encode(CLIENT_SECRET));
+          .secret(passwordEncoder.encode(CLIENT_SECRET))
+          .accessTokenValiditySeconds(100)
+          .refreshTokenValiditySeconds(600)
+          .redirectUris(loginUrl);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
       endpoints.tokenStore(tokenStore())
-          .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
           .authenticationManager(authenticationManager)
           .userDetailsService(currentUserDetailService);
     }
 
     @Bean
     public TokenStore tokenStore() {
-      return new InMemoryTokenStore();
+      RedisTokenStore redisTokenStore = new RedisTokenStore(jedisConnectionFactory);
+      redisTokenStore.setPrefix("grepiu-user-token:");
+      return redisTokenStore;
     }
-
   }
 }

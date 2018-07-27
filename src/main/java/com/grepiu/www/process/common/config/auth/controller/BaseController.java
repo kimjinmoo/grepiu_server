@@ -1,8 +1,10 @@
 package com.grepiu.www.process.common.config.auth.controller;
 
 import com.grepiu.www.process.common.config.auth.dao.UserRepository;
+import com.grepiu.www.process.common.config.auth.domain.Response;
 import com.grepiu.www.process.common.config.auth.domain.User;
 import com.grepiu.www.process.common.config.auth.domain.UserCreateForm;
+import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Optional;
@@ -10,13 +12,18 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
@@ -40,14 +47,14 @@ public class BaseController {
     return "signUp";
   }
 
+  @ApiOperation("회원가입을 한다.")
   @PostMapping("/signUp")
-  public @ResponseBody
-  Object signUp(@Valid UserCreateForm form) throws Exception {
+  public @ResponseBody ResponseEntity<Object> signUp(@Valid UserCreateForm form) throws Exception {
     if(userRepository.findUserById(form.getId()).isPresent()){
       throw new ValidationException("중복된 사용자가 존재 합니다.");
     }
     User user = User.build(form.getId(), form.getPassword(), form.getRole());
-    return userRepository.save(user);
+    return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
   }
 
   @GetMapping("/user")
