@@ -17,8 +17,7 @@ server:
   port: 8010
 
 spring:
-  profiles:
-    active: local
+  profiles: local
   aop:
     proxy-target-class: true
   application:
@@ -66,8 +65,7 @@ server:
   port: 8080
 
 spring:
-  profiles:
-    active: prod
+  profiles: prod
   aop:
     proxy-target-class: true
   application:
