@@ -107,7 +107,7 @@ public class Oauth2ServerConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Value("${grepiu.oauth.login}")
+    @Value("${grepiu.oauth.login.url}")
     private String loginUrl;
 
     @Override

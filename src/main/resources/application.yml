@@ -1,0 +1,97 @@
+#GrepIU Config YAML
+grepiu:
+  file:
+    path: "C:/data/fileupload/"
+  oauth:
+    login:
+      url: "http://localhost:8010"
+    token:
+      url: "http://localhost:8010/oauth/token"
+
+management:
+  health:
+    db:
+      enabled: false
+
+server:
+  port: 8010
+
+spring:
+  profiles:
+    active: local
+  aop:
+    proxy-target-class: true
+  application:
+    admin:
+      enabled: false
+  data:
+    mongodb:
+      database: grepiu
+      host: "52.78.158.161"
+      username: grAdmin
+      password: rhksflwkrPwjd1!
+      port: 27017
+      repositories:
+       type: auto
+    redis:
+       host: "52.78.158.161"
+       port: 6379
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 128KB
+      max-request-size: 128KB
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+---
+
+grepiu:
+  file:
+    path: "/home/server/data/"
+  oauth:
+    login:
+      url: "https://www.grepiu.com/login"
+    token:
+      url: "https://conf.grepiu.com/oauth/token"
+
+management:
+  health:
+    db:
+      enabled: false
+
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: prod
+  aop:
+    proxy-target-class: true
+  application:
+    admin:
+      enabled: false
+  data:
+    mongodb:
+      database: grepiu
+      host: "127.0.0.1"
+      username: grAdmin
+      password: rhksflwkrPwjd1!
+      port: 27017
+      repositories:
+       type: auto
+    redis:
+       host: "127.0.0.1"
+       port: 6379
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 128KB
+      max-request-size: 128KB
+
+logging:
+  level:
+    org.springframework.web: INFO
+  file: "/home/server/log/app.log"

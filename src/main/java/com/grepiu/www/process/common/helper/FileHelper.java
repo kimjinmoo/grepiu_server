@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileHelper {
 
   // 기본 최상위 경로
-  @Value(value = "${com.grepiu.com.file.root.path}")
+  @Value(value = "${grepiu.file.path}")
   private String rootPath;
 
   /**
