@@ -293,4 +293,17 @@ public class SampleRestController {
     postService.deleteById(id);
     return new ResponseEntity<Void>(HttpStatus.OK);
   }
+
+  /**
+   *
+   * 로그인 엑세스 토큰을 획득한다.
+   *
+   * @param id
+   * @param passwd
+   * @return
+   */
+  @GetMapping("/oauth/login")
+  public ResponseEntity<Object> getAccess(@RequestParam String id, @RequestParam String passwd) {
+    return new ResponseEntity<>(oauth2Service.getAccessToken(id, passwd), HttpStatus.OK);
+  }
 }
