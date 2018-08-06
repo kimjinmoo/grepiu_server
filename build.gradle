@@ -114,7 +114,7 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
 	// Lombok 플로그인
-	compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+	compile group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
 
 	// https://mvnrepository.com/artifact/org.jsoup/jsoup 크롤링
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'

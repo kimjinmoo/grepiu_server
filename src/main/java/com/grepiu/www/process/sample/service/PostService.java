@@ -2,14 +2,17 @@ package com.grepiu.www.process.sample.service;
 
 
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.common.utils.DateUtil;
 import com.grepiu.www.process.sample.dao.PostRepository;
 import com.grepiu.www.process.sample.domain.Post;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 /**
@@ -70,7 +73,7 @@ public class PostService {
    */
   public HashMap<String, Object> findAllPage(int page, int size) {
     HashMap<String, Object> r = Maps.newHashMap();
-    Page<Post> p = postRepository.findAll(PageRequest.of(page,size, Direction.DESC, "regDate"));
+    Page<Post> p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
     r.put("list", p.getContent());
     r.put("tPage", p.getTotalPages());
     r.put("tCount", postRepository.count());
