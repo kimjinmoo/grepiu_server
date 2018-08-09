@@ -29,6 +29,8 @@ public class Post {
   @ApiModelProperty(hidden = true, value = "일련번호")
   @Id
   private String id;
+  @ApiModelProperty(hidden = true, value = "일련번호")
+  private int seq;
   @ApiModelProperty(required = true, value = "범주")
   @NotNull @NotEmpty
   private String category;

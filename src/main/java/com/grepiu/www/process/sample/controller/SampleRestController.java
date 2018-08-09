@@ -265,6 +265,7 @@ public class SampleRestController {
   @ApiOperation("포스트 등록")
   @PostMapping("/sample/post")
   public ResponseEntity<Object> savePost(@RequestBody Post post)  {
+    post.setSeq(postService.getNextSequence("post"));
     return new ResponseEntity<>(postService.save(post), HttpStatus.OK);
   }
 
