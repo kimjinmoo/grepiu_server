@@ -5,7 +5,7 @@ import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.SampleNode;
-import com.grepiu.www.process.sample.dao.LotteCineDBRepository;
+import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

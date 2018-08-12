@@ -1,12 +1,10 @@
 package com.grepiu.www.process.common.helper;
 
 import com.google.common.collect.Lists;
-import com.grepiu.www.process.common.tools.domain.FileVO;
+import com.grepiu.www.process.api.domain.FileVO;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
-import lombok.extern.java.Log;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;

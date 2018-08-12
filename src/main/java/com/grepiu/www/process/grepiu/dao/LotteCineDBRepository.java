@@ -1,4 +1,4 @@
-package com.grepiu.www.process.sample.dao;
+package com.grepiu.www.process.grepiu.dao;
 
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import java.util.List;

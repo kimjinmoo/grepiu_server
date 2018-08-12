@@ -1,6 +1,8 @@
-package com.grepiu.www.process.sample.domain;
+package com.grepiu.www.process.grepiu.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import javax.validation.constraints.NotEmpty;
@@ -21,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  * Post
  *
  */
-@AllArgsConstructor
+@JsonDeserialize(contentUsing = StringDeserializer.class, contentAs = String.class)
 @Data
 @Document(collection = "post")
 public class Post {

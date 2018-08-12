@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grepiu.test.process.config.LocalBaseConfig;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
-import com.grepiu.www.process.common.tools.domain.MapGoogleResultGeometryVO;
+import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.utils.MapUtil;
-import com.grepiu.www.process.sample.dao.LotteCineLocalRepository;
+import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
 import java.io.InputStream;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class MapsTDD extends LocalBaseConfig {
   public void getLocale() throws Exception {
     MapUtil m = new MapUtil();
     ObjectMapper mapper = new ObjectMapper();
-    InputStream is = this.getClass().getResourceAsStream("/lotteCinemaLocation.json");
+    InputStream is = this.getClass().getResourceAsStream("/config/lotteCinemaLocation.json");
     try {
       lotteCineLocalRepository.deleteAll();
        List<CinemaLocation> list = mapper.readValue(is, new TypeReference<List<CinemaLocation>>(){});

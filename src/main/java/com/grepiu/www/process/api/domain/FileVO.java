@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.tools.domain;
+package com.grepiu.www.process.api.domain;
 
 import lombok.Builder;
 import lombok.Data;

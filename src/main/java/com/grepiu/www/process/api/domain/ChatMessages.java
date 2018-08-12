@@ -1,4 +1,4 @@
-package com.grepiu.www.process.sample.domain;
+package com.grepiu.www.process.api.domain;
 
 public class ChatMessages {
 

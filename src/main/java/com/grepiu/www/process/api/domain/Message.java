@@ -1,23 +1,23 @@
-package com.grepiu.www.process.sample.domain;
+package com.grepiu.www.process.api.domain;
 
 /**
  *
  * 웹소켓 메세지 규격
  *
  */
-public class SampleMessage {
+public class Message {
     private String name;
     private String message;
     private String content;
 
-    public SampleMessage() {}
+    public Message() {}
 
-    public SampleMessage(String name, String message) {
+    public Message(String name, String message) {
         this.name = name;
         this.message = message;
     }
 
-    public SampleMessage(String name) {
+    public Message(String name) {
         this.name = name;
     }
 

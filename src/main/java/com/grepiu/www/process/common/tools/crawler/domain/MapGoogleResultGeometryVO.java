@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.tools.domain;
+package com.grepiu.www.process.common.tools.crawler.domain;
 
 import java.util.HashMap;
 import java.util.Optional;

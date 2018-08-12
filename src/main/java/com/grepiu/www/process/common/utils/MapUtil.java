@@ -1,6 +1,6 @@
 package com.grepiu.www.process.common.utils;
 
-import com.grepiu.www.process.common.tools.domain.MapGoogleVO;
+import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

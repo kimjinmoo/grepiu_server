@@ -1,10 +1,8 @@
-package com.grepiu.www.process.common.tools.domain;
+package com.grepiu.www.process.grepiu.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  *

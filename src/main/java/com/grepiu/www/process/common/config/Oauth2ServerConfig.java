@@ -60,9 +60,9 @@ public class Oauth2ServerConfig {
     public void configure(HttpSecurity http) throws Exception {
       http
           .anonymous().disable()
-          .requestMatchers().antMatchers("/api/v1/**")
+          .requestMatchers().antMatchers("/api/v2/**")
           .and().authorizeRequests()
-          .antMatchers("/api/v1/**").access("#oauth2.hasScope('read')")
+          .antMatchers("/api/v2/**").access("#oauth2.hasScope('read')")
           .and()
           .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }

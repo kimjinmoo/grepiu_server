@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
           .disable()
         .authorizeRequests()
         // 일반적인 Open 정책
-        .antMatchers("/sample/**", "/signUp", "/resources/**/*", "/webjars/**",
+        .antMatchers("/api/**","/grepiu/**", "/sample/**", "/signUp", "/resources/**/*", "/webjars/**",
             "/ws/**/*", "/app/**", "/topic/messages", "/v2/api-docs", "/configuration/ui",
             "/swagger-resources",
             "/configuration/security", "/swagger-resources/configuration/ui",
