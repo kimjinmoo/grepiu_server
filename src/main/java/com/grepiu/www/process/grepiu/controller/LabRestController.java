@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @ApiOperation("GrepIU Lab API")
 @RestController
-@RequestMapping("/grepiu")
+@RequestMapping("/grepiu/lab")
 @Slf4j
 public class LabRestController {
 
@@ -36,7 +36,7 @@ public class LabRestController {
     private LotteCineLocalRepository lotteCineLocalRepository;
 
     @ApiOperation(value = "영화관 정보 등록 수동처리")
-    @GetMapping("/lab/saveCinemaLocationByManual")
+    @GetMapping("/saveCinemaLocationByManual")
     public ResponseEntity<Object> saveCinemaLocationByManual() {
         labService.collectionCinemaLocation();
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.", HttpStatus.OK);
@@ -59,7 +59,7 @@ public class LabRestController {
 
     @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
     @ApiResponse(code = 200, message = "조회성공")
-    @GetMapping("/lab/crawler/cine/screen/{storeName}")
+    @GetMapping("/crawler/cine/screen/{storeName}")
     public ResponseEntity<Object> findCineByStoreName(@PathVariable("storeName") String storeName) {
         Optional<Cinema> o = lotteCineDBRepository.findAllBy().parallelStream()
                 .filter(v -> v.getMovieInfo().containsKey(storeName)).findFirst();
@@ -77,7 +77,7 @@ public class LabRestController {
 
     @ApiOperation(value = "인접한 영화관 찾기")
     @ApiResponse(code = 200, message = "조회성공")
-    @GetMapping("/lab/crawler/cine/near")
+    @GetMapping("/crawler/cine/near")
     public ResponseEntity<Object> findNearCinema(
             @ApiParam(value = "위도") @RequestParam("lat") Double lat,
             @ApiParam(value = "경도") @RequestParam("lng") Double lng,
