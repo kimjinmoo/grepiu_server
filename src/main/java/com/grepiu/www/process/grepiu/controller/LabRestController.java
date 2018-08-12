@@ -70,7 +70,7 @@ public class LabRestController {
 
     @ApiOperation(value = "시네마 매장 정보")
     @ApiResponse(code = 200, message = "조회성공")
-    @GetMapping("/grepiu/crawler/cine/locale")
+    @GetMapping("/crawler/cine/locale")
     public ResponseEntity<Object> getCineLocale() {
         return new ResponseEntity<Object>(lotteCineLocalRepository.findAllBy(), HttpStatus.OK);
     }
