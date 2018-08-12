@@ -59,7 +59,7 @@ public class MapsTDD extends LocalBaseConfig {
     } catch (Exception e) {
       e.printStackTrace();
     }
-//    File file = new ClassPathResource("").getFile();
+//    Files file = new ClassPathResource("").getFile();
 //    lotteCineLocalRepository.save()
 //    log.info("file : {}", file.isFile());
   }

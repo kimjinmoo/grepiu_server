@@ -59,7 +59,7 @@ public abstract class BaseNode<T> {
     try {
       if(isProxy){
         Proxy proxy = new Proxy();
-        //todo. DB or File Set 가능하게 변경 예정
+        //todo. DB or Files Set 가능하게 변경 예정
         proxy.setHttpProxy("175.126.172.243:80");
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(CapabilityType.PROXY, proxy);

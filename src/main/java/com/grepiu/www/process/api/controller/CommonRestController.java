@@ -1,10 +1,11 @@
 package com.grepiu.www.process.api.controller;
 
+import com.grepiu.www.process.api.dao.FileRepository;
+import com.grepiu.www.process.api.domain.Files;
 import com.grepiu.www.process.common.config.auth.dao.UserRepository;
 import com.grepiu.www.process.common.config.auth.domain.Role;
 import com.grepiu.www.process.common.config.auth.domain.User;
 import com.grepiu.www.process.common.helper.FileHelper;
-import com.grepiu.www.process.api.domain.FileVO;
 import com.mongodb.DuplicateKeyException;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -58,23 +59,21 @@ public class CommonRestController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
-
     @ApiOperation("Oauth 기반 로그인")
     @GetMapping("/oauth/login")
     public ResponseEntity<Object> oauthLogin(){
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-
     @ApiOperation(value = "단일 파일업로드")
     @PostMapping(path = "/{ver}/upload/file")
-    public ResponseEntity<FileVO> fileUpload(@PathVariable("ver") String ver, @RequestParam(required = true, name = "file") MultipartFile file) throws Exception {
-        return new ResponseEntity<FileVO>(fileHelper.uploadFile(file), HttpStatus.OK);
+    public ResponseEntity<Files> fileUpload(@PathVariable("ver") String ver, @RequestParam(required = true, name = "file") MultipartFile file) throws Exception {
+        return new ResponseEntity<Files>(fileHelper.uploadFile(file), HttpStatus.OK);
     }
 
     @ApiOperation(value = "단일 파일업로드")
     @PostMapping(path = "/{ver}/upload/file/multiple")
-    public ResponseEntity<List<FileVO>> multipleFileUpload(@PathVariable("ver") String ver, @RequestParam(required = true, name = "files") MultipartFile[] files) throws Exception {
-        return new ResponseEntity<List<FileVO>>(fileHelper.uploadFiles(files), HttpStatus.OK);
+    public ResponseEntity<List<Files>> multipleFileUpload(@PathVariable("ver") String ver, @RequestParam(required = true, name = "files") MultipartFile[] files) throws Exception {
+        return new ResponseEntity<List<Files>>(fileHelper.uploadFiles(files), HttpStatus.OK);
     }
 }

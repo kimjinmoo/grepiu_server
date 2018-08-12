@@ -1,15 +1,15 @@
 package com.grepiu.www.process.common.helper;
 
 import com.google.common.collect.Lists;
-import com.grepiu.www.process.api.domain.FileVO;
+import com.grepiu.www.process.api.dao.FileRepository;
+import com.grepiu.www.process.api.domain.Files;
 
-import java.io.File;
 import java.util.List;
 
 import com.grepiu.www.process.common.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.jsoup.helper.DataUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @Component
 public class FileHelper {
+
+    @Autowired
+    private FileRepository fileRepository;
 
     // 기본 최상위 경로
     @Value(value = "${grepiu.file.path}")
@@ -32,19 +35,19 @@ public class FileHelper {
      * @return
      * @throws Exception
      */
-    public FileVO uploadFile(MultipartFile file) throws Exception {
+    public Files uploadFile(MultipartFile file) throws Exception {
         // 기본 정보 Set
-        FileVO fileVO = new FileVO();
-        fileVO.setFileName(file.getOriginalFilename());
-        fileVO.setOriginalFileName(file.getOriginalFilename());
-        fileVO.setSize(file.getSize());
-        fileVO.setRootPath(rootPath);
-        fileVO.setPath(makeDatePath());
+        Files filesVO = new Files();
+        filesVO.setFileName(file.getOriginalFilename());
+        filesVO.setOriginalFileName(file.getOriginalFilename());
+        filesVO.setSize(file.getSize());
+        filesVO.setRootPath(rootPath);
+        filesVO.setPath(makeDatePath());
 
         // 파일 업로드 진행
-        this.FileUploadProcess(fileVO, file);
+        this.FileUploadProcess(filesVO, file);
 
-        return fileVO;
+        return filesVO;
     }
 
     /**
@@ -53,36 +56,38 @@ public class FileHelper {
      * @param files
      * @return
      */
-    public List<FileVO> uploadFiles(MultipartFile[] files) throws Exception {
-        List<FileVO> fileVOList = Lists.newArrayList();
+    public List<Files> uploadFiles(MultipartFile[] files) throws Exception {
+        List<Files> filesVOList = Lists.newArrayList();
 
         for (MultipartFile file : files) {
             // set FIle 정보
-            FileVO fileVO = new FileVO();
-            fileVO.setOriginalFileName(file.getOriginalFilename());
-            fileVO.setRootPath(rootPath);
-            fileVO.setPath(makeDatePath());
-            fileVO.setFileName(file.getOriginalFilename());
-            fileVO.setSize(file.getSize());
-            fileVOList.add(fileVO);
+            Files filesVO = new Files();
+            filesVO.setOriginalFileName(file.getOriginalFilename());
+            filesVO.setRootPath(rootPath);
+            filesVO.setPath(makeDatePath());
+            filesVO.setFileName(file.getOriginalFilename());
+            filesVO.setSize(file.getSize());
+            filesVOList.add(filesVO);
 
-            this.FileUploadProcess(fileVO, file);
+            this.FileUploadProcess(filesVO, file);
         }
-        return fileVOList;
+        return filesVOList;
     }
 
     /**
      * 파일 업로드 처리한다.
      *
-     * @param fileVO
-     * @param file
+     * @param Files Files 객체
+     * @param file MultipartFile 객체
      * @throws Exception
      */
-    private void FileUploadProcess(FileVO fileVO, MultipartFile file) throws Exception {
+    private void FileUploadProcess(Files Files, MultipartFile file) throws Exception {
         // 파일 생성
-        File currentFile = new File(fileVO.getFullFilePath());
+        java.io.File currentFile = new java.io.File(Files.getFullFilePath());
         // 파일 등록
         FileUtils.writeByteArrayToFile(currentFile, file.getBytes());
+        // DB 등록
+        fileRepository.save(Files);
     }
 
     /**
