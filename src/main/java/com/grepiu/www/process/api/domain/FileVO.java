@@ -13,9 +13,10 @@ public class FileVO {
   private String fileName;
   private String originalFileName;
   private String rootPath;
+  private String path;
   private Long size;
 
   public String getFullFilePath() {
-    return this.rootPath+fileName;
+    return this.rootPath+path+fileName;
   }
 }
