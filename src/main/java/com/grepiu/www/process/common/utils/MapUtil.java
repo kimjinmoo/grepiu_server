@@ -33,7 +33,7 @@ public class MapUtil {
     log.debug("address : {}", address);
     UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(googleGeoCodingApi)
         .queryParam("address", address)
-        .queryParam("key", "AIzaSyCdlJJ5RuA6jrq-VzexA-8ryqOJVqTJJ-Y");
+        .queryParam("key", "AIzaSyCJsKiHbnKj7wS6uTtCaJVJZrtDES57k3s");
     HttpEntity<?> entity = new HttpEntity<>(headers);
 
     HttpEntity<MapGoogleVO> response = restTemplate.exchange(
