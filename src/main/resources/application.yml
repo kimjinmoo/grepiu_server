@@ -26,15 +26,15 @@ spring:
   data:
     mongodb:
       database: grepiu
-      host: "52.78.158.161"
-      username: grAdmin
-      password: rhksflwkrPwjd1!
-      port: 27017
+      host: "0.0.0.0"
+      username: test
+      password: test
+      port: 0
       repositories:
        type: auto
     redis:
-       host: "52.78.158.161"
-       port: 6379
+       host: "0.0.0.0"
+       port: 0
   servlet:
     multipart:
       enabled: true
@@ -74,15 +74,15 @@ spring:
   data:
     mongodb:
       database: grepiu
-      host: "127.0.0.1"
-      username: grAdmin
-      password: rhksflwkrPwjd1!
-      port: 27017
+      host: "0.0.0.0"
+      username: unknow
+      password: unknow
+      port: 0
       repositories:
        type: auto
     redis:
-       host: "127.0.0.1"
-       port: 6379
+       host: "0.0.0.0"
+       port: 0
   servlet:
     multipart:
       enabled: true
