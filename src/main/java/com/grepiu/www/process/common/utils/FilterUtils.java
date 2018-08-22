@@ -11,7 +11,7 @@ import java.util.function.Predicate;
  * @author JM
  * @Since 2017.10.24/v1.0
  */
-public class FilterUtil {
+public class FilterUtils {
 
     /**
      *

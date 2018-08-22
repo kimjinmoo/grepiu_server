@@ -1,7 +1,7 @@
 package com.grepiu.test.process.common;
 
 import com.grepiu.test.process.config.LocalBaseConfig;
-import com.grepiu.www.process.common.utils.DateUtil;
+import com.grepiu.www.process.common.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -15,8 +15,8 @@ public class UtilsTDD extends LocalBaseConfig {
 
     @Test
     public void Date() {
-        log.info("getYear {}", DateUtil.getYear());
-        log.info("getMonth {}", DateUtil.getMonth());
-        log.info("getDay {}", DateUtil.getDay());
+        log.info("getYear {}", DateUtils.getYear());
+        log.info("getMonth {}", DateUtils.getMonth());
+        log.info("getDay {}", DateUtils.getDay());
     }
 }

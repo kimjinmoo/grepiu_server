@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  *
  */
 @Slf4j
-public class MapUtil {
+public class MapUtils {
   private String googleGeoCodingApi = "https://maps.googleapis.com/maps/api/geocode/json";
 
   /**

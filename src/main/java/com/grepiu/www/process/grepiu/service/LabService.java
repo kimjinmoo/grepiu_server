@@ -7,10 +7,11 @@ import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleResultGeometryVO;
-import com.grepiu.www.process.common.utils.MapUtil;
+import com.grepiu.www.process.common.utils.MapUtils;
 import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
 import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
 import com.grepiu.www.process.api.domain.Message;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,6 +22,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @Service
+@Slf4j
 public class LabService {
 
 
@@ -35,7 +37,8 @@ public class LabService {
 
     @Async
     public void collectionCinemaLocation() {
-        MapUtil m = new MapUtil();
+        log.info(":::::::::::::Start Collect Movie Location ::::::::::::::::");
+        MapUtils m = new MapUtils();
         ObjectMapper mapper = new ObjectMapper();
         InputStream is = this.getClass().getResourceAsStream("/config/lotteCinemaLocation.json");
         try {
@@ -57,6 +60,7 @@ public class LabService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        log.info(":::::::::::::Complete Collect Movie Location ::::::::::::::::");
     }
 
     @Async

@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * v1.0
  *
  */
-public class DateUtil {
+public class DateUtils {
 
     /**
      *

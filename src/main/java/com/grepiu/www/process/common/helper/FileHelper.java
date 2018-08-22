@@ -6,7 +6,7 @@ import com.grepiu.www.process.api.domain.Files;
 
 import java.util.List;
 
-import com.grepiu.www.process.common.utils.DateUtil;
+import com.grepiu.www.process.common.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +99,7 @@ public class FileHelper {
      */
     private String makeDatePath() {
         StringBuilder sb = new StringBuilder();
-        return sb.append(DateUtil.getYear()).append("/").append(DateUtil.getMonth()).append("/").append(DateUtil.getDay()).append("/").toString();
+        return sb.append(DateUtils.getYear()).append("/").append(DateUtils.getMonth()).append("/").append(
+            DateUtils.getDay()).append("/").toString();
     }
 }

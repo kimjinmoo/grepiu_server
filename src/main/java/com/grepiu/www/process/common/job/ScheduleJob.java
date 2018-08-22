@@ -1,6 +1,6 @@
 package com.grepiu.www.process.common.job;
 
-import com.grepiu.www.process.common.utils.DateUtil;
+import com.grepiu.www.process.common.utils.DateUtils;
 import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
@@ -49,7 +49,7 @@ public class ScheduleJob {
 //  @Scheduled(fixedDelay = 1000*60*60*3)
   @Scheduled(cron="00 30 08,11,17 * * ?")
   public void crawler() throws Exception {
-    log.info(" start crawler======================= {}", DateUtil.now("yyyy/MM/dd hh:mm:ss"));
+    log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
     //step1. Collect Data
     CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
     ch.addExecuteNode(new LotteCinemaNode());

@@ -2,8 +2,8 @@ package com.grepiu.www.process.sample.controller;
 
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.config.Oauth2ClientConfig;
-import com.grepiu.www.process.common.utils.CollectionUtil;
-import com.grepiu.www.process.common.utils.DateUtil;
+import com.grepiu.www.process.common.utils.CollectionUtils;
+import com.grepiu.www.process.common.utils.DateUtils;
 import com.grepiu.www.process.api.domain.Message;
 import com.grepiu.www.process.sample.service.SampleService;
 import com.grepiu.www.process.sample.service.SampleTaskService;
@@ -74,13 +74,13 @@ public class SampleRestController {
     String result = "";
     switch (type) {
       case "data":
-        result = DateUtil.now(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        result = DateUtils.now(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         break;
       case "time":
-        result = DateUtil.now(DateTimeFormatter.ofPattern("hh:mm:ss"));
+        result = DateUtils.now(DateTimeFormatter.ofPattern("hh:mm:ss"));
         break;
       case "datatime":
-        result = DateUtil.now(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
+        result = DateUtils.now(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss"));
         break;
       default:
         result = "option을 확인 하여 주십시오.";
@@ -95,7 +95,7 @@ public class SampleRestController {
   @ApiOperation(value = "샘플리스트")
   @GetMapping("/sample/list")
   public ResponseEntity<Object> getSampleList() {
-    Optional<List<String>> value = CollectionUtil.isNull(() -> {
+    Optional<List<String>> value = CollectionUtils.isNull(() -> {
       return sampleService.getSampleList();
     });
     return new ResponseEntity<Object>(value.get(), HttpStatus.OK);
