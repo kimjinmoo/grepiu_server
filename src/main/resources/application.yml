@@ -3,10 +3,8 @@ grepiu:
   file:
     path: "C:/data/fileupload/"
   oauth:
-    login:
-      url: "http://localhost:8010"
-    token:
-      url: "http://localhost:8010/oauth/token"
+    login: "http://localhost:8010"
+    token: "http://localhost:8010/oauth/token"
 
 management:
   health:
@@ -26,15 +24,13 @@ spring:
   data:
     mongodb:
       database: grepiu
-      host: "0.0.0.0"
-      username: test
-      password: test
-      port: 0
+      host: "127.0.0.1"
+      port: 27017
       repositories:
        type: auto
     redis:
-       host: "0.0.0.0"
-       port: 0
+       host: "52.78.158.161"
+       port: 6379
   servlet:
     multipart:
       enabled: true
@@ -51,10 +47,8 @@ grepiu:
   file:
     path: "/home/server/data/"
   oauth:
-    login:
-      url: "https://www.grepiu.com/login"
-    token:
-      url: "https://conf.grepiu.com/oauth/token"
+    login: "https://www.grepiu.com/login"
+    token: "https://conf.grepiu.com/oauth/token"
 
 management:
   health:

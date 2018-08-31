@@ -2,7 +2,6 @@ package com.grepiu.www.process.common.config;
 
 import com.grepiu.www.process.common.config.auth.domain.Role;
 import java.util.Arrays;
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -32,6 +31,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  *
@@ -57,12 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
   @Override
   @Order(Ordered.HIGHEST_PRECEDENCE)
   protected void configure(HttpSecurity http) throws Exception {
+//    http.csrf().disable().anonymous().disable().authorizeRequests().antMatchers("/api-docs/**").permitAll();
     http.sessionManagement()
           .maximumSessions(1) // 로그인은 한명만 허용
         .and()
         .and()
-        .cors().configurationSource(corsConfigurationSource())
-        .and()
+//        .cors()
+//        .and()
         .csrf()
           .disable()
         .authorizeRequests()
@@ -72,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
             "/swagger-resources",
             "/configuration/security", "/swagger-resources/configuration/ui",
             "/swagger-resources/configuration/security", "/null/**","/swagger-ui.html*",
-            "/oauth/login"
+            "/oauth/**"
             ).permitAll()
         .anyRequest().authenticated()
         .and()
@@ -115,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
   }
 
   @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
+  public FilterRegistrationBean  corsFilter() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("*"));
     configuration.addAllowedHeader("*");
@@ -123,6 +124,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     configuration.setAllowCredentials(true);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
-    return source;
+    FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+    bean.setOrder(0);
+    return bean;
   }
 }

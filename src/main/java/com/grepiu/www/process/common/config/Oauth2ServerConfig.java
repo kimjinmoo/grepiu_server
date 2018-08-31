@@ -86,14 +86,14 @@ public class Oauth2ServerConfig {
     static final String CLIEN_ID = "grepiu-client";
     static final String CLIENT_SECRET = "grepiu-secret";
     static final String GRANT_TYPE_PASSWORD = "password";
-    static final String AUTHORIZATION_CODE = "authorization_code";
-    static final String REFRESH_TOKEN = "refresh_token";
-    static final String IMPLICIT = "implicit";
+    static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
+    static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
+    static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
+    static final String GRANT_TYPE_IMPLICIT = "implicit";
     static final String SCOPE_READ = "read";
     static final String SCOPE_WRITE = "write";
-    static final String TRUST = "trust";
     static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
-    static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
+    static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -107,9 +107,16 @@ public class Oauth2ServerConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Value("${grepiu.oauth.login.url}")
+    @Value("${grepiu.oauth.login}")
     private String loginUrl;
 
+    /**
+     *
+     *  보안 제안사항을 정의한다.
+     *
+     * @param oauthServer AuthorizationServerSecurityConfigurer 객체
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
       oauthServer
@@ -121,6 +128,17 @@ public class Oauth2ServerConfig {
      *
      * API 요청 클라이언트 정보를 다룬다.
      *
+     * <pre>
+     *   ref . https://oauth.net/2/grant-types/
+     *   grant_type
+     *   Authorization Code : 허가 코드로 엑세스 토큰을 받는다.
+     *   Implicit(암목적) : 공개된 클라이언트에게 쉽게 사용된다. 추가 단계 없이 즉시 엑세스 토큰이 발급된다.
+     *   Password : 사용자의 ID와 비밀번호로 엑세스 토큰을 발급한다.
+     *   Client Credentials :
+     *   Device Code :
+     *   Refresh Token : refresh 토큰으로 엑세스 토큰을 받는다. 기존 토큰은 제거 된다.
+     * </pre>
+     *
      * @param clients
      * @throws Exception
      */
@@ -130,16 +148,23 @@ public class Oauth2ServerConfig {
       clients
           .inMemory()
           .withClient(CLIEN_ID)
-          .authorizedGrantTypes("password", "client_credentials", "authorization_code", "refresh_token")
-          .authorities(Role.USER.toString())
-          .scopes(SCOPE_READ, SCOPE_WRITE)
-//        .resourceIds("grepiu")
           .secret(passwordEncoder.encode(CLIENT_SECRET))
-          .accessTokenValiditySeconds(100)
-          .refreshTokenValiditySeconds(600)
+          .scopes(SCOPE_READ, SCOPE_WRITE)
+          .authorizedGrantTypes(GRANT_TYPE_PASSWORD, GRANT_TYPE_CLIENT_CREDENTIALS,
+              GRANT_TYPE_AUTHORIZATION_CODE, GRANT_TYPE_IMPLICIT, GRANT_TYPE_REFRESH_TOKEN)
+          .authorities(Role.USER.toString(), Role.ADMIN.toString(), Role.SUPER_ADMIN.toString())
+          .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+          .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
           .redirectUris(loginUrl);
     }
 
+    /**
+     *
+     * 승인 및 토큰을 정의 한다.
+     *
+     * @param endpoints
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
       endpoints.tokenStore(tokenStore())

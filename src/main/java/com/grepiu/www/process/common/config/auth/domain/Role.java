@@ -6,5 +6,5 @@ package com.grepiu.www.process.common.config.auth.domain;
  *
  */
 public enum Role {
-  USER, ADMIN
+  USER, ADMIN, SUPER_ADMIN
 }

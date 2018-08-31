@@ -120,17 +120,4 @@ public class SampleRestController {
     this.template.convertAndSend("/topic/messages", new Message("시스템 알림","Sample Message가 전달 되었습니다."));
     return new ResponseEntity<Object>(HttpStatus.OK);
   }
-
-  /**
-   *
-   * 로그인 엑세스 토큰을 획득한다.
-   *
-   * @param id
-   * @param passwd
-   * @return
-   */
-  @GetMapping("/oauth/login")
-  public ResponseEntity<Object> getAccess(@RequestParam String id, @RequestParam String passwd) {
-    return new ResponseEntity<>(oauth2Service.getAccessToken(id, passwd), HttpStatus.OK);
-  }
 }
