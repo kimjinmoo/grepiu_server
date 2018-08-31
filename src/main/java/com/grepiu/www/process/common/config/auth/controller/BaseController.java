@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -47,7 +48,7 @@ public class BaseController {
     return "signUp";
   }
 
-  @ApiOperation("회원가입을 한다.")
+  @ApiOperation("회원가입")
   @PostMapping("/signUp")
   public @ResponseBody ResponseEntity<Object> signUp(@Valid UserCreateForm form) throws Exception {
     if(userRepository.findUserById(form.getId()).isPresent()){
@@ -56,12 +57,6 @@ public class BaseController {
     User user = User.build(form.getId(), form.getPassword(), form.getRole());
     return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
   }
-
-  @GetMapping("/user")
-  public @ResponseBody Object user(Principal principal) {
-    return principal.getName();
-  }
-
 
   @GetMapping("/")
   public String home(ModelMap model) {
