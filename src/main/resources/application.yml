@@ -45,10 +45,10 @@ logging:
 
 grepiu:
   file:
-    path: "/home/server/data/"
+    path: "-"
   oauth:
-    login: "https://www.grepiu.com/login"
-    token: "https://conf.grepiu.com/oauth/token"
+    login: "-"
+    token: "-"
 
 management:
   health:
@@ -56,7 +56,7 @@ management:
       enabled: false
 
 server:
-  port: 8080
+  port: -
 
 spring:
   profiles: prod
@@ -68,15 +68,15 @@ spring:
   data:
     mongodb:
       database: grepiu
-      host: "127.0.0.1"
-      username: grAdmin
-      password: rhksflwkrPwjd1!
-      port: 27017
+      host: "0.0.0.0"
+      username: -
+      password: -
+      port: 0
       repositories:
        type: auto
     redis:
-       host: "127.0.0.1"
-       port: 6379
+       host: "0.0.0.0"
+       port: 0
   servlet:
     multipart:
       enabled: true
@@ -86,4 +86,4 @@ spring:
 logging:
   level:
     org.springframework.web: INFO
-  file: "/home/server/log/app.log"
+  file: "-"
