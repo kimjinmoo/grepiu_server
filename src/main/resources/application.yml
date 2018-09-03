@@ -45,10 +45,10 @@ logging:
 
 grepiu:
   file:
-    path: "-"
+    path: ""
   oauth:
-    login: "-"
-    token: "-"
+    login: ""
+    token: ""
 
 management:
   health:
@@ -56,7 +56,7 @@ management:
       enabled: false
 
 server:
-  port: -
+  port: 8080
 
 spring:
   profiles: prod
@@ -68,9 +68,9 @@ spring:
   data:
     mongodb:
       database: grepiu
-      host: "0.0.0.0"
-      username: -
-      password: -
+      host: "0.0.0.1"
+      username: user
+      password: user
       port: 0
       repositories:
        type: auto
@@ -86,4 +86,4 @@ spring:
 logging:
   level:
     org.springframework.web: INFO
-  file: "-"
+  file: ""
