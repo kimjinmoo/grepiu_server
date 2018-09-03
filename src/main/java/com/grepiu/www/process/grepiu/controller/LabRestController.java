@@ -15,6 +15,7 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class LabRestController {
     private LotteCineLocalRepository lotteCineLocalRepository;
 
     @ApiOperation(value = "영화관 정보 등록 수동처리")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/saveCinemaLocationByManual")
     public ResponseEntity<Object> saveCinemaLocationByManual() {
         labService.collectionCinemaLocation();
@@ -43,6 +45,7 @@ public class LabRestController {
     }
 
     @ApiOperation(value = "영화 상영관 정보 수동 처리")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCinemaInfoByManual() {
         // 비동기 처리
