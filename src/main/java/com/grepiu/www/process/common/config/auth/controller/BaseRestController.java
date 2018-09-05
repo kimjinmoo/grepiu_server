@@ -76,11 +76,10 @@ public class BaseRestController {
     OAuth2RestTemplate oAuthRestTemplate = new OAuth2RestTemplate(resourceDetails, new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest()));
     oAuthRestTemplate.setAccessTokenProvider(new ResourceOwnerPasswordAccessTokenProvider());
     OAuth2AccessToken token = oAuthRestTemplate.getAccessToken();
-
     return new ResponseEntity<>(token, HttpStatus.OK);
   }
 
-  @ApiOperation("Oauth 기반 로그인")
+  @ApiOperation("Oauth 로그 아웃")
   @PostMapping("/oauth/logout")
   public ResponseEntity<Void> oauthLogout(@RequestHeader("Authorization") String authorization) {
     String tokenValue = authorization.replace("Bearer", "").trim();

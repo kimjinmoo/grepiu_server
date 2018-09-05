@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @ApiOperation("GrepIU Post API")
@@ -22,6 +23,7 @@ public class PostRestController {
 
     @ApiOperation("포스트 등록")
     @PostMapping("/post")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Object> savePost(@RequestBody Post post)  {
         post.setSeq(postService.getNextSequence("post"));
         return new ResponseEntity<>(postService.save(post), HttpStatus.OK);
@@ -29,6 +31,7 @@ public class PostRestController {
 
     @ApiOperation("포스트 상세 업데이트")
     @PutMapping("/post/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Object> updatePost(@PathVariable String id, @RequestBody Post post) {
         return new ResponseEntity<>(postService.update(id, post), HttpStatus.OK);
     }
