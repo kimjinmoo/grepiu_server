@@ -23,7 +23,7 @@ public class PostRestController {
 
     @ApiOperation("포스트 등록")
     @PostMapping("/post")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('write')")
     public ResponseEntity<Object> savePost(@RequestBody Post post)  {
         post.setSeq(postService.getNextSequence("post"));
         return new ResponseEntity<>(postService.save(post), HttpStatus.OK);
@@ -31,7 +31,7 @@ public class PostRestController {
 
     @ApiOperation("포스트 상세 업데이트")
     @PutMapping("/post/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('write')")
     public ResponseEntity<Object> updatePost(@PathVariable String id, @RequestBody Post post) {
         return new ResponseEntity<>(postService.update(id, post), HttpStatus.OK);
     }
