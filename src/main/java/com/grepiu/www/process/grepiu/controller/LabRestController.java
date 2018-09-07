@@ -21,6 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * Lab API
+ * /grepiu/lab/root 는 권한 체크함
+ *
+ */
 @ApiOperation("GrepIU Lab API")
 @RestController
 @RequestMapping("/grepiu/lab")
@@ -37,16 +43,14 @@ public class LabRestController {
     private LotteCineLocalRepository lotteCineLocalRepository;
 
     @ApiOperation(value = "영화관 정보 등록 수동처리")
-    @PreAuthorize("#oauth2.hasScope('write')")
-    @GetMapping("/saveCinemaLocationByManual")
+    @GetMapping("/root/crawler/cine/saveCinemaLocationByManual")
     public ResponseEntity<Object> saveCinemaLocationByManual() {
         labService.collectionCinemaLocation();
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.", HttpStatus.OK);
     }
 
     @ApiOperation(value = "영화 상영관 정보 수동 처리")
-    @PreAuthorize("#oauth2.hasScope('write')")
-    @GetMapping("/saveCinemaInfoByManual")
+    @GetMapping("/root/crawler/cine/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCinemaInfoByManual() {
         // 비동기 처리
         labService.collectionCinemaMovieInfo();

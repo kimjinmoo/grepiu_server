@@ -56,13 +56,22 @@ public class Oauth2ServerConfig {
 
     private static final String RESOURCE_ID = "grepiu";
 
+    /**
+     *
+     * grepiu Lab Url 세팅
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
       http
           .anonymous().disable()
-          .requestMatchers().antMatchers("/api/v2/**")
-          .and().authorizeRequests()
-          .antMatchers("/api/v2/**").access("#oauth2.hasScope('read')")
+          .requestMatchers().antMatchers("/grepiu/lab/root/**")
+          .and()
+          .antMatcher("/me")
+          .authorizeRequests()
+          .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
           .and()
           .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
@@ -83,16 +92,27 @@ public class Oauth2ServerConfig {
   @EnableAuthorizationServer
   protected static class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    // 클라이언트 id
     static final String CLIEN_ID = "grepiu-client";
+    // 클라이언트 secret 코드
     static final String CLIENT_SECRET = "grepiu-secret";
+    // 인증 방식 Oauth 주석에 남김
     static final String GRANT_TYPE_PASSWORD = "password";
+    // 인증 방식 Oauth 주석에 남김
     static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
+    // 인증 방식 Oauth 주석에 남김
     static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
+    // 인증 방식 Oauth 주석에 남김
     static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
+    // 인증 방식 Oauth 주석에 남김
     static final String GRANT_TYPE_IMPLICIT = "implicit";
+    // Scope Set
     static final String SCOPE_READ = "read";
+    // Scope Set
     static final String SCOPE_WRITE = "write";
+    // 토큰 시간
     static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
+    // Refresh 토큰 시간
     static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
 
     @Autowired
@@ -113,6 +133,8 @@ public class Oauth2ServerConfig {
     /**
      *
      *  보안 제안사항을 정의한다.
+     *  tokenKeyAccess /oauth/token 인증 설정
+     *  checkTokenAccess /oauth/check_token 인증 설정
      *
      * @param oauthServer AuthorizationServerSecurityConfigurer 객체
      * @throws Exception
