@@ -33,6 +33,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -80,6 +82,7 @@ public class Oauth2ServerConfig {
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
       super.configure(resources);
     }
+
 //
 //  @Override
 //  public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -93,7 +96,7 @@ public class Oauth2ServerConfig {
   protected static class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     // 클라이언트 id
-    static final String CLIEN_ID = "grepiu-client";
+    static final String CLIENT_ID = "grepiu-client";
     // 클라이언트 secret 코드
     static final String CLIENT_SECRET = "grepiu-secret";
     // 인증 방식 Oauth 주석에 남김
@@ -169,7 +172,7 @@ public class Oauth2ServerConfig {
       /*//    clients.withClientDetails(mongoClientDetailsService);*/
       clients
           .inMemory()
-          .withClient(CLIEN_ID)
+          .withClient(CLIENT_ID)
           .secret(passwordEncoder.encode(CLIENT_SECRET))
           .scopes(SCOPE_READ, SCOPE_WRITE)
           .authorizedGrantTypes(GRANT_TYPE_PASSWORD, GRANT_TYPE_CLIENT_CREDENTIALS,

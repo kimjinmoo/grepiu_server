@@ -20,6 +20,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ *
+ * 다중 DB 사용을 위해 구현
+ *
+ */
 @Configuration
 @EnableTransactionManagement
 public class DBConfig {

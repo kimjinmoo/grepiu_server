@@ -1,9 +1,11 @@
-package com.grepiu.www.process.common.config.auth.controller;
+package com.grepiu.www.process.common.config.auth.componemt;
 
 import com.grepiu.www.process.common.config.auth.domain.CurrentUser;
 import com.grepiu.www.process.common.config.auth.domain.Response;
+import com.grepiu.www.process.common.config.auth.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.config.auth.exception.ValidationException;
 import java.nio.file.attribute.UserPrincipal;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,13 +32,22 @@ public class BaseControllerAdvice {
 
   @ExceptionHandler(value = Exception.class)
   public @ResponseBody Object exception(Exception e) {
-    e.printStackTrace();
-    return new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    LinkedHashMap r = new LinkedHashMap();
+    r.put("code",HttpStatus.INTERNAL_SERVER_ERROR.value());
+    r.put("message:", e.getMessage());
+    return r;
   }
 
   @ExceptionHandler(value = ValidationException.class)
   public @ResponseBody Object validationException(ValidationException e) {
-    e.printStackTrace();
     return new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+  }
+
+  @ExceptionHandler(value = LoginErrPasswordException.class)
+  public @ResponseBody Object loginErrPasswordException(LoginErrPasswordException e) {
+    LinkedHashMap r = new LinkedHashMap();
+    r.put("code",HttpStatus.FORBIDDEN.value());
+    r.put("message:", e.getMessage());
+    return r;
   }
 }

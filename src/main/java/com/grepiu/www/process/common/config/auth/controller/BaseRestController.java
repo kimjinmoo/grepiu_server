@@ -2,7 +2,13 @@ package com.grepiu.www.process.common.config.auth.controller;
 
 import com.grepiu.www.process.common.config.Oauth2ClientConfig;
 import com.grepiu.www.process.common.config.YAMLConfig;
+import com.grepiu.www.process.common.config.auth.domain.CurrentUser;
 import com.grepiu.www.process.common.config.auth.domain.LoginForm;
+import com.grepiu.www.process.common.config.auth.domain.User;
+import com.grepiu.www.process.common.config.auth.exception.LoginErrPasswordException;
+import com.grepiu.www.process.common.config.auth.service.BaseService;
+import com.grepiu.www.process.common.config.auth.service.CurrentUserDetailService;
+import com.grepiu.www.process.common.config.auth.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -12,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -22,11 +29,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -59,39 +68,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class BaseRestController {
 
   @Autowired
-  private TokenStore tokenStore;
-
-  @Value("${grepiu.oauth.token}")
-  private String tokenUrl;
+  private BaseService baseService;
 
   @ApiOperation("Oauth 기반 로그인")
   @PostMapping("/oauth/login")
-  public ResponseEntity<Object> oauthLogin(@RequestBody LoginForm form) {
-    ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
-    resourceDetails.setAccessTokenUri(tokenUrl);
-    resourceDetails.setClientId("grepiu-client");
-    resourceDetails.setClientSecret("grepiu-secret");
-    resourceDetails.setGrantType("password");
-    resourceDetails.setUsername(form.getId());
-    resourceDetails.setPassword(form.getPassword());
-
-    OAuth2RestTemplate oAuthRestTemplate = new OAuth2RestTemplate(resourceDetails, new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest()));
-    oAuthRestTemplate.setAccessTokenProvider(new ResourceOwnerPasswordAccessTokenProvider());
-    OAuth2AccessToken token = oAuthRestTemplate.getAccessToken();
-    return new ResponseEntity<>(token, HttpStatus.OK);
+  public ResponseEntity<Object> oauthLogin(@RequestBody LoginForm form) throws LoginErrPasswordException {
+    return new ResponseEntity<>(baseService.login(form), HttpStatus.OK);
   }
 
   @ApiOperation("Oauth 로그 아웃")
   @PostMapping("/oauth/logout")
-  public ResponseEntity<Void> oauthLogout(@RequestHeader("Authorization") String authorization) {
-    String tokenValue = authorization.replace("Bearer", "").trim();
-    OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
-    tokenStore.removeAccessToken(accessToken);
-
-    return new ResponseEntity<>(HttpStatus.OK);
+  public ResponseEntity<Object> oauthLogout(@RequestHeader("Authorization") String authorization) {
+    return new ResponseEntity<>(baseService.logout(authorization.replace("Bearer", "").trim()), HttpStatus.OK);
   }
 
-  @GetMapping("/me")
+  @ApiOperation("Oauth 토큰 유효성 체크")
+  @PostMapping("/oauth/check")
+  public ResponseEntity<Object> oauthTokenCheck(@RequestHeader("Authorization") String authorization) {
+    return new ResponseEntity<>(baseService.isValidToken(authorization.replace("Bearer", "").trim()), HttpStatus.OK);
+  }
+
+  @ApiOperation("유저 정보를 가져온다.")
+  @GetMapping("/user/me")
   public @ResponseBody
   Object user(Principal principal) {
     return principal;

@@ -50,10 +50,6 @@ public class SampleRestController {
   @Autowired
   private SimpMessagingTemplate template;
 
-  @Autowired
-  private Oauth2ClientConfig oauth2Service;
-
-
   @ApiOperation(value = "헬로월드")
   @GetMapping(value = "/sample/helloworld")
   public ModelAndView helloWorld() {

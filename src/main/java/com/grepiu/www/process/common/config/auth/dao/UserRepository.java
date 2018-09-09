@@ -8,12 +8,10 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 
 /**
  *
- * MongoDB 유저 등록
+ * User 정보
  *
  */
 public interface UserRepository extends MongoRepository<User, String> {
   // 이메일로 User를 찾는다.
   Optional<User> findUserById(String id);
-
-  ClientDetails findAllBy(String id);
 }
