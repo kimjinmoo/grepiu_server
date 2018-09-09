@@ -89,9 +89,9 @@ public class BaseRestController {
   }
 
   @ApiOperation("유저 정보를 가져온다.")
-  @GetMapping("/user/me")
+  @GetMapping("/users/me")
   public @ResponseBody
   Object user(Principal principal) {
-    return principal;
+      return principal;
   }
 }
