@@ -1,8 +1,8 @@
 package com.grepiu.www.process.common.helper;
 
 import com.google.common.collect.Lists;
-import com.grepiu.www.process.api.dao.FileRepository;
-import com.grepiu.www.process.api.domain.Files;
+import com.grepiu.www.process.common.api.domain.FileRepository;
+import com.grepiu.www.process.common.api.domain.Files;
 
 import java.util.List;
 

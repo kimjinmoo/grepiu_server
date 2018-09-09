@@ -50,7 +50,7 @@ sourceSets {
 		}
 	}
 }
-//ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
 
 // 환경 파일 Set
 //if (project.hasProperty('profile')) {

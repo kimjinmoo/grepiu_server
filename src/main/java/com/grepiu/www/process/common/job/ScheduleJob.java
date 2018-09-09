@@ -6,7 +6,7 @@ import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
 import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
-import com.grepiu.www.process.api.domain.Message;
+import com.grepiu.www.process.common.api.domain.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

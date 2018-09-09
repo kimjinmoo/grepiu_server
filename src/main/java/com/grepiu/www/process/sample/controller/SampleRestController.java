@@ -1,10 +1,9 @@
 package com.grepiu.www.process.sample.controller;
 
 import com.google.common.collect.Maps;
-import com.grepiu.www.process.common.config.Oauth2ClientConfig;
 import com.grepiu.www.process.common.utils.CollectionUtils;
 import com.grepiu.www.process.common.utils.DateUtils;
-import com.grepiu.www.process.api.domain.Message;
+import com.grepiu.www.process.common.api.domain.Message;
 import com.grepiu.www.process.sample.service.SampleService;
 import com.grepiu.www.process.sample.service.SampleTaskService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,7 +23,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 

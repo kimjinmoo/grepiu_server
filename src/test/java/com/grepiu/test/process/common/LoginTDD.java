@@ -2,11 +2,11 @@ package com.grepiu.test.process.common;
 
 
 import com.grepiu.test.process.config.LocalBaseConfig;
-import com.grepiu.www.process.common.config.auth.dao.UserRepository;
-import com.grepiu.www.process.common.config.auth.domain.Role;
-import com.grepiu.www.process.common.config.auth.domain.User;
-import com.grepiu.www.process.common.config.auth.service.UserService;
-import java.util.Arrays;
+import com.grepiu.www.process.common.security.dao.UserRepository;
+import com.grepiu.www.process.common.security.domain.Role;
+import com.grepiu.www.process.common.security.domain.User;
+import com.grepiu.www.process.common.security.service.UserService;
+
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -14,12 +14,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.AccessTokenProvider;
-import org.springframework.security.oauth2.client.token.AccessTokenProviderChain;
-import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;

@@ -10,7 +10,7 @@ import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleResultGeometr
 import com.grepiu.www.process.common.utils.MapUtils;
 import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
 import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
-import com.grepiu.www.process.api.domain.Message;
+import com.grepiu.www.process.common.api.domain.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
