@@ -52,7 +52,7 @@ public class Oauth2ServerConfig {
           .anonymous().disable()
           .requestMatchers().antMatchers("/grepiu/lab/root/**")
           .and()
-          .antMatcher("/users/me")
+          .antMatcher("/oauth/users/me")
           .authorizeRequests()
           .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
           .and()
