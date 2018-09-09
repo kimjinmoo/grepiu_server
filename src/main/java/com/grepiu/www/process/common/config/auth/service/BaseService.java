@@ -60,11 +60,11 @@ public class BaseService {
 
             // 유저 정보를 Set한다.
             User user = userService.findUserById(form.getId()).get();
-            user.setPasswordHash(null);
 
             // 응답값 Set
             r.put("code", HttpStatus.OK.value());
-            r.put("user", user);
+            r.put("id", user.getId());
+            r.put("role", user.getRole());
             r.put("accessToken", token.getValue());
 
         } catch (Exception e) {
