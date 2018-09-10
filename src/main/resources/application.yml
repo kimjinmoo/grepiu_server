@@ -6,6 +6,11 @@ grepiu:
     login: "http://localhost:8010"
     token: "http://localhost:8010/oauth/token"
 
+key:
+  google:
+    map: ""
+    geo_url: "https://maps.googleapis.com/maps/api/geocode/json"
+
 management:
   health:
     db:
@@ -49,6 +54,11 @@ grepiu:
   oauth:
     login: ""
     token: ""
+
+key:
+  google:
+    map: ""
+    geo_url: "https://maps.googleapis.com/maps/api/geocode/json"
 
 management:
   health:

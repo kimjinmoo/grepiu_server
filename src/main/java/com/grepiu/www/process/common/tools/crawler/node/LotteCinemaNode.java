@@ -20,7 +20,7 @@ import org.openqa.selenium.WebElement;
 public class LotteCinemaNode extends BaseNode<Cinema> {
 
     @Override
-    public List<Cinema> executeLogic() {
+    public List<Cinema> execute() {
         // 크롬 초기화 AWS 롯데시네마 접근 문제로 프록시 세팅
         initChromeRemote("http://www.lottecinema.co.kr/LCHS/Contents/ticketing/ticketing.aspx", true);
         // return 데이터 타입 Set

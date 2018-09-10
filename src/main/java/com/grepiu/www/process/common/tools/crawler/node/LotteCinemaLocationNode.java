@@ -15,7 +15,7 @@ import org.openqa.selenium.By;
 public class LotteCinemaLocationNode extends BaseNode<CinemaLocation> {
 
   @Override
-  public List<CinemaLocation> executeLogic() {
+  public List<CinemaLocation> execute() {
     // 크롬 초기화
     initChrome("http://www.lottecinema.co.kr/LCHS/Contents/Cinema/charlotte-special-cinema.aspx");
     // return 데이터 타입 Set

@@ -85,7 +85,7 @@ public class CrawlerHelper<T> implements Executor<T> {
     public void execute() throws Exception {
         try {
             executeNodes.parallelStream().forEach(v->{
-                data.addAll(v.executeLogic());
+                data.addAll(v.execute());
             });
             // 처리가 완료 되면 등록된 감시자의 update문을 실행한다.
             callObserver();

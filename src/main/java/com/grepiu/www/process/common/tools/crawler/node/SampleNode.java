@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SampleNode extends BaseNode<Object> {
 
   @Override
-  public List<Object> executeLogic() {
+  public List<Object> execute() {
     // 크롬 초기화
     initChromeRemote("http://www.lottecinema.co.kr", true);
 

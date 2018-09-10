@@ -7,7 +7,7 @@ import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleResultGeometryVO;
-import com.grepiu.www.process.common.utils.MapUtils;
+import com.grepiu.www.process.common.helper.GoogleMapParserHelper;
 import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
 import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
 import com.grepiu.www.process.common.api.domain.Message;
@@ -35,18 +35,20 @@ public class LabService {
     @Autowired
     private SimpMessagingTemplate template;
 
+    @Autowired
+    private GoogleMapParserHelper googleMapParserHelper;
+
     @Async
     public void collectionCinemaLocation() {
         log.info(":::::::::::::Start Collect Movie Location ::::::::::::::::");
-        MapUtils m = new MapUtils();
         ObjectMapper mapper = new ObjectMapper();
         InputStream is = this.getClass().getResourceAsStream("/config/lotteCinemaLocation.json");
         try {
             lotteCineLocalRepository.deleteAll();
             List<CinemaLocation> list = mapper.readValue(is, new TypeReference<List<CinemaLocation>>(){});
             for(CinemaLocation v : list) {
-                if(m.searchLocalePointWithGoogle(v.getAddress()).getResults().size() > 0) {
-                    MapGoogleResultGeometryVO geo = m.searchLocalePointWithGoogle(v.getAddress()).getResults().get(0).getGeometry();
+                if(googleMapParserHelper.convertToLanLongFromAddress(v.getAddress()).getResults().size() > 0) {
+                    MapGoogleResultGeometryVO geo = googleMapParserHelper.convertToLanLongFromAddress(v.getAddress()).getResults().get(0).getGeometry();
                     final GeoJsonPoint locationPoint = new GeoJsonPoint(geo.getLocationLng(), geo.getLocationLat());
                     v.setLocation(locationPoint);
                 }
