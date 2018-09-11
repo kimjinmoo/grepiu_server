@@ -5,6 +5,6 @@ import java.io.Serializable;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface PostRepository<ID extends Serializable> extends MongoRepository<Post, ID> {
+public interface PostRepository extends MongoRepository<Post, Long> {
   Post findById(String id);
 }

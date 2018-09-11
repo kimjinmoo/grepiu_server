@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -30,12 +33,13 @@ public class Post {
 
   @ApiModelProperty(hidden = true, value = "일련번호")
   @Id
-  private String id;
-  @ApiModelProperty(hidden = true, value = "일련번호")
-  private int seq;
+  private long id;
+
   @ApiModelProperty(required = true, value = "범주")
-  @NotNull @NotEmpty
-  private String category;
+  @DBRef(db = "hashTag")
+  @NotNull
+  private List<HashTag> hashTag;
+
   @ApiModelProperty(required = true, value = "제목")
   @NotNull @NotEmpty
   private String subject;

@@ -88,7 +88,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.0.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.3.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.0.3.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.0.10.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-freemarker', version: '2.0.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-batch', version: '2.0.3.RELEASE'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.0.3.RELEASE'
