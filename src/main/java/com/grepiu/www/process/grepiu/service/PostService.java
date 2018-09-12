@@ -13,12 +13,10 @@ import com.grepiu.www.process.grepiu.domain.Post;
 import java.util.HashMap;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -64,6 +62,10 @@ public class PostService {
       ht.setName(v);
       hashTagRepository.save(ht);
     });
+    // Save
+    return (Post) postRepository.save(post);
+
+  }
 
   /**
    *
@@ -100,8 +102,9 @@ public class PostService {
    *
    * 페이징 처리 리스트 가져오기
    *
-   * @param page
-   * @return
+   * @param page 페이지
+   * @param size Scale
+   * @return HashMap<String, Object>
    */
   @Cacheable(value = "post", key = "{#page + #size}")
   public HashMap<String, Object> findPostAllPage(int page, int size) {
@@ -130,6 +133,7 @@ public class PostService {
    *
    * @param id String 객체
    */
+  @CacheEvict(cacheNames = "post", allEntries = true)
   public void deletePostById(Long id) {
     postRepository.deleteById(id);
   }
