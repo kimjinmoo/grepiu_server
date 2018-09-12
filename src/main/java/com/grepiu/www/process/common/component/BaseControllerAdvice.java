@@ -1,8 +1,8 @@
 package com.grepiu.www.process.common.component;
 
 import com.grepiu.www.process.common.api.domain.Response;
+import com.grepiu.www.process.common.api.exception.BadRequestException;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
-import com.grepiu.www.process.common.api.exception.ValidationException;
 
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -37,8 +37,15 @@ public class BaseControllerAdvice {
     return r;
   }
 
-  @ExceptionHandler(value = ValidationException.class)
-  public @ResponseBody Object validationException(ValidationException e) {
+  /**
+   *
+   * 잘못된 요청
+   *
+   * @param e BadRequestException
+   * @return 400 코드 리턴
+   */
+  @ExceptionHandler(value = BadRequestException.class)
+  public @ResponseBody Object validationException(BadRequestException e) {
     return new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage());
   }
 

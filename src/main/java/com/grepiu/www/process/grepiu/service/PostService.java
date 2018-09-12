@@ -2,6 +2,8 @@ package com.grepiu.www.process.grepiu.service;
 
 
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.common.api.exception.BadRequestException;
+import com.grepiu.www.process.common.api.service.BaseService;
 import com.grepiu.www.process.grepiu.dao.HashTagRepository;
 import com.grepiu.www.process.grepiu.dao.PostRepository;
 import com.grepiu.www.process.grepiu.domain.GrepIUSequence;
@@ -11,8 +13,8 @@ import com.grepiu.www.process.grepiu.domain.Post;
 import java.util.HashMap;
 import java.util.List;
 
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,56 +42,45 @@ public class PostService {
   private HashTagRepository hashTagRepository;
 
   @Autowired
-  private MongoOperations mongoOperations;
-
+  private BaseService baseService;
   /**
    *
-   * 순번 만들기
-   *
-   * @param seqName
-   * @return 순번
-   */
-  public long getNextSequence(String seqName)
-  {
-    GrepIUSequence counter = mongoOperations.findAndModify(
-        Query.query(Criteria.where("_id").is(seqName)),
-        new Update().inc("seq",1),
-        FindAndModifyOptions.options().returnNew(true).upsert(true),
-        GrepIUSequence.class);
-    return counter.getSeq();
-  }
-  /**
-   *
-   * 등록
+   * POST 등록
    *
    * @param post Post 객체
-   * @return
+   * @return Post 객체
    */
   public Post savePost(Post post) {
+    // Set 시퀀스
+    post.setId(baseService.getNextSequence("post"));
     // 없는 해시태그는 갱신한다.
     post.getHashTag().forEach(v->{
       HashTag ht = new HashTag();
       ht.setName(v);
       hashTagRepository.save(ht);
     });
+    // Save
     return (Post) postRepository.save(post);
 
   }
 
   /**
    *
-   * 수정
+   * POST - 수정
    *
    * @param id String 객체
    * @param post Post 객체
    * @return Post 객체
    */
-  public Post updatePost(String id, Post post) {
-    Post p = postRepository.findById(id);
+  public Post updatePost(long id, Post post) throws Exception {
+    //Get Data
+    Post p = Optional.ofNullable(postRepository.findById(id)).orElseThrow(BadRequestException::new);
+    //Set Data
     p.setSubject(post.getSubject());
     p.setContent(post.getContent());
     p.setHashTag(post.getHashTag());
     p.setModifyId(post.getModifyId());
+    //Save
     return (Post) postRepository.save(p);
   }
 

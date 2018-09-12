@@ -6,9 +6,15 @@ import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.domain.User;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.service.UserService;
+import com.grepiu.www.process.grepiu.domain.GrepIUSequence;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -40,6 +46,26 @@ public class BaseService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MongoOperations mongoOperations;
+
+    /**
+     *
+     * mongoDB 순번 만들기
+     *
+     * @param seqName
+     * @return 순번
+     */
+    public long getNextSequence(String seqName)
+    {
+        GrepIUSequence counter = mongoOperations.findAndModify(
+            Query.query(Criteria.where("_id").is(seqName)),
+            new Update().inc("seq",1),
+            FindAndModifyOptions.options().returnNew(true).upsert(true),
+            GrepIUSequence.class);
+        return counter.getSeq();
+    }
 
     /**
      *

@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface PostRepository extends MongoRepository<Post, Long>, PostRepositoryCustom  {
 
-  @Query("{ 'id' : ?0 }")
-  Post findById(String id);
+  @Query("{ '_id' : ?0 }")
+  Post findById(long id);
 
   List<Post> findAllByHashTag(String name);
 
