@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +22,18 @@ public class PostRestController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @ApiOperation("포스트 캐시 삭제")
+    @GetMapping("/post/cache/clear")
+    public ResponseEntity<Void> removeCache(){
+        Cache cache = cacheManager.getCache("post");
+        // 캐시 삭제
+        cache.clear();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @ApiOperation("포스트 등록")
     @PostMapping("/post")

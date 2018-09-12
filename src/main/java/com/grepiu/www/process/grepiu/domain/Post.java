@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
 import java.util.Date;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -26,7 +28,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @JsonDeserialize(contentUsing = StringDeserializer.class, contentAs = String.class)
 @Data
 @Document(collection = "post")
-public class Post {
+public class Post implements Serializable {
 
   @ApiModelProperty(hidden = true, value = "일련번호")
   @Id

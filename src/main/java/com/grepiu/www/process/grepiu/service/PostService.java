@@ -9,7 +9,11 @@ import com.grepiu.www.process.grepiu.domain.Post;
 import java.util.HashMap;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -25,6 +29,7 @@ import org.springframework.stereotype.Service;
  * Post 서비스
  *
  */
+@Slf4j
 @Service
 public class PostService {
 
@@ -50,6 +55,7 @@ public class PostService {
    * @param post Post 객체
    * @return
    */
+  @CacheEvict(cacheNames = "post", allEntries = true)
   public Post save(Post post) {
     return (Post) postRepository.save(post);
   }
@@ -62,6 +68,7 @@ public class PostService {
    * @param post Post 객체
    * @return Post 객체
    */
+  @CacheEvict(cacheNames = "post", allEntries = true)
   public Post update(String id, Post post) {
     Post p = postRepository.findById(id);
     p.setSubject(post.getSubject());
@@ -88,6 +95,7 @@ public class PostService {
    * @param page
    * @return
    */
+  @Cacheable(value = "post", key = "{#page + #size}")
   public HashMap<String, Object> findAllPage(int page, int size) {
     HashMap<String, Object> r = Maps.newHashMap();
     Page<Post> p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
