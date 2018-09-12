@@ -49,7 +49,7 @@ public class LabRestController {
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.", HttpStatus.OK);
     }
 
-    @ApiOperation(value = "영화 상영관 정보 수동 처리")
+    @ApiOperation(value = "영화 상영관 크롤링 수동 처리")
     @GetMapping("/root/crawler/cine/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCinemaInfoByManual() {
         // 비동기 처리

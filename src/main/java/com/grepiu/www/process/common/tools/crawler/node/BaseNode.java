@@ -60,7 +60,7 @@ public abstract class BaseNode<T> {
       if(isProxy){
         Proxy proxy = new Proxy();
         //todo. DB or Files Set 가능하게 변경 예정
-        proxy.setHttpProxy("175.126.172.243:80");
+        proxy.setHttpProxy("220.90.147.137:80");
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(CapabilityType.PROXY, proxy);
         cap.setBrowserName(BrowserType.CHROME);
@@ -166,5 +166,5 @@ public abstract class BaseNode<T> {
    *     특정 이벤트처리를 위해 onUpdate 지정하여 사용
    * </pre>
    */
-  public abstract List<T> executeLogic();
+  public abstract List<T> execute();
 }

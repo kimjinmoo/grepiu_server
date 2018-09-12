@@ -2,13 +2,19 @@ package com.grepiu.www.process.grepiu.service;
 
 
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.common.api.exception.BadRequestException;
+import com.grepiu.www.process.common.api.service.BaseService;
+import com.grepiu.www.process.grepiu.dao.HashTagRepository;
 import com.grepiu.www.process.grepiu.dao.PostRepository;
 import com.grepiu.www.process.grepiu.domain.GrepIUSequence;
+import com.grepiu.www.process.grepiu.domain.HashTag;
 import com.grepiu.www.process.grepiu.domain.Post;
 
 import java.util.HashMap;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -37,44 +43,46 @@ public class PostService {
   private PostRepository postRepository;
 
   @Autowired
-  private MongoOperations mongoOperations;
+  private HashTagRepository hashTagRepository;
 
-  public int getNextSequence(String seqName)
-  {
-    GrepIUSequence counter = mongoOperations.findAndModify(
-        Query.query(Criteria.where("_id").is(seqName)),
-        new Update().inc("seq",1),
-        FindAndModifyOptions.options().returnNew(true).upsert(true),
-        GrepIUSequence.class);
-    return counter.getSeq();
-  }
+  @Autowired
+  private BaseService baseService;
   /**
    *
-   * 등록
+   * POST 등록
    *
    * @param post Post 객체
-   * @return
+   * @return Post 객체
    */
   @CacheEvict(cacheNames = "post", allEntries = true)
-  public Post save(Post post) {
-    return (Post) postRepository.save(post);
-  }
+  public Post savePost(Post post) {
+    // Set 시퀀스
+    post.setId(baseService.getNextSequence("post"));
+    // 없는 해시태그는 갱신한다.
+    post.getHashTag().forEach(v->{
+      HashTag ht = new HashTag();
+      ht.setName(v);
+      hashTagRepository.save(ht);
+    });
 
   /**
    *
-   * 수정
+   * POST - 수정
    *
    * @param id String 객체
    * @param post Post 객체
    * @return Post 객체
    */
   @CacheEvict(cacheNames = "post", allEntries = true)
-  public Post update(String id, Post post) {
-    Post p = postRepository.findById(id);
+  public Post updatePost(long id, Post post) throws Exception {
+    //Get Data
+    Post p = Optional.ofNullable(postRepository.findById(id)).orElseThrow(BadRequestException::new);
+    //Set Data
     p.setSubject(post.getSubject());
     p.setContent(post.getContent());
-    p.setCategory(post.getCategory());
-    p.setModifyId("");
+    p.setHashTag(post.getHashTag());
+    p.setModifyId(post.getModifyId());
+    //Save
     return (Post) postRepository.save(p);
   }
 
@@ -84,7 +92,7 @@ public class PostService {
    *
    * @return List<Post> 객체
    */
-  public List<Post> findAll() {
+  public List<Post> findPostAll() {
     return postRepository.findAll();
   }
 
@@ -96,7 +104,7 @@ public class PostService {
    * @return
    */
   @Cacheable(value = "post", key = "{#page + #size}")
-  public HashMap<String, Object> findAllPage(int page, int size) {
+  public HashMap<String, Object> findPostAllPage(int page, int size) {
     HashMap<String, Object> r = Maps.newHashMap();
     Page<Post> p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
     r.put("list", p.getContent());
@@ -112,8 +120,8 @@ public class PostService {
    * @param id String 객체
    * @return Post 객체
    */
-  public Post findOneByID(String id) {
-    return (Post) postRepository.findById(id);
+  public Post findOneByID(Long id) {
+    return (Post) postRepository.findById(id).get();
   }
 
   /**
@@ -122,7 +130,28 @@ public class PostService {
    *
    * @param id String 객체
    */
-  public void deleteById(String id) {
+  public void deletePostById(Long id) {
     postRepository.deleteById(id);
+  }
+
+  /**
+   *
+   * 해시태크 추가
+   *
+   * @param hashTag HashTag 객체
+   * @return HashTag 객체
+   */
+  public HashTag saveHashTag(HashTag hashTag) {
+    return hashTagRepository.save(hashTag);
+  }
+
+  /**
+   *
+   * 해시태크 불러온다.
+   *
+   * @return List<HashTag> 객체
+   */
+  public List<HashTag> getHashTag() {
+    return hashTagRepository.findAll();
   }
 }
