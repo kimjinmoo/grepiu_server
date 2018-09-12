@@ -36,9 +36,8 @@ public class Post {
   private long id;
 
   @ApiModelProperty(required = true, value = "범주")
-  @DBRef(db = "hashTag")
   @NotNull
-  private List<HashTag> hashTag;
+  private List<String> hashTag;
 
   @ApiModelProperty(required = true, value = "제목")
   @NotNull @NotEmpty

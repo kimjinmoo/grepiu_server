@@ -66,7 +66,12 @@ public class PostService {
    * @return
    */
   public Post savePost(Post post) {
-//    hashTagRepository.saveAll(post.getHashTag());
+    // 없는 해시태그는 갱신한다.
+    post.getHashTag().forEach(v->{
+      HashTag ht = new HashTag();
+      ht.setName(v);
+      hashTagRepository.save(ht);
+    });
     return (Post) postRepository.save(post);
 
   }
@@ -108,7 +113,6 @@ public class PostService {
   public HashMap<String, Object> findPostAllPage(int page, int size) {
     HashMap<String, Object> r = Maps.newHashMap();
     Page<Post> p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
-    log.info("view : {}", postRepository.findAll());
     r.put("list", p.getContent());
     r.put("tPage", p.getTotalPages());
     r.put("tCount", postRepository.count());
