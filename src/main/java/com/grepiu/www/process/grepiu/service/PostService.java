@@ -10,6 +10,8 @@ import com.grepiu.www.process.grepiu.domain.GrepIUSequence;
 import com.grepiu.www.process.grepiu.domain.HashTag;
 import com.grepiu.www.process.grepiu.domain.Post;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,6 +58,8 @@ public class PostService {
   public Post savePost(Post post) {
     // Set 시퀀스
     post.setId(baseService.getNextSequence("post"));
+    // 시퀀스 문제로 RegDate 서버에서 지정
+    post.setRegDate(new Date());
     // 없는 해시태그는 갱신한다.
     post.getHashTag().forEach(v->{
       HashTag ht = new HashTag();
