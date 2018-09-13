@@ -33,7 +33,7 @@ public class BaseControllerAdvice {
   public @ResponseBody Object exception(Exception e) {
     LinkedHashMap r = new LinkedHashMap();
     r.put("code",HttpStatus.INTERNAL_SERVER_ERROR.value());
-    r.put("message:", e.getMessage());
+    r.put("message", e.getMessage());
     return r;
   }
 
@@ -53,7 +53,7 @@ public class BaseControllerAdvice {
   public @ResponseBody Object loginErrPasswordException(LoginErrPasswordException e) {
     LinkedHashMap r = new LinkedHashMap();
     r.put("code",HttpStatus.FORBIDDEN.value());
-    r.put("message:", e.getMessage());
+    r.put("message", e.getMessage());
     return r;
   }
 }
