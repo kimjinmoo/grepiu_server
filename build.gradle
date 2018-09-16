@@ -149,6 +149,9 @@ dependencies {
 	compile group: 'org.glassfish.jaxb', name: 'jaxb-core', version: '2.3.0.1'
 	compile group: 'javax.activation', name: 'activation', version: '1.1.1'
 
+	// Annotation Procesor 적용
+	compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
