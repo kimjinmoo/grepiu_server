@@ -65,7 +65,7 @@ enum days {
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 @Slf4j
-public class CollectionTDD {
+public class CollectionSummary {
 
 
   /**
