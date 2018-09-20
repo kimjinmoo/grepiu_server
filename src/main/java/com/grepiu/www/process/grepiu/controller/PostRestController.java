@@ -30,7 +30,7 @@ public class PostRestController {
     @Autowired
     private CacheManager cacheManager;
 
-    @ApiOperation("포스트 캐시 삭제")
+    @ApiOperation("포스트 캐시 삭제[임시 캐시 삭제함]")
     @GetMapping("/post/cache/clear")
     public ResponseEntity<Void> removeCache(){
         Cache cache = cacheManager.getCache("post");
