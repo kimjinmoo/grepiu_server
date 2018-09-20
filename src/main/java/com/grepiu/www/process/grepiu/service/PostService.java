@@ -54,7 +54,7 @@ public class PostService {
    * @param post Post 객체
    * @return Post 객체
    */
-  @CacheEvict(cacheNames = "post", allEntries = true)
+//  @CacheEvict(cacheNames = "post", allEntries = true)
   public Post savePost(Post post) {
     // Set 시퀀스
     post.setId(baseService.getNextSequence("post"));
@@ -79,7 +79,7 @@ public class PostService {
    * @param post Post 객체
    * @return Post 객체
    */
-  @CacheEvict(cacheNames = "post", allEntries = true)
+//  @CacheEvict(cacheNames = "post", allEntries = true)
   public Post updatePost(long id, Post post) throws Exception {
     //Get Data
     Post p = Optional.ofNullable(postRepository.findById(id)).orElseThrow(BadRequestException::new);
@@ -110,7 +110,7 @@ public class PostService {
    * @param size Scale
    * @return HashMap<String, Object>
    */
-  @Cacheable(value = "post", key = "{#page + #size}")
+//  @Cacheable(value = "post", key = "{#page + #size}")
   public HashMap<String, Object> findPostAllPage(int page, int size) {
     HashMap<String, Object> r = Maps.newHashMap();
     Page<Post> p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
@@ -137,7 +137,7 @@ public class PostService {
    *
    * @param id String 객체
    */
-  @CacheEvict(cacheNames = "post", allEntries = true)
+//  @CacheEvict(cacheNames = "post", allEntries = true)
   public void deletePostById(Long id) {
     postRepository.deleteById(id);
   }
