@@ -22,6 +22,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -124,11 +125,33 @@ public class PostService {
    *
    * 상세 정보 가져오기.
    *
-   * @param id String 객체
+   * @param id Post ID
    * @return Post 객체
    */
   public Post findOneByID(Long id) {
     return (Post) postRepository.findById(id).get();
+  }
+
+  /**
+   *
+   * 이전 Post 정보
+   *
+   * @param id Post ID
+   * @return Post 객체
+   */
+  public Post findPostPrev(Long id) {
+    return postRepository.findFirstByIdLessThanOrderByRegDate(id);
+  }
+
+  /**
+   *
+   * 다음 Post 정보
+   *
+   * @param id Post ID
+   * @return Post 객체
+   */
+  public Post findPostNext(Long id) {
+    return postRepository.findFirstByIdGreaterThanOrderByRegDate(id);
   }
 
   /**
