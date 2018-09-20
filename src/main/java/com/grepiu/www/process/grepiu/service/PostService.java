@@ -140,7 +140,7 @@ public class PostService {
    * @return Post 객체
    */
   public Post findPostPrev(Long id) {
-    return postRepository.findFirstByIdLessThanOrderByRegDate(id);
+    return postRepository.findFirstByIdLessThanOrderByRegDateDesc(id);
   }
 
   /**
@@ -151,7 +151,7 @@ public class PostService {
    * @return Post 객체
    */
   public Post findPostNext(Long id) {
-    return postRepository.findFirstByIdGreaterThanOrderByRegDate(id);
+    return postRepository.findFirstByIdGreaterThanOrderByRegDateDesc(id);
   }
 
   /**
