@@ -120,10 +120,10 @@ public class PostService {
   public HashMap<String, Object> findPostAllPage(int page, int size, PostSearchForm form) {
     HashMap<String, Object> r = Maps.newHashMap();
 
-    Page<Post> p =
-        form.getHashTags().size() > 0 ? postRepository.findByHashTagLike(form.getHashTags(),
+    Page<Post> p = Optional.ofNullable(form.getHashTags()).isPresent() ?
+        postRepository.findByHashTagLike(form.getHashTags(),
             PageRequest.of(page, size, Direction.DESC, "regDate")) :
-            postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
+        postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
     r.put("list", p.getContent());
     r.put("tPage", p.getTotalPages());
     r.put("tCount", postRepository.count());
