@@ -6,8 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.stereotype.Repository;
 
+/**
+ *
+ * Aggregation
+ *
+ */
 @Slf4j
+@Repository
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
   private final MongoTemplate mongoTemplate;
@@ -19,14 +26,10 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
   @Override
   public AggregationResults<HashMap> aggregate() {
-    log.info("aggregation start ");
     Aggregation agg = Aggregation.newAggregation(
         Aggregation.group("hashTag").count().as("totCount")
     );
-    AggregationResults<HashMap> m = mongoTemplate.aggregate(agg, "test", HashMap.class);
-    m.getMappedResults().forEach(v->{
-      log.info("vv : {} : ", v);
-    });
+    AggregationResults<HashMap> m = mongoTemplate.aggregate(agg, "post", HashMap.class);
     return m;
   }
 }

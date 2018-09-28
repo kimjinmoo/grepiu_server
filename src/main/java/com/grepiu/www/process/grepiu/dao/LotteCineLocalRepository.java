@@ -8,7 +8,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
- * 롯데 시네 위치 정보 등록
+ * CinemaLocation Collection
+ * ref : https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
  *
  */
 public interface LotteCineLocalRepository extends MongoRepository<CinemaLocation, String> {

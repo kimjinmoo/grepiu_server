@@ -8,8 +8,10 @@ import com.grepiu.www.process.grepiu.dao.HashTagRepository;
 import com.grepiu.www.process.grepiu.dao.PostRepository;
 import com.grepiu.www.process.grepiu.domain.GrepIUSequence;
 import com.grepiu.www.process.grepiu.domain.HashTag;
+import com.grepiu.www.process.grepiu.domain.HashTagStatistics;
 import com.grepiu.www.process.grepiu.domain.Post;
 
+import com.grepiu.www.process.grepiu.domain.PostSearchForm;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import java.util.List;
 
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,6 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -109,12 +113,17 @@ public class PostService {
    *
    * @param page 페이지
    * @param size Scale
+   * @param form PostSearchForm 객체
    * @return HashMap<String, Object>
    */
 //  @Cacheable(value = "post", key = "{#page + #size}")
-  public HashMap<String, Object> findPostAllPage(int page, int size) {
+  public HashMap<String, Object> findPostAllPage(int page, int size, PostSearchForm form) {
     HashMap<String, Object> r = Maps.newHashMap();
-    Page<Post> p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
+
+    Page<Post> p =
+        form.getHashTags().size() > 0 ? postRepository.findByHashTagLike(form.getHashTags(),
+            PageRequest.of(page, size, Direction.DESC, "regDate")) :
+            postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
     r.put("list", p.getContent());
     r.put("tPage", p.getTotalPages());
     r.put("tCount", postRepository.count());
@@ -184,5 +193,26 @@ public class PostService {
    */
   public List<HashTag> getHashTag() {
     return hashTagRepository.findAll();
+  }
+
+  /**
+   *
+   * 해시태크 통계 값을 가져온다.
+   *
+   * @return List<HashTagStatistics>
+   */
+  public List<HashTagStatistics> getHashTagStatistics() {
+    List<HashTagStatistics> list = Lists.newArrayList();
+    hashTagRepository.findAll().stream().forEach((v) -> {
+      list.add(HashTagStatistics.builder()
+          .name(v.getName())
+          .count(postRepository.countByHashTag(v.getName()))
+          .build());
+    });
+    return list;
+  }
+
+  public AggregationResults<HashMap> aggregate() {
+    return postRepository.aggregate();
   }
 }

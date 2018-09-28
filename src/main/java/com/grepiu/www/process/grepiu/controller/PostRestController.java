@@ -3,7 +3,9 @@ package com.grepiu.www.process.grepiu.controller;
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.grepiu.domain.HashTag;
 import com.grepiu.www.process.grepiu.domain.Post;
+import com.grepiu.www.process.grepiu.domain.PostSearchForm;
 import com.grepiu.www.process.grepiu.service.PostService;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -61,15 +63,18 @@ public class PostRestController {
     return new ResponseEntity<>(postService.updatePost(id, post), HttpStatus.ACCEPTED);
   }
 
-  @ApiOperation("포스트 전체 리스트 가져오기")
+  @ApiOperation("포스트 리스트 가져오기")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "가져오기 완료"),
   })
   @GetMapping("/post")
   public ResponseEntity<Object> getPostPaging(
       @ApiParam(value = "페이지") @RequestParam int currentPage,
-      @RequestParam @ApiParam(value = "사이즈") int size) {
-    return new ResponseEntity<>(postService.findPostAllPage(currentPage, size), HttpStatus.OK);
+      @RequestParam @ApiParam(value = "사이즈") int size,
+      @ModelAttribute PostSearchForm form
+  ) {
+    return new ResponseEntity<>(postService.findPostAllPage(currentPage, size, form),
+        HttpStatus.OK);
   }
 
   @ApiOperation("포스트 상세 가져오기")
@@ -120,5 +125,11 @@ public class PostRestController {
   @GetMapping("/post/hash")
   public ResponseEntity<Object> getHashTag() {
     return new ResponseEntity<>(postService.getHashTag(), HttpStatus.OK);
+  }
+
+  @ApiModelProperty("해시 태크 통계")
+  @GetMapping("/post/hash/statistics")
+  public ResponseEntity<Object> getHashTagStatistics() {
+    return new ResponseEntity<>(postService.getHashTagStatistics(), HttpStatus.OK);
   }
 }

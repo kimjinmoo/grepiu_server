@@ -6,7 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
- * 몽고 DB
+ * Cinema Collection
+ * ref : https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
+ *
  */
 public interface LotteCineDBRepository extends MongoRepository<Cinema, String> {
     List<Cinema> findAllBy();
