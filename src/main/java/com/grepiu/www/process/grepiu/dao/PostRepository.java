@@ -26,6 +26,8 @@ public interface PostRepository extends MongoRepository<Post, Long>, PostReposit
 
   Post findFirstByIdLessThanOrderByRegDateDesc(long id);
 
+  Post findFirstByIdGreaterThanOrderByRegDateAsc(long id);
+
   List<Post> findAllByHashTag(String name);
 
 
