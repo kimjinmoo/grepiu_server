@@ -113,9 +113,10 @@ public class PostRestController {
   @ApiResponses(value = {
       @ApiResponse(code = 201, message = "등록 완료"),
   })
-  @DeleteMapping("/post/hash/{name}")
-  public ResponseEntity<Object> deleteHashTag(@PathVariable("name") String name) {
-    return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+  @DeleteMapping("/post/hash/{hashTag}")
+  public ResponseEntity<Void> deleteHashTag(@PathVariable("hashTag") String hashTag) {
+    postService.deleteHashTag(hashTag);
+    return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
 
   @ApiOperation("해시태그 리스트")

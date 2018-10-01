@@ -176,13 +176,23 @@ public class PostService {
 
   /**
    *
-   * 해시태크 추가
+   * 해시태그 추가
    *
    * @param hashTag HashTag 객체
    * @return HashTag 객체
    */
   public HashTag saveHashTag(HashTag hashTag) {
     return hashTagRepository.save(hashTag);
+  }
+
+  /**
+   *
+   * 해시태그 삭제
+   *
+   * @param hashTag
+   */
+  public void deleteHashTag(String hashTag) {
+    hashTagRepository.deleteById(hashTag);
   }
 
   /**
