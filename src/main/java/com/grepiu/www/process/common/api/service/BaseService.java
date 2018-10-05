@@ -172,4 +172,16 @@ public class BaseService {
     public List<User> getUsers()  {
         return userRepository.findAll();
     }
+
+    /**
+     *
+     * 유저틀 탈퇴 시킨다.
+     *
+     * @param id id 정보
+     * @return 삭제된 ID
+     */
+    public Object deleteUser(String id) {
+        //userRepository.deleteById(id);
+        return id;
+    }
 }
