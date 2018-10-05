@@ -9,6 +9,7 @@ import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
 import com.grepiu.www.process.common.api.domain.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -41,6 +42,9 @@ public class ScheduleJob {
   @Autowired
   private SimpMessagingTemplate template;
 
+  @Value("${crawler.proxy}")
+  private String proxyServerIp;
+
   /**
    * 크롤링 스케쥴러
    * <second> <minute> <hour> <day-of-month> <month> <day-of-week> <year> <command>
@@ -52,6 +56,7 @@ public class ScheduleJob {
     log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
     //step1. Collect Data
     CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
+    ch.isEnableProxy(proxyServerIp);
     ch.addExecuteNode(new LotteCinemaNode());
     ch.addObserver(o -> {
       //DB delete

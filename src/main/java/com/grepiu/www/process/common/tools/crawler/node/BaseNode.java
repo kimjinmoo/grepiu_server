@@ -25,8 +25,15 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  */
 public abstract class BaseNode<T> {
 
-  final int sleep_second = 2500;
+  // 지현 시간
+  private final int sleep_second = 2500;
+  // 설정 정보
+  private final String localChromeDriver = "c:\\workspace\\sw\\selenium\\chromedriver.exe";
+  private final String remoteChromeDriver = "http://selenium.grepiu.com/wd/hub";
+
+  // WebDriver
   private WebDriver driver;
+  // WebDriver 타입
   private String driverType = "CHROME";
 
   private final String chromePath = "/usr/bin/chromedriver";
@@ -35,19 +42,28 @@ public abstract class BaseNode<T> {
   /**
    * 크롬으로 초기화
    */
-  public void initChrome(String startUrl) {
+  public void initChromeLocal(String startUrl) {
 
 //    System.setProperty("webdriver.chrome.driver", chromePath);
-        System.setProperty("webdriver.chrome.driver", "c:\\workspace\\sw\\selenium\\chromedriver.exe");
+    this.driverType = "CHROME";
+    System.setProperty("webdriver.chrome.driver", localChromeDriver);
     this.driver = new ChromeDriver();
     this.driver.get(startUrl);
 
-    this.driverType = "CHROME";
+
     sleep();
   }
+
+  /**
+   *
+   * 원격 크롬 driver
+   *
+   * @param startUrl
+   */
   public void initChromeRemote(String startUrl) {
     try {
-      this.driver = new RemoteWebDriver(new URL("http://selenium.grepiu.com/wd/hub"),
+      this.driverType = "CHROME";
+      this.driver = new RemoteWebDriver(new URL(remoteChromeDriver),
           DesiredCapabilities.chrome());
       this.driver.get(startUrl);
     } catch (Exception e) {
@@ -55,34 +71,48 @@ public abstract class BaseNode<T> {
     }
   }
 
-  public void initChromeRemote(String startUrl, boolean isProxy) {
+  /**
+   *
+   * 크롬 원격 driver
+   *
+   * @param startUrl 크롤링 시작 URL
+   * @param option ExecuteOption 객체
+   */
+  public void initChromeRemote(String startUrl, ExecuteOption option) {
     try {
-      if(isProxy){
+      this.driverType = "CHROME";
+
+      if(option.isProxyUse()) {
         Proxy proxy = new Proxy();
-        //todo. DB or Files Set 가능하게 변경 예정
-        proxy.setHttpProxy("220.90.147.137:80");
+        proxy.setHttpProxy(option.getProxyServerIp());
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(CapabilityType.PROXY, proxy);
         cap.setBrowserName(BrowserType.CHROME);
         cap.setPlatform(Platform.ANY);
-        this.driver = new RemoteWebDriver(new URL("http://selenium.grepiu.com/wd/hub"), cap);
+        this.driver = new RemoteWebDriver(new URL(remoteChromeDriver), cap);
       } else {
-        this.driver = new RemoteWebDriver(new URL("http://selenium.grepiu.com/wd/hub"),
+        this.driver = new RemoteWebDriver(new URL(remoteChromeDriver),
             DesiredCapabilities.chrome());
       }
+
       this.driver.get(startUrl);
     } catch (Exception e) {
-      e.printStackTrace();
       throw new RuntimeException("초기화에 실패 하였습니다.");
     }
   }
 
+  /**
+   *
+   * firefox driver
+   *
+   * @param url
+   */
   public void initFirefox(String url) {
     System.setProperty("webdriver.gecko.driver", firefoxPath);
 //    System.setProperty("webdriver.gecko.driver", "c:\\workspace\\sw\\selenium\\geckodriver.exe");
     this.driver = new FirefoxDriver();
     this.driver.get(url);
-    ;
+
     this.driverType = "FIREFOX";
     sleep();
   }
@@ -100,19 +130,23 @@ public abstract class BaseNode<T> {
     }
   }
 
+  /**
+   *
+   * 크롤링 driver 접속을 끝낸다.
+   *
+   */
   public void quit() {
     getDriver().quit();
   }
 
+  /**
+   *
+   * Driver를 가져온다.
+   *
+   * @return
+   */
   public WebDriver getDriver() {
-    switch (this.driverType) {
-      case "CHROME":
-        return driver;
-      case "FIREFOX":
-        return driver;
-      default:
-        return null;
-    }
+    return this.driver;
   }
 
   /**
@@ -166,5 +200,5 @@ public abstract class BaseNode<T> {
    *     특정 이벤트처리를 위해 onUpdate 지정하여 사용
    * </pre>
    */
-  public abstract List<T> execute();
+  public abstract List<T> execute(ExecuteOption executeOption);
 }

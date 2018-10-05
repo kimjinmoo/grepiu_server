@@ -1,5 +1,6 @@
 package com.grepiu.www.process.grepiu.controller;
 
+import com.grepiu.www.process.grepiu.domain.CinemaInfoOptionForm;
 import com.grepiu.www.process.grepiu.service.LabService;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
@@ -51,9 +52,9 @@ public class LabRestController {
 
     @ApiOperation(value = "영화 상영관 크롤링 수동 처리")
     @GetMapping("/root/crawler/cine/saveCinemaInfoByManual")
-    public ResponseEntity<Object> saveCinemaInfoByManual() {
+    public ResponseEntity<Object> saveCinemaInfoByManual(@ModelAttribute CinemaInfoOptionForm cinemaInfoOptionForm) {
         // 비동기 처리
-        labService.collectionCinemaMovieInfo();
+        labService.collectionCinemaMovieInfo(cinemaInfoOptionForm);
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
     }
 

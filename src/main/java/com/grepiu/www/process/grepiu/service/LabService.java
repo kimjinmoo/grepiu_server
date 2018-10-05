@@ -12,6 +12,7 @@ import com.grepiu.www.process.grepiu.dao.HashTagRepository;
 import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
 import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
 import com.grepiu.www.process.common.api.domain.Message;
+import com.grepiu.www.process.grepiu.domain.CinemaInfoOptionForm;
 import com.grepiu.www.process.grepiu.domain.HashTag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +69,13 @@ public class LabService {
     }
 
     @Async
-    public void collectionCinemaMovieInfo() {
+    public void collectionCinemaMovieInfo(CinemaInfoOptionForm cinemaInfoOptionForm) {
         try {
             //step1. Collect Data
             CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
+            if(cinemaInfoOptionForm.isEnableProxy()){
+                ch.isEnableProxy(cinemaInfoOptionForm.getProxyServerIp());
+            }
             ch.addExecuteNode(new LotteCinemaNode());
             ch.addObserver(o -> {
                 //DB delete

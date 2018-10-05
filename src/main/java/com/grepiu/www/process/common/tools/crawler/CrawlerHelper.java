@@ -2,6 +2,7 @@ package com.grepiu.www.process.common.tools.crawler;
 
 import com.google.common.collect.Lists;
 import com.grepiu.www.process.common.tools.crawler.node.BaseNode;
+import com.grepiu.www.process.common.tools.crawler.node.ExecuteOption;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +20,9 @@ public class CrawlerHelper<T> implements Executor<T> {
     private List<BaseNode<T>> executeNodes;  // 실행 노드들
     private List<T> data;                     // data
 
+    private String proxyServer;                      // 프럭시 대응
+    private boolean isEnableProxy = false;        // 프럭시 사용 여부
+
     /**
      *
      * 기본 생성자
@@ -29,6 +33,17 @@ public class CrawlerHelper<T> implements Executor<T> {
         this.observers = Lists.newArrayList();
         this.executeNodes = Lists.newArrayList();
         this.data = Lists.newArrayList();
+    }
+
+    /**
+     *
+     * 프럭시 사용하도록 한다.
+     *
+     * @param proxyServer
+     */
+    public void isEnableProxy(String proxyServer) {
+        this.isEnableProxy = true;
+        this.proxyServer = proxyServer;
     }
 
     /**
@@ -84,8 +99,9 @@ public class CrawlerHelper<T> implements Executor<T> {
     @Override
     public void execute() throws Exception {
         try {
-            executeNodes.parallelStream().forEach(v->{
-                data.addAll(v.execute());
+            executeNodes.parallelStream().forEach(v -> {
+                data.addAll(v.execute(ExecuteOption.builder().isProxyUse(this.isEnableProxy)
+                    .proxyServerIp(this.proxyServer).build()));
             });
             // 처리가 완료 되면 등록된 감시자의 update문을 실행한다.
             callObserver();
