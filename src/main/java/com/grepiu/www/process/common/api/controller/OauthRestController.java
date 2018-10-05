@@ -6,6 +6,7 @@ import com.grepiu.www.process.common.api.service.BaseService;
 import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,8 +55,7 @@ public class OauthRestController {
 
   @ApiOperation("유저 회원 탈퇴")
   @PostMapping("/users/leave")
-  public ResponseEntity<Object> leave(Principal principal) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    return new ResponseEntity<>(auth.getPrincipal(), HttpStatus.OK);
+  public ResponseEntity<Object> leave(HttpServletRequest request) {
+    return new ResponseEntity<>(request.getUserPrincipal(), HttpStatus.OK);
   }
 }
