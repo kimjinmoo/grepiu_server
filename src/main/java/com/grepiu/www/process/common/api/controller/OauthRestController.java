@@ -55,8 +55,8 @@ public class OauthRestController {
   }
 
   @ApiOperation("유저 회원 탈퇴")
-  @PostMapping("/users/leave")
-  public ResponseEntity<Object> leave(OAuth2Authentication auth) {
-    return new ResponseEntity<>(auth.getPrincipal(), HttpStatus.OK);
+  @GetMapping("/users/leave")
+  public ResponseEntity<Object> leave(Principal principal) {
+    return new ResponseEntity<>(baseService.deleteUser(principal.getName()), HttpStatus.OK);
   }
 }
