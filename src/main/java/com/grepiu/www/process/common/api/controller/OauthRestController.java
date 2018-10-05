@@ -49,14 +49,13 @@ public class OauthRestController {
 
   @ApiOperation("유저 정보를 가져온다.")
   @GetMapping("/users/me")
-  public @ResponseBody
-  Object user(Principal principal) {
-      return principal;
+  public Object user(Principal principal) {
+    return principal;
   }
 
   @ApiOperation("유저 회원 탈퇴")
   @GetMapping("/users/leave")
   public ResponseEntity<Object> leave(Principal principal) {
-    return new ResponseEntity<>(baseService.deleteUser(principal.getName()), HttpStatus.OK);
+    return new ResponseEntity<>(principal, HttpStatus.OK);
   }
 }
