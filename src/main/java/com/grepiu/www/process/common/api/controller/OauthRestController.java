@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -55,7 +56,7 @@ public class OauthRestController {
 
   @ApiOperation("유저 회원 탈퇴")
   @PostMapping("/users/leave")
-  public ResponseEntity<Object> leave(HttpServletRequest request) {
-    return new ResponseEntity<>(request.getUserPrincipal(), HttpStatus.OK);
+  public ResponseEntity<Object> leave(OAuth2Authentication auth) {
+    return new ResponseEntity<>(auth.getPrincipal(), HttpStatus.OK);
   }
 }
