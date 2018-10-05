@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Builder
 public class ExecuteOption {
+  @Builder.Default
   private boolean isProxyUse = false;
   private String proxyServerIp;
 
