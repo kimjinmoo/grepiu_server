@@ -2,12 +2,17 @@ package com.grepiu.www.process.common.api.service;
 
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.domain.LoginForm;
+import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
+import com.grepiu.www.process.common.api.exception.BadRequestException;
 import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.domain.User;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.service.UserService;
 import com.grepiu.www.process.grepiu.domain.GrepIUSequence;
+import java.util.Map;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -16,6 +21,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
@@ -157,12 +164,23 @@ public class BaseService {
      * 유저 등록
      *
      * @param user User객체
-     * @return
+     * @return User 객체
      */
     public User saveUser(User user) {
         return userRepository.save(user);
     }
 
+    /**
+     *
+     * 유저 비밀번호를 변경한다.
+     *
+     * @param form UserPasswordUpdateForm 객체
+     * @return User 객체
+     * @throws Exception
+     */
+    public User updateUser(UserPasswordUpdateForm form) throws Exception {
+        return userService.updatePassword(form);
+    }
     /**
      *
      * 유저들 정보를 가져온다.
@@ -177,11 +195,29 @@ public class BaseService {
      *
      * 유저틀 탈퇴 시킨다.
      *
-     * @param id id 정보
+     * @param authentication Authentication 객체
      * @return 삭제된 ID
      */
-    public Object deleteUser(String id) {
-        //userRepository.deleteById(id);
-        return id;
+    public Object deleteUser(Authentication authentication) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        // 상세 정보
+        Map<String, String> details = Optional.ofNullable(objectMapper
+            .convertValue(authentication.getDetails(), Map.class))
+            .orElseThrow(BadRequestException::new);
+
+        // 유저 정보
+        Map<String, String> principal = Optional.ofNullable(objectMapper
+            .convertValue(authentication.getPrincipal(), Map.class))
+            .orElseThrow(BadRequestException::new);
+
+        // 토큰 존재 여부 확인
+        OAuth2AccessToken token = Optional
+            .ofNullable(tokenStore.readAccessToken(details.get("tokenValue")))
+            .orElseThrow(BadRequestException::new);
+        if(!token.isExpired()){
+            userRepository.deleteById(principal.get("username"));
+            tokenStore.removeAccessToken(token);
+        }
+        return principal.get("username");
     }
 }

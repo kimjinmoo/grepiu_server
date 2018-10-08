@@ -17,6 +17,12 @@ import org.springframework.security.oauth2.provider.ClientRegistrationService;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
 import org.springframework.stereotype.Service;
 
+/**
+ *
+ * Oauth에 적용
+ * todo. 작업 진행중. 현재는 redis 사용중
+ *
+ */
 @Service
 public class MongoClientDetailsService implements ClientDetailsService, ClientRegistrationService {
 

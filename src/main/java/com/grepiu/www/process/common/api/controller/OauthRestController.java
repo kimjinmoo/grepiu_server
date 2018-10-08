@@ -1,13 +1,17 @@
 package com.grepiu.www.process.common.api.controller;
 
 import com.grepiu.www.process.common.api.domain.LoginForm;
+import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.api.service.BaseService;
 import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,9 +57,17 @@ public class OauthRestController {
     return principal;
   }
 
+  @ApiOperation("유저 비밀번호를 변경 한다.")
+  @GetMapping("/user/password")
+  public Object updatePassword(Principal principal, @RequestBody UserPasswordUpdateForm form)
+      throws Exception {
+    form.setId(principal.getName());
+    return baseService.updateUser(form);
+  }
+
   @ApiOperation("유저 회원 탈퇴")
-  @GetMapping("/users/leave")
-  public Object leave(Principal principal) {
-    return baseService.deleteUser(principal.getName());
+  @PostMapping("/users/leave")
+  public Object leave(Authentication authentication) throws Exception {
+    return baseService.deleteUser(authentication);
   }
 }
