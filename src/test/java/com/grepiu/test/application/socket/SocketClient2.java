@@ -15,18 +15,16 @@ public class SocketClient2 {
     ObjectInputStream ois = null;
 
     while(true){
-      //establish socket connection to server
+      // 소켓 초기화
       socket = new Socket(host.getHostName(), 9090);
-      //write to socket using ObjectOutputStream
+      // 문자 입력
       oos = new ObjectOutputStream(socket.getOutputStream());
-      System.out.println("Sending request to Socket Server");
-//      if(i==4)oos.writeObject("exit");
-      oos.writeObject(" 데이터 전달2");
-      //read the server response message
+      oos.writeObject("몰라요");
+      //응답 문자 처리
       ois = new ObjectInputStream(socket.getInputStream());
       String message = (String) ois.readObject();
-      System.out.println("Message: " + message);
-      //close resources
+      System.out.println("응답값 : " + message);
+      // 종료
       ois.close();
       oos.close();
       Thread.sleep(1000);
