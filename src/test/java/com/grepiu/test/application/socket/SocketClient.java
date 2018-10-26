@@ -2,6 +2,8 @@ package com.grepiu.test.application.socket;
 
 import com.google.common.collect.Lists;
 import com.grepiu.test.application.socket.test.Header;
+import com.grepiu.test.application.socket.test.Header.Builder;
+import com.grepiu.test.application.socket.test.Header.Type;
 import com.grepiu.www.process.grepiu.domain.Post;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -27,7 +29,9 @@ public class SocketClient {
     ObjectOutputStream oos = null;
     ObjectInputStream ois = null;
 
-    Header header = new Header("SAC!@#", "한글", "9101");
+    Header header = new Header.Builder(Type.ORDER)
+        .communicationType("fff")
+        .build();
 
     while(true){
       // 소켓 초기화
