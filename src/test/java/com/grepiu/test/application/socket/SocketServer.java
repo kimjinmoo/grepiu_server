@@ -1,10 +1,6 @@
 package com.grepiu.test.application.socket;
 
-import java.io.DataInputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.springframework.security.core.parameters.P;
@@ -24,9 +20,15 @@ public class SocketServer {
     try {
       while (true) {
         socket = listener.accept();
-        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-        byte[] message = (byte[]) ois.readObject();
-        System.out.println("message : " + new String(message,"KSC5601"));
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        byte[] in = new byte[100];
+        int bytesRead = dis.read(in);
+        resMessage += new String(in, 0, bytesRead);
+        System.out.println("MESSAGE: " + resMessage);
+//        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+//        byte[] message = (byte[]) ois.readObject();
+//        byte[] message = (byte[]) dis.rea;
+//        System.out.println("message : " + new String(message,"KSC5601"));
 //        String message = (String) ois.readObject();
 //        if(message.length() == 10) {
 //          System.out.println("정상적인 메세지: ");
@@ -41,7 +43,11 @@ public class SocketServer {
 
 //        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 //        oos.writeObject("결과 메세지 : " + resMessage);
-        ois.close();
+        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        dos.write("서버는 데이터 받음".getBytes());
+        dos.flush();
+        dis.close();
+        dos.close();
 //        oos.close();
 
       }
