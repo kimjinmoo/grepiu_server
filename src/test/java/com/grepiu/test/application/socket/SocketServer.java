@@ -16,14 +16,15 @@ public class SocketServer {
     ServerSocket listener = new ServerSocket(9090);
     Socket socket = null;
 
-    String resMessage = "";
+
     try {
       while (true) {
+        String resMessage = "";
         socket = listener.accept();
         DataInputStream dis = new DataInputStream(socket.getInputStream());
         byte[] in = new byte[100];
         int bytesRead = dis.read(in);
-        resMessage += new String(in, 0, bytesRead);
+        resMessage += new String(in, 0, bytesRead,"KSC5601");
         System.out.println("MESSAGE: " + resMessage);
 //        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 //        byte[] message = (byte[]) ois.readObject();

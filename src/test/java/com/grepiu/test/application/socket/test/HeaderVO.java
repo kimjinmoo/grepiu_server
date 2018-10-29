@@ -2,9 +2,12 @@ package com.grepiu.test.application.socket.test;
 
 public class HeaderVO {
 
+  public static final int buffer = 129;
+
   private String communicationType; //통신식별자 6
   private String textLength;         //전물길이 6
   private String textNo;              //전문번호 4
+  private String data = "";           //데이터 (다이나믹)
 
   public void setCommunicationType(String communicationType) {
     this.communicationType = isN(6, communicationType);
@@ -18,8 +21,14 @@ public class HeaderVO {
     this.textNo = isX(4, textNo);
   }
 
+  public void setData(String data) {
+    this.data = data;
+  }
+
   public byte[] getDate() throws Exception {
-    return toString().getBytes("KSC5601");
+    byte[] bytes = new byte[buffer+data.length()];
+    bytes = toString().getBytes("KSC5601");
+    return bytes;
   }
 
   private String isN(int length, String n) {
@@ -33,8 +42,11 @@ public class HeaderVO {
   }
 
   public String toString() {
-    return new String(this.communicationType)+
-        new String(this.textLength) +
-        new String(this.textNo);
+    StringBuilder sb = new StringBuilder();
+    sb.append(communicationType)
+            .append(this.textLength)
+            .append(this.textNo)
+            .append(this.data);
+    return sb.toString();
   }
 }

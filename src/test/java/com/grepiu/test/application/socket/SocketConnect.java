@@ -30,6 +30,7 @@ public class SocketConnect {
             header.setCommunicationType("11");
             header.setTextLength("3123");
             header.setTextNo("1323");
+            header.setData("추가데이터");
             System.out.println("send message "+ header.toString());
             mObjOStream.write(header.getDate());
             mObjOStream.flush();
