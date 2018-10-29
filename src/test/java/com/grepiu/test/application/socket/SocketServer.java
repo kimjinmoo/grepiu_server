@@ -44,7 +44,7 @@ public class SocketServer {
 //        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 //        oos.writeObject("결과 메세지 : " + resMessage);
         DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-        dos.write("서버는 데이터 받음".getBytes());
+        dos.write("서버는 데이터 받음".getBytes("KSC5601"));
         dos.flush();
         dis.close();
         dos.close();

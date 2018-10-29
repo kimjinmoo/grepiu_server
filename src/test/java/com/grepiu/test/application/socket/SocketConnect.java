@@ -1,5 +1,7 @@
 package com.grepiu.test.application.socket;
 
+import com.grepiu.test.application.socket.test.HeaderVO;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.InetSocketAddress;
@@ -24,18 +26,18 @@ public class SocketConnect {
             mObjOStream = new DataOutputStream(mSocket.getOutputStream());
             mObjIStream = new DataInputStream(mSocket.getInputStream());
 
-            byte[] out = new byte[buffer];
-            String sendmgs = "test";	// your sending message
-            out = sendmgs.getBytes();
-            mObjOStream.write(out);
+            HeaderVO header = new HeaderVO();
+            header.setCommunicationType("11");
+            header.setTextLength("3123");
+            header.setTextNo("1323");
+            System.out.println("send message "+ header.toString());
+            mObjOStream.write(header.getDate());
             mObjOStream.flush();
-            System.out.println("message sended: " + sendmgs);
 
             // 응답값 가져오기
             byte[] in = new byte[buffer];
             mObjIStream.read(in,0,in.length);
-            String response = new String(in,0,in.length);	// your receiving message
-            response.trim();
+            String response = new String(in,0,in.length,"KSC5601");	// your receiving message
 
             System.out.println("response=" + response + "@end");
             mSocket.close();
