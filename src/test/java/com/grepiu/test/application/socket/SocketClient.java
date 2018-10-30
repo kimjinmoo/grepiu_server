@@ -44,7 +44,7 @@ public class SocketClient {
       outputStream.write(header.getDate());         // header
       outputStream.write("20180608".getBytes());  // body
       outputStream.write("20180609".getBytes());  // data
-      oos.writeObject(outputStream.toByteArray());
+      oos.write(header.getDate());
 
       outputStream.close();
 

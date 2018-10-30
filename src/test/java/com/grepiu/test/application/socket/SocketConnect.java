@@ -2,10 +2,14 @@ package com.grepiu.test.application.socket;
 
 import com.grepiu.test.application.socket.test.HeaderVO;
 
+import com.grepiu.www.process.common.utils.SocketUtils;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.List;
+import java.util.UUID;
+import org.assertj.core.util.Lists;
 
 public class SocketConnect {
 
@@ -13,40 +17,15 @@ public class SocketConnect {
     private static final int port = 9090;
     private static final int buffer = 100;
 
+    public static void main(String...args) throws Exception {
+        HeaderVO header = new HeaderVO();
+        header.setCommunicationType("11");
+        header.setTextLength("3123");
+        header.setTextNo("1323");
+        header.setData(UUID.randomUUID().toString());
 
-    public static void main(String...args) {
-        Socket mSocket = null;
-        DataOutputStream mObjOStream = null;
-        DataInputStream mObjIStream = null;
-
-        try
-        {
-            mSocket = new Socket();
-            mSocket.connect(new InetSocketAddress(ip, port));
-            mObjOStream = new DataOutputStream(mSocket.getOutputStream());
-            mObjIStream = new DataInputStream(mSocket.getInputStream());
-
-            HeaderVO header = new HeaderVO();
-            header.setCommunicationType("11");
-            header.setTextLength("3123");
-            header.setTextNo("1323");
-            header.setData("추가데이터");
-            System.out.println("send message "+ header.toString());
-            mObjOStream.write(header.getDate());
-            mObjOStream.flush();
-
-            // 응답값 가져오기
-            byte[] in = new byte[buffer];
-            mObjIStream.read(in,0,in.length);
-            String response = new String(in,0,in.length,"KSC5601");	// your receiving message
-
-            System.out.println("response=" + response + "@end");
-            mSocket.close();
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-        }
+        String response = SocketUtils.sendDataStream(new Socket(), ip, port, header.getDate());
+        System.out.println("response : [" + response + "]end");
 
     }
 }
