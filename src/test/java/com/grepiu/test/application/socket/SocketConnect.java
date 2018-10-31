@@ -24,8 +24,24 @@ public class SocketConnect {
         header.setTextNo("1323");
         header.setData(UUID.randomUUID().toString());
 
-        String response = SocketUtils.sendDataStream(new Socket(), ip, port, header.getDate());
-        System.out.println("response : [" + response + "]end");
+//        String response = SocketUtils.sendDataStream(new Socket(), ip, port, header.getDate());
+        StringBuilder sb = new StringBuilder();
+        String sample = sb.append("SAC!@#")
+            .append("   133")
+            .append("9102")
+            .append("v9.9.9.9    ")
+            .append("102103                        ")
+            .append("103065                        ")
+            .append("N")
+            .append("                             ")
+            .append("    ")
+            .append(" ")
+            .append("000000")
+            .append("20181029")
+            .append("20181030").toString();
+        System.out.println("sample size : [" + sample.length() + "]");
+        String response = SocketUtils.sendDataStream(new Socket(), ip, port, sample.getBytes("KSC5601"));
+//        System.out.println("response : [" + response + "]end");
 
     }
 }
