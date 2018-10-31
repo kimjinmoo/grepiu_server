@@ -41,6 +41,24 @@ public class SocketConnect {
             .append("20181030").toString();
         System.out.println("sample size : [" + sample.length() + "]");
         String response = SocketUtils.sendDataStream(new Socket(), ip, port, sample.getBytes("KSC5601"));
+
+        StringBuilder sb2 = new StringBuilder();
+        // N 항목 처리
+        String sample2 = sb2.append("SAC!@#")
+            .append("000133") // 왼쪽 공란 0 채움
+            .append("9102")
+            .append("v9.9.9.9    ")
+            .append("102103                        ")
+            .append("103065                        ")
+            .append("N")
+            .append("                             ")
+            .append("    ")
+            .append(" ")
+            .append("000000")
+            .append("20181029")
+            .append("20181030").toString();
+        System.out.println("sample size : [" + sample2.length() + "]");
+        String response2 = SocketUtils.sendDataStream(new Socket(), ip, port, sample2.getBytes("KSC5601"));
 //        System.out.println("response : [" + response + "]end");
 
     }
