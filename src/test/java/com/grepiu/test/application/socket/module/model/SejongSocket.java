@@ -7,21 +7,22 @@ package com.grepiu.test.application.socket.module.model;
  */
 public abstract class SejongSocket {
 
-  // 전문 코드
-  protected String code;
-
-  // 세종문화 IP
-  protected String ip = "127.0.0.1";
-
-  // 세종문화 Port
-  protected int port = 9090;
+  // 헤더
+  protected String header;
 
   public SejongSocket(String code) {
-    this.code = code;
-  }
-
-  public String getCode() {
-    return code;
+    StringBuilder sb = new StringBuilder();
+    this.header = sb.append("SAC!@#")
+        .append("   133")
+        .append(code)
+        .append("v9.9.9.9    ")
+        .append("102103                        ")
+        .append("103065                        ")
+        .append("N")
+        .append("                             ")
+        .append("    ")
+        .append(" ")
+        .append("000000").toString();
   }
 
   // 메세지를 전송한다.
