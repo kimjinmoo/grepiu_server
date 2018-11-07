@@ -3,7 +3,7 @@ package com.grepiu.test.application.socket;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import org.springframework.security.core.parameters.P;
+import java.util.Date;
 
 /**
  *
@@ -14,46 +14,26 @@ public class SocketServer {
 
   public static void main(String...args) throws Exception {
     ServerSocket listener = new ServerSocket(9090);
-    Socket socket = null;
-
-
     try {
       while (true) {
-        String resMessage = "";
-        socket = listener.accept();
-        DataInputStream dis = new DataInputStream(socket.getInputStream());
-        byte[] in = new byte[100];
-        int bytesRead = dis.read(in);
-        resMessage += new String(in, 0, bytesRead,"KSC5601");
-        System.out.println("MESSAGE: " + resMessage);
-//        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-//        byte[] message = (byte[]) ois.readObject();
-//        byte[] message = (byte[]) dis.rea;
-//        System.out.println("message : " + new String(message,"KSC5601"));
-//        String message = (String) ois.readObject();
-//        if(message.length() == 10) {
-//          System.out.println("정상적인 메세지: ");
-//          System.out.println("성 : "+message.substring(0,1));
-//          System.out.println("이름 : "+message.substring(1,3));
-//          System.out.println("나머지글자 : "+message.substring(4, message.length()));
-//          resMessage = "성공";
-//        } else {
-//          System.out.println("잘못된 메세지 " + message);
-//          resMessage = "실패";
-//        }
+        Socket socket = listener.accept();
+        try {
+          DataInputStream in =
+              new DataInputStream(socket.getInputStream());
+          OutputStream out = new DataOutputStream(socket.getOutputStream());
 
-//        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-//        oos.writeObject("결과 메세지 : " + resMessage);
-        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-        dos.write("서버는 데이터 받음".getBytes("KSC5601"));
-        dos.flush();
-        dis.close();
-        dos.close();
-//        oos.close();
+          byte[] bytes = new byte[1024];
+          int len = in.read(bytes);
+          String result = new String(bytes, 0, len, "KSC5601");
+          System.out.println("받음 : " + result);
 
+          out.write(new Date().toString().getBytes("KSC5601"));
+        } finally {
+          socket.close();
+        }
       }
-    } finally {
-      socket.close();
+    }
+    finally {
       listener.close();
     }
   }

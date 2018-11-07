@@ -15,9 +15,7 @@ public class SocketUtils {
     SocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance().getSocketConnectionPool();
     SocketConnection connection = connectionPool.getConnection();
     connection.sendData(data);
-    String result = connection.receiveData();
     connection.close();
-
-    return result;
+    return connection.receiveData();
   }
 }

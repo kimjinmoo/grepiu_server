@@ -3,9 +3,9 @@ package com.grepiu.test.application.socket.module.pool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GenericSocketConnectionPoolFactory implements SocketConnectionPoolFactory {
+public class SejongSocketConnectionPoolFactory implements SocketConnectionPoolFactory {
 
-  static final Logger logger = LoggerFactory.getLogger(GenericSocketConnectionPoolFactory.class);
+  static final Logger logger = LoggerFactory.getLogger(SejongSocketConnectionPoolFactory.class);
 
   private static final String DEFAULT_HOST = "127.0.0.1";
   private static final int DEFAULT_PORT = 9090;

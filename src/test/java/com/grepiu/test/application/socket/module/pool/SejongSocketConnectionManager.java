@@ -27,7 +27,7 @@ public class SejongSocketConnectionManager {
     }
     if (socketConnectionPool == null) {
       try {
-        SocketConnectionPoolFactory socketConnectionPoolFactory = new GenericSocketConnectionPoolFactory();
+        SocketConnectionPoolFactory socketConnectionPoolFactory = new SejongSocketConnectionPoolFactory();
         socketConnectionPool = socketConnectionPoolFactory.createConnectionPool();
         logger.info("소켓 접속 완료");
       } catch (Exception e) {

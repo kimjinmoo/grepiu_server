@@ -16,8 +16,9 @@ public class SocketModuleClient {
 
   public static void main(String...args) throws Exception {
 
-   SejongSocket sejongSocket = SejongFactory.create(TYPE.WATCH_GRADE);
-   String recv = sejongSocket.send("test");
-   System.out.println(recv);
+   while(true) {
+     SejongSocket sejongSocket = SejongFactory.create(TYPE.WATCH_GRADE);
+     System.out.println(sejongSocket.send("test"));
+   }
   }
 }

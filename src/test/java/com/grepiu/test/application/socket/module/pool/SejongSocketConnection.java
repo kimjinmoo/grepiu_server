@@ -55,7 +55,6 @@ public class SejongSocketConnection implements SocketConnection {
       this.in = new DataInputStream(socket.getInputStream());
       out = new DataOutputStream(socket.getOutputStream());
     }
-
     out.write(data);
     out.flush();
   }
