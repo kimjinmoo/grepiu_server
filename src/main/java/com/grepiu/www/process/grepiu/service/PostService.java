@@ -6,13 +6,11 @@ import com.grepiu.www.process.common.api.exception.BadRequestException;
 import com.grepiu.www.process.common.api.service.BaseService;
 import com.grepiu.www.process.grepiu.dao.HashTagRepository;
 import com.grepiu.www.process.grepiu.dao.PostRepository;
-import com.grepiu.www.process.grepiu.domain.GrepIUSequence;
 import com.grepiu.www.process.grepiu.domain.HashTag;
 import com.grepiu.www.process.grepiu.domain.HashTagStatistics;
 import com.grepiu.www.process.grepiu.domain.Post;
 
-import com.grepiu.www.process.grepiu.domain.PostSearchForm;
-import java.time.LocalDateTime;
+import com.grepiu.www.process.grepiu.domain.form.PostSearchForm;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,18 +19,10 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 /**

@@ -7,6 +7,7 @@ import com.grepiu.www.process.common.api.domain.Files;
 import java.util.List;
 
 import com.grepiu.www.process.common.utils.DateUtils;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +102,21 @@ public class FileHelper {
         StringBuilder sb = new StringBuilder();
         return sb.append(DateUtils.getYear()).append("/").append(DateUtils.getMonth()).append("/").append(
             DateUtils.getDay()).append("/").toString();
+    }
+
+    /**
+     *
+     * 파일명을 지정한다.
+     *
+     * @param oriFileName
+     * @return
+     */
+    private String makeFileName(String oriFileName) {
+        StringBuilder sb = new StringBuilder();
+        String name = UUID.randomUUID().toString();
+        String extension = name
+            .substring(name.lastIndexOf(".") > 0 ? (name.lastIndexOf(".") + 1) : name.length(),
+                name.length());
+        return sb.append(name).append(extension).toString();
     }
 }

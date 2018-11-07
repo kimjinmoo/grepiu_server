@@ -8,7 +8,7 @@ grepiu:
 
 key:
   google:
-    map: ""
+    map: "AIzaSyAurOICuBheN84dR6Cy0kw_ZLNGPDOueNc"
     geo_url: "https://maps.googleapis.com/maps/api/geocode/json"
 
 management:
@@ -18,6 +18,9 @@ management:
 
 server:
   port: 8010
+
+crawler:
+  proxy: "10.10.10.10"
 
 spring:
   profiles: local
@@ -58,7 +61,7 @@ grepiu:
 key:
   google:
     map: ""
-    geo_url: "https://maps.googleapis.com/maps/api/geocode/json"
+    geo_url: ""
 
 management:
   health:
@@ -67,6 +70,9 @@ management:
 
 server:
   port: 8080
+
+crawler:
+  proxy: "10.10.10.10"
 
 spring:
   profiles: prod

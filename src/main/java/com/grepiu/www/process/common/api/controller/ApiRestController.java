@@ -28,6 +28,9 @@ public class ApiRestController {
     @Autowired
     private FileHelper fileHelper;
 
+    @Autowired
+    private BaseService baseService;
+
     @ApiOperation(value = "단일 파일업로드")
     @PostMapping(path = "/{ver}/upload/file")
     public @ResponseBody
@@ -40,6 +43,13 @@ public class ApiRestController {
     public @ResponseBody
     ResponseEntity<List<Files>> multipleFileUpload(@PathVariable("ver") String ver, @RequestParam(required = true, name = "files") MultipartFile[] files) throws Exception {
         return new ResponseEntity<List<Files>>(fileHelper.uploadFiles(files), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "파일 업로드 리스트")
+    @GetMapping("/upload/file")
+    public @ResponseBody
+    ResponseEntity<Object> fileList() {
+        return new ResponseEntity<>(baseService.getUploadFileList(), HttpStatus.OK);
     }
 
 }

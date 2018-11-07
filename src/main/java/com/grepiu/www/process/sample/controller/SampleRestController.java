@@ -6,6 +6,9 @@ import com.grepiu.www.process.common.utils.DateUtils;
 import com.grepiu.www.process.common.api.domain.Message;
 import com.grepiu.www.process.sample.service.SampleService;
 import com.grepiu.www.process.sample.service.SampleTaskService;
+import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
+import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
+import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -113,5 +116,18 @@ public class SampleRestController {
   public ResponseEntity<Object> sendChat() {
     this.template.convertAndSend("/topic/messages", new Message("시스템 알림","Sample Message가 전달 되었습니다."));
     return new ResponseEntity<Object>(HttpStatus.OK);
+  }
+
+  /**
+   *
+   * 소켓 샘플
+   *
+   * @return
+   * @throws Exception
+   */
+  @GetMapping("/sample/socket")
+  public ResponseEntity<Object> sendSocket() throws Exception {
+    String result = SejongFactory.create(TYPE.GENRE_SEARCH).send("test");
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 }

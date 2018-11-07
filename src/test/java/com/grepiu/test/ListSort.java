@@ -14,6 +14,10 @@ import lombok.Data;
 public class ListSort {
 
     public static void main(String[] args) {
+        String name = "1111exe";
+
+        System.out.println(name.substring(name.lastIndexOf(".")>0?(name.lastIndexOf(".")+1):0,name.length()));
+
         // 임시 domain
         @Data
         class Vo {

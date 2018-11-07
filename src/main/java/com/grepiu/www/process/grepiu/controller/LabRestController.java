@@ -1,6 +1,6 @@
 package com.grepiu.www.process.grepiu.controller;
 
-import com.grepiu.www.process.grepiu.domain.CinemaInfoOptionForm;
+import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
 import com.grepiu.www.process.grepiu.service.LabService;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
@@ -16,7 +16,6 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;

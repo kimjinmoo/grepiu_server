@@ -1,6 +1,8 @@
 package com.grepiu.www.process.common.api.service;
 
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.common.api.domain.FileRepository;
+import com.grepiu.www.process.common.api.domain.Files;
 import com.grepiu.www.process.common.api.domain.LoginForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
@@ -56,6 +58,9 @@ public class BaseService {
 
     @Autowired
     private MongoOperations mongoOperations;
+
+    @Autowired
+    private FileRepository fileRepository;
 
     /**
      *
@@ -219,5 +224,15 @@ public class BaseService {
             tokenStore.removeAccessToken(token);
         }
         return principal.get("username");
+    }
+
+    /**
+     *
+     * 파일 업로드 파일 리스트
+     *
+     * @return List<Files>;
+     */
+    public List<Files> getUploadFileList() {
+        return fileRepository.findAll();
     }
 }

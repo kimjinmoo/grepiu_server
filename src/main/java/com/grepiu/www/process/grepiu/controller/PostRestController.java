@@ -3,7 +3,7 @@ package com.grepiu.www.process.grepiu.controller;
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.grepiu.domain.HashTag;
 import com.grepiu.www.process.grepiu.domain.Post;
-import com.grepiu.www.process.grepiu.domain.PostSearchForm;
+import com.grepiu.www.process.grepiu.domain.form.PostSearchForm;
 import com.grepiu.www.process.grepiu.service.PostService;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +18,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @ApiOperation("GrepIU Post API")

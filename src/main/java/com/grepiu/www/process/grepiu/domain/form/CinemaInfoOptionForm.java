@@ -1,4 +1,4 @@
-package com.grepiu.www.process.grepiu.domain;
+package com.grepiu.www.process.grepiu.domain.form;
 
 import lombok.Data;
 
