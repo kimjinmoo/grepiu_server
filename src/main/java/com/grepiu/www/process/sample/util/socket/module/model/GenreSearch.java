@@ -1,6 +1,9 @@
 package com.grepiu.www.process.sample.util.socket.module.model;
 
-import com.grepiu.www.process.sample.util.socket.module.utils.SocketUtils;
+import com.grepiu.www.process.sample.util.socket.module.pool.SocketHelper;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 
 public class GenreSearch extends SejongSocket {
 
@@ -14,7 +17,6 @@ public class GenreSearch extends SejongSocket {
     String sample = sb.append(header)
         .append(data)
         .toString();
-    System.out.println("gener : "+sample);
-    return SocketUtils.sendDataStream(sample.getBytes("KSC5601"));
+    return SocketHelper.sendDataStream(sample.getBytes("KSC5601"));
   }
 }

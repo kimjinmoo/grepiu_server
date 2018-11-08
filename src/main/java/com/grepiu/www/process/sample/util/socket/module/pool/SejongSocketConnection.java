@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * 세종 소켓 커넥션
  *
  */
-public class SejongSocketConnection implements SocketConnection {
+public class SejongSocketConnection {
 
   static final Logger logger = LoggerFactory.getLogger(SejongSocketConnection.class);
 
@@ -21,18 +21,11 @@ public class SejongSocketConnection implements SocketConnection {
   private DataInputStream in;
   private DataOutputStream out;
 
-  private String host;
-  private int port;
-
-  // 버퍼
-  private int buffer = 1024;
-
   private boolean busy = false;
 
-  public SejongSocketConnection(String host, int port) throws IOException {
-    this.host = host;
-    this.port = port;
-    this.socket = new Socket(this.host, this.port);
+  public SejongSocketConnection() throws IOException {
+    this.socket = new Socket(Constant.DEFAULT_HOST, Constant.DEFAULT_PORT);
+    this.socket.setSoTimeout(5000);
     this.in = new DataInputStream(socket.getInputStream());
     this.out = new DataOutputStream(socket.getOutputStream());
   }
@@ -45,10 +38,9 @@ public class SejongSocketConnection implements SocketConnection {
     this.busy = busy;
   }
 
-  @Override
   public void sendData(byte[] data) throws IOException {
     if (this.socket == null || this.socket.isClosed()) {
-      this.socket = new Socket(this.host, this.port);
+      this.socket = new Socket(Constant.DEFAULT_HOST, Constant.DEFAULT_PORT);
       this.socket.setSoTimeout(5000);
       this.in = new DataInputStream(socket.getInputStream());
       out = new DataOutputStream(socket.getOutputStream());
@@ -57,11 +49,10 @@ public class SejongSocketConnection implements SocketConnection {
     out.flush();
   }
 
-  @Override
   public String receiveData() throws IOException {
     String result = null;
 
-    byte[] bytes = new byte[buffer];
+    byte[] bytes = new byte[Constant.DEFAULT_BUFFER];
     int len = in.read(bytes);
 
     result = new String(bytes, 0, len, "KSC5601");
@@ -72,20 +63,19 @@ public class SejongSocketConnection implements SocketConnection {
     this.busy = false;
   }
 
-  @Override
   public void destroy() {
     if (this.in != null) {
       try {
         this.in.close();
       } catch (IOException e) {
-        logger.info("inputstream 종료 오류 : " + e.getMessage());
+        logger.info("inputstream 종료 오류 : {}", e.getMessage());
       }
     }
     if (this.out != null) {
       try{
         this.out.close();
       } catch (IOException e) {
-        logger.info("outputstream 종료 오류 : " + e.getMessage());
+        logger.info("outputstream 종료 Error : {}", e.getMessage());
       }
 
     }
@@ -93,9 +83,10 @@ public class SejongSocketConnection implements SocketConnection {
       try {
         this.socket.close();
       } catch (IOException e) {
-        logger.info("socket 종료 error " + e.getMessage());
+        logger.info("socket 종료 Error : {}", e.getMessage());
       }
     }
+    this.busy = false;
     this.out = null;
     this.in = null;
     this.socket = null;

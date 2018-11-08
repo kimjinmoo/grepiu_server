@@ -17,7 +17,7 @@ public class SocketServer {
   // 연결할 포트를 지정합니다.
   private static final int PORT = 9090;
   // 스레드 풀의 최대 스레드 개수를 지정합니다.
-  private static final int THREAD_CNT = 5;
+  private static final int THREAD_CNT = 10;
   private static ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_CNT);
   public static void main(String[] args) {
 
@@ -62,9 +62,11 @@ class ConnectionWrap implements Runnable{
 
       byte[] bytes = new byte[1024];
       int len = in.read(bytes);
-      System.out.println(new String(bytes, 0, len, "KSC5601"));
-      out.write(new Date().toString().getBytes());
+      System.out.println("받은 데이터 : "+new String(bytes, 0, len, "KSC5601"));
 
+      out.write(new Date().toString().getBytes("KSC5601"));
+      out.flush();
+      // 클라이언트로부터 메시지 입력받음
     } catch (IOException e) {
       e.printStackTrace();
     } finally {

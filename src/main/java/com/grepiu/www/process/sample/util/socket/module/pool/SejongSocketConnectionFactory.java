@@ -4,17 +4,16 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SejongSocketConnectionFactory implements SocketConnectionFactory {
+public class SejongSocketConnectionFactory {
 
   static final Logger logger = LoggerFactory.getLogger(SejongSocketConnectionFactory.class);
 
-  @Override
-  public SocketConnection createConnection(String host, int port) {
-    SocketConnection connection = null;
+  public SejongSocketConnection createConnection() {
+    SejongSocketConnection connection = null;
     try {
-      connection = new SejongSocketConnection(host, port);
+      connection = new SejongSocketConnection();
     } catch (IOException e) {
-      logger.error("신규 커넥션 생성 오류 :" + e.getMessage());
+      logger.error("신규 커넥션 생성 오류 : {}", e.getMessage());
     }
     return connection;
   }

@@ -17,25 +17,23 @@ public class SejongSocketConnectionManager {
 
   private SejongSocketConnectionManager() {
     if (socketConnectionPool == null) {
-      SocketConnectionPoolFactory socketConnectionPoolFactory = new SejongSocketConnectionPoolFactory();
+      SejongSocketConnectionPoolFactory socketConnectionPoolFactory = new SejongSocketConnectionPoolFactory();
       socketConnectionPool = socketConnectionPoolFactory.createConnectionPool();
-      System.out.println("Java Socket connection pool created.");
+      System.out.println("커넥션 생성됨");
     }
   }
 
-  private SocketConnectionPool socketConnectionPool;
+  private SejongSocketConnectionPool socketConnectionPool;
 
   public static SejongSocketConnectionManager getInstance() {
     return SocketConnectionManagerSingletonHolder.instance;
   }
 
-  public synchronized SocketConnectionPool getSocketConnectionPool() {
-
+  public synchronized SejongSocketConnectionPool getSocketConnectionPool() {
     return socketConnectionPool;
   }
 
   private static class SocketConnectionManagerSingletonHolder {
-
     private static SejongSocketConnectionManager instance = new SejongSocketConnectionManager();
   }
 }

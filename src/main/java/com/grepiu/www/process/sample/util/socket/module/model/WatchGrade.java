@@ -1,6 +1,6 @@
 package com.grepiu.www.process.sample.util.socket.module.model;
 
-import com.grepiu.www.process.sample.util.socket.module.utils.SocketUtils;
+import com.grepiu.www.process.sample.util.socket.module.pool.SocketHelper;
 
 /**
  *
@@ -19,8 +19,6 @@ public class WatchGrade extends SejongSocket {
     String sample = sb.append(header)
         .append(data)
         .toString();
-
-    System.out.println("watch : "+sample);
-    return SocketUtils.sendDataStream(sample.getBytes("KSC5601"));
+    return SocketHelper.sendDataStream(sample.getBytes("KSC5601"));
   }
 }
