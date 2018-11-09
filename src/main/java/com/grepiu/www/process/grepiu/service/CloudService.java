@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -44,7 +46,7 @@ public class CloudService {
    * @param cloudStore CloudStore 객체
    * @return CloudStore 객체
    */
-  public CloudStore createDir(CloudStore cloudStore, MultipartFile file) {
+  public CloudStore createDir(@RequestBody CloudStore cloudStore, MultipartFile file) {
     cloudStore.setPath("/"+cloudStore.getCreateId()+cloudStore.getPath());
     return cloudStoreRepository.save(cloudStore);
   }
