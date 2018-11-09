@@ -8,8 +8,8 @@ grepiu:
 
 key:
   google:
-    map: "AIzaSyAurOICuBheN84dR6Cy0kw_ZLNGPDOueNc"
-    geo_url: "https://maps.googleapis.com/maps/api/geocode/json"
+    map: ""
+    geo_url: ""
 
 management:
   health:
@@ -37,8 +37,8 @@ spring:
       repositories:
        type: auto
     redis:
-       host: "52.78.158.161"
-       port: 6379
+       host: ""
+       port:
   servlet:
     multipart:
       enabled: true
