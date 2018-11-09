@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class SocketClient {
 
-  private static int loop = 1000;
+  private static int loop = 100000;
 
   public static void main(String...args) throws Exception {
     //

@@ -1,7 +1,10 @@
 package com.grepiu.www.process.grepiu.dao;
 
 import com.grepiu.www.process.grepiu.domain.CloudStore;
+import java.util.List;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 /**
  *
@@ -9,4 +12,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  *
  */
 public interface CloudStoreRepository extends MongoRepository<CloudStore, String> {
+  List<CloudStore> findByPathOrderByAttributeDesc(String path, Sort sort);
 }
