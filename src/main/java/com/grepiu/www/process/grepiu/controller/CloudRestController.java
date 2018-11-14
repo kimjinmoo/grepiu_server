@@ -2,12 +2,15 @@ package com.grepiu.www.process.grepiu.controller;
 
 import com.grepiu.www.process.grepiu.domain.CloudStore;
 import com.grepiu.www.process.grepiu.service.CloudService;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +32,7 @@ public class CloudRestController {
   }
 
   @PostMapping("/")
-  public ResponseEntity<Object> create(CloudStore cloudStore, MultipartFile file) {
+  public ResponseEntity<Object> create(@RequestBody @Valid CloudStore cloudStore, MultipartFile file) {
     return new ResponseEntity<>(cloudService.createDir(cloudStore, file), HttpStatus.OK);
   }
 
