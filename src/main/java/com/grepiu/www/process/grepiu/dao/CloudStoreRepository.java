@@ -12,5 +12,7 @@ import org.springframework.data.mongodb.repository.Query;
  *
  */
 public interface CloudStoreRepository extends MongoRepository<CloudStore, String> {
-  List<CloudStore> findByPathOrderByAttributeDesc(String path, Sort sort);
+
+  List<CloudStore> findByAuthorizedUsersInAndPathOrderByAttributeDesc(
+      List<String> userId, String path, Sort sort);
 }

@@ -1,7 +1,9 @@
 package com.grepiu.www.process.grepiu.service;
 
+import com.google.common.collect.Lists;
 import com.grepiu.www.process.grepiu.dao.CloudStoreRepository;
 import com.grepiu.www.process.grepiu.domain.CloudStore;
+import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +35,10 @@ public class CloudService {
    * @return
    */
   public List<CloudStore> getDir(String uid, String path) {
-    StringBuilder sb = new StringBuilder();
-    String fullPath = sb.append("/").append(uid).append(path).toString();
-    log.info("fullPath : {}", fullPath);
-    return cloudStoreRepository.findByPathOrderByAttributeDesc(fullPath, Sort.by(Direction.DESC, "createDate"));
+    List<String> authorizedUsers = Arrays.asList(uid);
+    return cloudStoreRepository
+        .findByAuthorizedUsersInAndPathOrderByAttributeDesc(authorizedUsers, path,
+            Sort.by(Direction.DESC, "createDate"));
   }
 
   /**
@@ -46,8 +48,10 @@ public class CloudService {
    * @param cloudStore CloudStore 객체
    * @return CloudStore 객체
    */
-  public CloudStore createDir(@RequestBody CloudStore cloudStore, MultipartFile file) {
-    cloudStore.setPath("/"+cloudStore.getCreateId()+cloudStore.getPath());
+  public CloudStore createDir(String uid, CloudStore cloudStore, MultipartFile file) {
+    // set Auth
+    cloudStore.setAuthorizedUsers(Arrays.asList(uid));
+    // save
     return cloudStoreRepository.save(cloudStore);
   }
 }

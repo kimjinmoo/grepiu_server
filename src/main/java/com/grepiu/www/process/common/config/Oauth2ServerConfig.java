@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,8 +54,9 @@ public class Oauth2ServerConfig {
           .requestMatchers().antMatchers("/grepiu/lab/root/**")
           .and()
           .antMatcher("/oauth/users/**")
+          .antMatcher("/grepiu/cloud/**")
           .authorizeRequests()
-          .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
+          .antMatchers("/grepiu/lab/root/**","/grepiu/cloud/**").access("#oauth2.hasScope('write')")
           .and()
           .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }

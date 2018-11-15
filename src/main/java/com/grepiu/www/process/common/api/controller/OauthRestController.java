@@ -4,6 +4,8 @@ import com.grepiu.www.process.common.api.domain.LoginForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.api.service.BaseService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 
@@ -52,12 +54,18 @@ public class OauthRestController {
   }
 
   @ApiOperation("유저 정보를 가져온다.")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header") })
   @GetMapping("/users/me")
   public Object user(Principal principal) {
     return principal;
   }
 
   @ApiOperation("유저 비밀번호를 변경 한다.")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header") })
   @GetMapping("/user/password")
   public Object updatePassword(Principal principal, @RequestBody UserPasswordUpdateForm form)
       throws Exception {
@@ -66,6 +74,9 @@ public class OauthRestController {
   }
 
   @ApiOperation("유저 회원 탈퇴")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header") })
   @PostMapping("/users/leave")
   public Object leave(Authentication authentication) throws Exception {
     return baseService.deleteUser(authentication);

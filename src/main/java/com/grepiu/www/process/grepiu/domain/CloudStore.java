@@ -1,11 +1,16 @@
 package com.grepiu.www.process.grepiu.domain;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "cloudStore")
@@ -13,20 +18,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CloudStore implements Serializable {
 
   @Id
-  @ApiParam(value = "경로  /{id}/path...", hidden = true)
+  @ApiModelProperty(value = "자동생성", hidden = true)
   String id;
-  @ApiParam("경로  /{id}/path...")
+  @ApiModelProperty("경로  /{id}/path...")
+  @Indexed
+  @NotEmpty
   String path;
-  @ApiParam("이름")
+  @ApiModelProperty("이름")
+  @NotEmpty
   String name;
-  @ApiParam(value = "파일인 경우 파일 경로", hidden = true)
+  @ApiModelProperty(value = "파일인 경우 파일 경로", hidden = true)
   String filePath;
-  @ApiParam(value = "파일 저장시 이름", hidden = true)
+  @ApiModelProperty(value = "파일 저장시 이름")
   String fileSaveName;
-  @ApiParam("속성 - P:폴더, F:파일")
+  @ApiModelProperty("속성 - P:폴더, F:파일")
+  @NotEmpty
   String attribute;
-  @ApiParam("생성ID")
+  @ApiModelProperty(value = "접근가능 유저", hidden = true)
+  List<String> authorizedUsers;
+  @ApiModelProperty(value = "생성ID", hidden = true)
   String createId;
-  @ApiParam(value = "생성일", hidden = true)
+  @ApiModelProperty(value = "생성일", hidden = true)
   Date createDate;
 }
