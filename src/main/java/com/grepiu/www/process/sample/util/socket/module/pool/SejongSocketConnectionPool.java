@@ -2,6 +2,7 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 
 import com.grepiu.www.process.sample.util.socket.module.exception.BusyException;
 import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,7 @@ public class SejongSocketConnectionPool {
 
   private SejongSocketConnectionFactory connectionFactory;
 
-  private Vector<SejongSocketConnection> connections = null;
+  private CopyOnWriteArrayList<SejongSocketConnection> connections = null;
 
   public SejongSocketConnectionPool(SejongSocketConnectionFactory connectionFactory) {
     this.connectionFactory = connectionFactory;
@@ -45,7 +46,7 @@ public class SejongSocketConnectionPool {
       if (connections.size() < Constant.MAX_SIZE) {
         // 커넥션 재시도
         SejongSocketConnection newConnection = connectionFactory.createConnection();
-        connections.addElement(newConnection);
+        connections.add(newConnection);
         logger.info("빈 커넥션이 없으 신규 커넥션 생성");
         result = newConnection;
       } else {
@@ -58,9 +59,9 @@ public class SejongSocketConnectionPool {
   }
 
   public void init() {
-    connections = new Vector<SejongSocketConnection>();
+    connections = new CopyOnWriteArrayList<>();
     for (int i = 0; i < Constant.MIN_SIZE; i++) {
-      connections.addElement(connectionFactory.createConnection());
+      connections.add(connectionFactory.createConnection());
     }
     logger.info("초기화, 신규 커넥션 카운트 : " + connections.size());
   }
