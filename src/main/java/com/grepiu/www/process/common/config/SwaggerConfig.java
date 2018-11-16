@@ -51,7 +51,7 @@ public class SwaggerConfig {
      */
     private ApiInfo apiInfo() {
         return new ApiInfo("IU API",
-                "IU - API",
+                "IU - API Server",
                 "1.0",
                 "",
                 new Contact("김진무", "", "iukim21c@gmail.com"),

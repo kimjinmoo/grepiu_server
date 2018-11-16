@@ -56,7 +56,7 @@ public class Oauth2ServerConfig {
           .antMatcher("/oauth/users/**")
           .antMatcher("/grepiu/cloud/**")
           .authorizeRequests()
-          .antMatchers("/grepiu/lab/root/**","/grepiu/cloud/**").access("#oauth2.hasScope('write')")
+          .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
           .and()
           .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
