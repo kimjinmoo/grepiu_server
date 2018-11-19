@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.repository.Query;
  */
 public interface CloudStoreRepository extends MongoRepository<CloudStore, String> {
 
-  List<CloudStore> findByAuthorizedUsersInAndPathOrderByAttributeDesc(
-      List<String> userId, String path, Sort sort);
+  // 클라우드 내용 가져오기
+  List<CloudStore> findByAuthorizedUsersInAndPidOrderByAttributeDesc(List<String> userId, String pid, Sort sort);
+  // 클라우드 내용 삭제
+  void deleteByAuthorizedUsersAnAndId(List<String> userId, String id);
 }

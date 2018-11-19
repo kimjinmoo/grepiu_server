@@ -20,6 +20,8 @@ public class CloudStore implements Serializable {
   @Id
   @ApiModelProperty(value = "자동생성", hidden = true)
   String id;
+  @ApiModelProperty(value = "상위폴더", hidden = true)
+  String pid;
   @ApiModelProperty("경로  /{id}/path...")
   @Indexed
   @NotEmpty

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,33 +36,44 @@ public class CloudRestController {
   @Autowired
   private CloudService cloudService;
 
-  @ApiOperation(value = "클라우드 폴더 읽기")
+  @ApiOperation(value = "클라우드 저장소 읽기")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
           required = true, dataType = "string", paramType = "header") })
   @GetMapping("/")
-  public ResponseEntity<Object> readDir(@RequestParam String path, @ApiParam(hidden = true) Principal principal) {
-    return new ResponseEntity<>(cloudService.getDir(principal.getName(), path), HttpStatus.OK);
+  public ResponseEntity<Object> readDir(@RequestParam String pid, @ApiParam(hidden = true) Principal principal) {
+    return new ResponseEntity<>(cloudService.find(principal.getName(), pid), HttpStatus.OK);
   }
 
-  @ApiOperation(value = "클라우드 폴더 이름 변경")
+  @ApiOperation(value = "클라우드 저장소 이름 변경")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
           required = true, dataType = "string", paramType = "header") })
   @PutMapping("/")
-  public ResponseEntity<Object> renameDir(@RequestParam String id, @RequestParam String rename,
+  public ResponseEntity<Object> renameDir(@RequestBody CloudStore cloudStore,
       @ApiParam(hidden = true) Principal principal) {
-    return new ResponseEntity<>(null, HttpStatus.OK);
+    return new ResponseEntity<>(cloudService.rename(principal.getName(), cloudStore.getId(), cloudStore.getName()),
+        HttpStatus.OK);
   }
 
-  @ApiOperation(value = "클라우드 폴더 생성")
+  @ApiOperation(value = "클라우드 저장소 생성")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
           required = true, dataType = "string", paramType = "header") })
   @PostMapping(value = "/")
   public ResponseEntity<Object> createDir(@RequestBody @Valid CloudStore cloudStore, MultipartFile file, @ApiParam(hidden = true) Principal principal) {
-    return new ResponseEntity<>(cloudService.createDir(principal.getName(), cloudStore, file),
+    return new ResponseEntity<>(cloudService.create(principal.getName(), cloudStore, file),
         HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "클라우드 저장소 삭제")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header") })
+  @DeleteMapping("/")
+  public ResponseEntity<Object> deleteDir(@RequestBody CloudStore cloudStore,
+      @ApiParam(hidden = true) Principal principal) {
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 }

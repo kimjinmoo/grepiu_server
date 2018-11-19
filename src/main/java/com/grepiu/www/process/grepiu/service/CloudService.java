@@ -31,13 +31,13 @@ public class CloudService {
    * 현 경로를 가져온다.
    *
    * @param uid user ID
-   * @param path 경로
+   * @param pid 상위경로
    * @return List<CloudStore> 객체
    */
-  public List<CloudStore> getDir(String uid, String path) {
+  public List<CloudStore> find(String uid, String pid) {
     List<String> authorizedUsers = Arrays.asList(uid);
     return cloudStoreRepository
-        .findByAuthorizedUsersInAndPathOrderByAttributeDesc(authorizedUsers, path,
+        .findByAuthorizedUsersInAndPidOrderByAttributeDesc(authorizedUsers, pid,
             Sort.by(Direction.DESC, "createDate"));
   }
 
@@ -50,7 +50,7 @@ public class CloudService {
    * @param rename 변경될 이름
    * @return CloudStore 객체
    */
-  public CloudStore renameDir(String uid, String fid, String rename) {
+  public CloudStore rename(String uid, String fid, String rename) {
     CloudStore st = cloudStoreRepository.findById(fid).orElseThrow(() -> new RuntimeException("Not Id"));
     st.setName(rename);
     return cloudStoreRepository.save(st);
@@ -58,15 +58,29 @@ public class CloudService {
 
   /**
    *
-   * 폴더를 생성한다.
+   * 생성한다.
    *
    * @param cloudStore CloudStore 객체
    * @return CloudStore 객체
    */
-  public CloudStore createDir(String uid, CloudStore cloudStore, MultipartFile file) {
+  public CloudStore create(String uid, CloudStore cloudStore, MultipartFile file) {
     // set Auth
     cloudStore.setAuthorizedUsers(Arrays.asList(uid));
     // save
     return cloudStoreRepository.save(cloudStore);
+  }
+
+  /**
+   *
+   * 삭제한다.
+   *
+   * @param uid 유저 ID
+   * @param id 클라우드 ID
+   */
+  public void delete(String uid, String id) {
+    // set Auth
+    List<String> authorizedUsers = Arrays.asList(uid);
+    // delete
+    cloudStoreRepository.deleteByAuthorizedUsersAnAndId(authorizedUsers, id);
   }
 }
