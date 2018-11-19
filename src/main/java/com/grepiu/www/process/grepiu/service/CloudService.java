@@ -81,6 +81,6 @@ public class CloudService {
     // set Auth
     List<String> authorizedUsers = Arrays.asList(uid);
     // delete
-    cloudStoreRepository.deleteByAuthorizedUsersAnAndId(authorizedUsers, id);
+    cloudStoreRepository.deleteByAuthorizedUsersAndId(authorizedUsers, id);
   }
 }

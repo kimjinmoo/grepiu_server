@@ -16,5 +16,5 @@ public interface CloudStoreRepository extends MongoRepository<CloudStore, String
   // 클라우드 내용 가져오기
   List<CloudStore> findByAuthorizedUsersInAndPidOrderByAttributeDesc(List<String> userId, String pid, Sort sort);
   // 클라우드 내용 삭제
-  void deleteByAuthorizedUsersAnAndId(List<String> userId, String id);
+  void deleteByAuthorizedUsersAndId(List<String> userId, String id);
 }
