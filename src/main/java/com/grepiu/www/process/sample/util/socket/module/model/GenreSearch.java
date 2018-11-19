@@ -5,17 +5,19 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
-public class GenreSearch extends SejongSocket {
+public class GenreSearch<T extends GenerSearchBody> extends SejongSocket<T> {
 
   public GenreSearch(String code) {
     super(code);
   }
 
   @Override
-  public String send(String data) throws Exception {
+  public String send(T data) throws Exception {
+
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)
-        .append(data)
+        .append(data.getBeginDate())
+        .append(data.getEndDate())
         .toString();
     return SocketHelper.sendDataStream(sample.getBytes("KSC5601"));
   }

@@ -5,7 +5,7 @@ package com.grepiu.www.process.sample.util.socket.module.model;
  * 세종 소켓
  *
  */
-public abstract class SejongSocket {
+public abstract class SejongSocket<T extends SejongBody> {
 
   // 헤더
   protected String header;
@@ -26,5 +26,5 @@ public abstract class SejongSocket {
   }
 
   // 메세지를 전송한다.
-  public abstract String send(String data) throws Exception;
+  public abstract String send(T obj) throws Exception;
 }
