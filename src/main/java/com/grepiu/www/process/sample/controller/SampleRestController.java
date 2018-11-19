@@ -9,6 +9,7 @@ import com.grepiu.www.process.sample.service.SampleTaskService;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
 import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchBody;
+import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchVO;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -131,7 +132,10 @@ public class SampleRestController {
     GenerSearchBody vo = new GenerSearchBody();
     vo.setEndDate("20180101");
     vo.setBeginDate("201802001");
-    String result = SejongFactory.create(TYPE.GENRE_SEARCH).send(vo);
-    return new ResponseEntity<>(result, HttpStatus.OK);
+    SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
+    s.send(vo);
+
+
+    return new ResponseEntity<>((List<GenerSearchVO>)s.response(), HttpStatus.OK);
   }
 }

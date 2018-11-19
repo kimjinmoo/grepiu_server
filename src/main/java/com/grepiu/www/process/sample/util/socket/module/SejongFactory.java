@@ -1,9 +1,7 @@
 package com.grepiu.www.process.sample.util.socket.module;
 
 
-import com.grepiu.www.process.sample.util.socket.module.model.GenreSearch;
-import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
-import com.grepiu.www.process.sample.util.socket.module.model.WatchGrade;
+import com.grepiu.www.process.sample.util.socket.module.model.*;
 
 /**
  *
@@ -29,9 +27,9 @@ public class SejongFactory {
   public static SejongSocket create(TYPE type) {
     switch (type) {
       case WATCH_GRADE:
-        return new WatchGrade(type.getCode());
+        return new WatchGrade<WatchGradeBody>(type.getCode());
       case GENRE_SEARCH:
-        return new GenreSearch(type.getCode());
+        return new GenreSearch<GenerSearchBody>(type.getCode());
     }
     return null;
   }

@@ -3,7 +3,12 @@ package com.grepiu.test.application.socket;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
 import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchBody;
+import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchVO;
+import com.grepiu.www.process.sample.util.socket.module.model.GenreSearch;
+import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -35,7 +40,12 @@ class ThreadTest implements Runnable {
       GenerSearchBody vo = new GenerSearchBody();
       vo.setBeginDate("20180101");
       vo.setEndDate("20180101");
-      System.out.println(SejongFactory.create(TYPE.GENRE_SEARCH).send(vo));
+      SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
+      s.send(vo);
+      ((List<GenerSearchVO>) s.response()).stream().forEach(v->{
+        System.out.println("d : " + v.getName() + " code : " + v.getCode());
+      });
+
     } catch (Exception e) {
       e.printStackTrace();
     }
