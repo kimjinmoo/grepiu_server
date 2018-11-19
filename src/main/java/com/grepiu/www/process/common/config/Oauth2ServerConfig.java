@@ -51,10 +51,8 @@ public class Oauth2ServerConfig {
     public void configure(HttpSecurity http) throws Exception {
       http
           .anonymous().disable()
-          .requestMatchers().antMatchers("/grepiu/lab/root/**")
+          .requestMatchers().antMatchers("/grepiu/cloud/**","/oauth/users/**")
           .and()
-          .antMatcher("/oauth/users/**")
-          .antMatcher("/grepiu/cloud/**")
           .authorizeRequests()
           .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
           .and()
