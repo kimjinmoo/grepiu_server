@@ -129,13 +129,11 @@ public class SampleRestController {
    */
   @GetMapping("/sample/socket")
   public ResponseEntity<Object> sendSocket() throws Exception {
-    GenerSearchBody vo = new GenerSearchBody();
-    vo.setEndDate("20180101");
-    vo.setBeginDate("201802001");
+    HashMap<String, String> vo = Maps.newHashMap();
+    vo.put("beginDate","20180101");
+    vo.put("endDate","201802001");
     SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
     s.send(vo);
-    List<GenerSearchVO> list = s.response(GenerSearchVO.class);
-
-    return new ResponseEntity<>(list, HttpStatus.OK);
+    return new ResponseEntity<>(s.response(), HttpStatus.OK);
   }
 }

@@ -31,9 +31,9 @@ public class SejongFactory {
   public static SejongSocket create(TYPE type) {
     switch (type) {
       case WATCH_GRADE:
-        return new WatchGrade<>(type.getCode());
+        return new WatchGrade(type.getCode());
       case GENRE_SEARCH:
-        return new GenreSearch<>(type.getCode());
+        return new GenreSearch(type.getCode());
     }
     return null;
   }

@@ -13,18 +13,18 @@ import java.util.List;
 /**
  * 관람 등급
  */
-public class WatchGrade<T1 extends WatchGradeBody> extends SejongSocket<T1> {
+public class WatchGrade extends SejongSocket {
 
   public WatchGrade(String code) {
     super(code);
   }
 
   @Override
-  public void send(T1 data) throws Exception {
+  public void send(HashMap<String, String> data) throws Exception {
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)
-        .append(data.getCost())
-        .append(data.getType())
+        .append(data.get("cost"))
+        .append(data.get("type"))
         .toString();
     this.response = SocketHelper.sendDataStream(sample.getBytes("KSC5601"));
   }

@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 /**
  * 세종 소켓
  */
-public abstract class SejongSocket<T1 extends SejongBody> {
+public abstract class SejongSocket {
 
   // 헤더
   protected String header;
@@ -32,7 +33,8 @@ public abstract class SejongSocket<T1 extends SejongBody> {
   }
 
   // 메세지를 전송한다.
-  public abstract void send(T1 obj) throws Exception;
+  @NotNull
+  public abstract void send(HashMap<String, String> obj) throws Exception;
 
   public abstract List<HashMap<String, String>> response() throws Exception;
 }

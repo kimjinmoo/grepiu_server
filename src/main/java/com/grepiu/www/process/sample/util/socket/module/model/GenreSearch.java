@@ -11,19 +11,19 @@ import java.util.HashMap;
 import java.util.List;
 import org.assertj.core.util.Lists;
 
-public class GenreSearch<T1 extends GenerSearchBody> extends SejongSocket<T1> {
+public class GenreSearch extends SejongSocket {
 
   public GenreSearch(String code) {
     super(code);
   }
 
   @Override
-  public void send(T1 data) throws Exception {
+  public void send(HashMap<String, String> data) throws Exception {
 
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)
-        .append(data.getBeginDate())
-        .append(data.getEndDate())
+        .append(data.get("beginDate"))
+        .append(data.get("endDate"))
         .toString();
     this.response = SocketHelper.sendDataStream(sample.getBytes("KSC5601"));
   }
