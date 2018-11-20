@@ -1,11 +1,8 @@
 package com.grepiu.www.process.sample.util.socket.module.model;
 
-import com.grepiu.www.process.sample.util.socket.module.domain.SejongBody;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * 세종 소켓

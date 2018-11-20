@@ -1,12 +1,8 @@
 package com.grepiu.www.process.sample.util.socket.module.model;
 
 import com.google.common.collect.Maps;
-import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
-import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchVO;
-import com.grepiu.www.process.sample.util.socket.module.domain.WatchGradeVO;
 import com.grepiu.www.process.sample.util.socket.module.pool.SocketHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

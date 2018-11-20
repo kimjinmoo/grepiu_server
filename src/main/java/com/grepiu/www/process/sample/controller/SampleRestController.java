@@ -8,8 +8,6 @@ import com.grepiu.www.process.sample.service.SampleService;
 import com.grepiu.www.process.sample.service.SampleTaskService;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
-import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
-import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchVO;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

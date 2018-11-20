@@ -1,10 +1,6 @@
 package com.grepiu.www.process.sample.util.socket.module;
 
 
-import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
-import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchVO;
-import com.grepiu.www.process.sample.util.socket.module.domain.WatchGradeBody;
-import com.grepiu.www.process.sample.util.socket.module.domain.WatchGradeVO;
 import com.grepiu.www.process.sample.util.socket.module.model.*;
 
 /**

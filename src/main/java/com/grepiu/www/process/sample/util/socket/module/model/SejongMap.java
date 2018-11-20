@@ -9,4 +9,9 @@ public class SejongMap extends ListOrderedMap {
     super.put("beginDate", beginDate);
     super.put("endDate", endDate);
   }
+
+  public void setWatchGrade(Object type, Object cost) {
+    super.put("type", type);
+    super.put("cost", cost);
+  }
 }
