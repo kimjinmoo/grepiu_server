@@ -1,4 +1,4 @@
-package com.grepiu.www.process.sample.util.socket.module.model;
+package com.grepiu.www.process.sample.util.socket.module.domain;
 
 import lombok.Data;
 

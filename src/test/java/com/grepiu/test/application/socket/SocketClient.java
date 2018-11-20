@@ -2,12 +2,10 @@ package com.grepiu.test.application.socket;
 
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
-import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchBody;
-import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchVO;
-import com.grepiu.www.process.sample.util.socket.module.model.GenreSearch;
+import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
+import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchVO;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +16,7 @@ import java.util.Random;
  */
 public class SocketClient {
 
-  private static int loop = 1;
+  private static int loop = 50;
 
   public static void main(String...args) throws Exception {
     //
@@ -42,8 +40,9 @@ class ThreadTest implements Runnable {
       vo.setEndDate("20180101");
       SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
       s.send(vo);
-      ((List<GenerSearchVO>) s.response()).stream().forEach(v->{
-        System.out.println("d : " + v.getName() + " code : " + v.getCode());
+      List<GenerSearchVO> list = s.response(GenerSearchVO.class);
+      list.stream().forEach(v->{
+        System.out.println("name : " + v.getName() + " code : " + v.getCode());
       });
 
     } catch (Exception e) {

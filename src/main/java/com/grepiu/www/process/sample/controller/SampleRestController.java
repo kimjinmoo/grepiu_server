@@ -8,8 +8,8 @@ import com.grepiu.www.process.sample.service.SampleService;
 import com.grepiu.www.process.sample.service.SampleTaskService;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
-import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchBody;
-import com.grepiu.www.process.sample.util.socket.module.model.GenerSearchVO;
+import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
+import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchVO;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -134,8 +134,8 @@ public class SampleRestController {
     vo.setBeginDate("201802001");
     SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
     s.send(vo);
+    List<GenerSearchVO> list = s.response(GenerSearchVO.class);
 
-
-    return new ResponseEntity<>((List<GenerSearchVO>)s.response(), HttpStatus.OK);
+    return new ResponseEntity<>(list, HttpStatus.OK);
   }
 }
