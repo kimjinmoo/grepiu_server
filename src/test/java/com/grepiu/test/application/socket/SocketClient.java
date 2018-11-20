@@ -6,6 +6,7 @@ import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
 import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 
+import com.grepiu.www.process.sample.util.socket.module.pool.SejongMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -36,9 +37,8 @@ class ThreadTest implements Runnable {
       // 일반 검색
       Random random = new Random();
       Thread.sleep(random.nextInt(1000)+1);
-      HashMap<String, String> vo = Maps.newHashMap();
-      vo.put("beginDate","20180101");
-      vo.put("endDate","20180101");
+      SejongMap vo = new SejongMap();
+      vo.setGenerSearchSet("20181101","20180101");
       SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
       s.send(vo);
       s.response().stream().forEach(v->{

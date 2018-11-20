@@ -9,6 +9,7 @@ import com.grepiu.www.process.sample.util.socket.module.pool.SocketHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.assertj.core.util.Lists;
 
 public class GenreSearch extends SejongSocket {
@@ -18,7 +19,7 @@ public class GenreSearch extends SejongSocket {
   }
 
   @Override
-  public void send(HashMap<String, String> data) throws Exception {
+  public void send(Map<String, String> data) throws Exception {
 
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)

@@ -6,6 +6,7 @@ import com.grepiu.www.process.sample.util.socket.module.domain.WatchGradeVO;
 import com.grepiu.www.process.sample.util.socket.module.pool.SocketHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import org.assertj.core.util.Lists;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class WatchGrade extends SejongSocket {
   }
 
   @Override
-  public void send(HashMap<String, String> data) throws Exception {
+  public void send(Map<String, String> data) throws Exception {
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)
         .append(data.get("cost"))
