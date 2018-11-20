@@ -1,14 +1,10 @@
 package com.grepiu.test.application.socket;
 
-import com.google.common.collect.Maps;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
-import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 
-import com.grepiu.www.process.sample.util.socket.module.pool.SejongMap;
-import java.util.HashMap;
-import java.util.List;
+import com.grepiu.www.process.sample.util.socket.module.model.SejongMap;
 import java.util.Random;
 
 /**
