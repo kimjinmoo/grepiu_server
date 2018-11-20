@@ -1,11 +1,11 @@
 package com.grepiu.www.process.sample.util.socket.module.model;
 
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.sample.util.socket.module.helper.SejongCheckHelper;
 import com.grepiu.www.process.sample.util.socket.module.pool.SocketHelper;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.assertj.core.util.Lists;
 
 public class GenreSearch extends SejongSocket {
@@ -27,8 +27,8 @@ public class GenreSearch extends SejongSocket {
   }
 
   private List<HashMap<String, String>> response() throws Exception {
-    // 헤더 Set
-    String responseheader = response.substring(0, response.indexOf(delimiter) + 1);
+    // 헤더 Success/Fail 체크
+    SejongCheckHelper.isSuccess(response.substring(0, response.indexOf(delimiter) + 1));
     // 데이터 Set
     String d = response.substring(header.length(), response.length()) + delimiter;
 

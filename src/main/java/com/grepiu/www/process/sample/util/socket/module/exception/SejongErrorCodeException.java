@@ -1,11 +1,12 @@
 package com.grepiu.www.process.sample.util.socket.module.exception;
 
-public class ErrorCodeException extends Exception {
+public class SejongErrorCodeException extends Exception {
   private String code;
   private String message;
 
-  public ErrorCodeException(String message) {
+  public SejongErrorCodeException(String code, String message) {
     super(message);
+    this.code = code;
     this.message = message;
   }
 

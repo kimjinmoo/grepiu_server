@@ -1,9 +1,9 @@
 package com.grepiu.www.process.sample.util.socket.module.model;
 
 import com.google.common.collect.Maps;
+import com.grepiu.www.process.sample.util.socket.module.helper.SejongCheckHelper;
 import com.grepiu.www.process.sample.util.socket.module.pool.SocketHelper;
 import java.util.HashMap;
-import java.util.Map;
 import org.assertj.core.util.Lists;
 
 import java.util.List;
@@ -29,10 +29,11 @@ public class WatchGrade extends SejongSocket {
   }
 
   private List<HashMap<String, String>> response() throws Exception {
-    // 헤더 Set
-    String responseheader = response.substring(0, response.indexOf(delimiter) + 1);
+    // 헤더 Success/Fail 체크
+    SejongCheckHelper.isSuccess(response.substring(0, response.indexOf(delimiter) + 1));
     // 데이터 Set
     String d = response.substring(header.length(), response.length()) + delimiter;
+
 
     List<HashMap<String, String>> data = Lists.newArrayList();
 

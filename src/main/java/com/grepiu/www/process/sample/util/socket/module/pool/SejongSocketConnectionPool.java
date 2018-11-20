@@ -1,7 +1,6 @@
 package com.grepiu.www.process.sample.util.socket.module.pool;
 
-import com.grepiu.www.process.sample.util.socket.module.exception.BusyException;
-import java.util.Vector;
+import com.grepiu.www.process.sample.util.socket.module.exception.SejongBusyException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +49,7 @@ public class SejongSocketConnectionPool {
         logger.info("빈 커넥션이 없으 신규 커넥션 생성");
         result = newConnection;
       } else {
-        throw new BusyException("비어있는 커넥션이 존재하지 않습니다.");
+        throw new SejongBusyException("비어있는 커넥션이 존재하지 않습니다.");
       }
     }
     logger.info("현재 커넥션 카운트 " + connections.size());
