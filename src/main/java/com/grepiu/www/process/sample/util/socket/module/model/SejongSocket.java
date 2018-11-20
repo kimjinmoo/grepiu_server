@@ -1,18 +1,20 @@
 package com.grepiu.www.process.sample.util.socket.module.model;
 
 import com.grepiu.www.process.sample.util.socket.module.domain.SejongBody;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 세종 소켓
  */
-public abstract class SejongSocket<T1 extends SejongBody, T2> {
+public abstract class SejongSocket<T1 extends SejongBody> {
 
   // 헤더
   protected String header;
   protected String response;
   protected final String delimiter = "|";
-  protected List<T2> data;
 
   public SejongSocket(String code) {
     StringBuilder sb = new StringBuilder();
@@ -32,5 +34,5 @@ public abstract class SejongSocket<T1 extends SejongBody, T2> {
   // 메세지를 전송한다.
   public abstract void send(T1 obj) throws Exception;
 
-  public abstract List<T2> response(Class<T2> type) throws Exception;
+  public abstract List<HashMap<String, String>> response() throws Exception;
 }

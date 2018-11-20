@@ -6,6 +6,7 @@ import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchBody;
 import com.grepiu.www.process.sample.util.socket.module.domain.GenerSearchVO;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -40,10 +41,10 @@ class ThreadTest implements Runnable {
       vo.setEndDate("20180101");
       SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
       s.send(vo);
-      List<GenerSearchVO> list = s.response(GenerSearchVO.class);
-      list.stream().forEach(v->{
-        System.out.println("name : " + v.getName() + " code : " + v.getCode());
+      s.response().stream().forEach(v->{
+        System.out.println("name : "+ ((HashMap<String, String>) v).get("name") + "code : " + ((HashMap<String, String>) v).get("code"));
       });
+
 
     } catch (Exception e) {
       e.printStackTrace();
