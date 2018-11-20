@@ -15,7 +15,7 @@ public class GenreSearch extends SejongSocket {
   }
 
   @Override
-  public void send(Map<String, String> data) throws Exception {
+  public List<HashMap<String, String>> send(SejongMap data) throws Exception {
 
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)
@@ -23,12 +23,12 @@ public class GenreSearch extends SejongSocket {
         .append(data.get("endDate"))
         .toString();
     this.response = SocketHelper.sendDataStream(sample.getBytes("KSC5601"));
+    return response();
   }
 
-  @Override
-  public List<HashMap<String, String>> response() throws Exception {
+  private List<HashMap<String, String>> response() throws Exception {
     // 헤더 Set
-    this.header = response.substring(0, response.indexOf(delimiter) + 1);
+    String responseheader = response.substring(0, response.indexOf(delimiter) + 1);
     // 데이터 Set
     String d = response.substring(header.length(), response.length()) + delimiter;
 

@@ -131,7 +131,6 @@ public class SampleRestController {
     vo.put("beginDate","20180101");
     vo.put("endDate","201802001");
     SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
-    s.send(vo);
-    return new ResponseEntity<>(s.response(), HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }

@@ -37,15 +37,13 @@ class ThreadTest implements Runnable {
         SejongMap genre = new SejongMap();
         genre.setGenerSearchSet("20181101","20180101");
         SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
-        s.send(genre);
-        s.response().stream().forEach(v->{
+        s.send(genre).stream().forEach(v->{
           System.out.println("name : "+ v.get("name") + "code : " + v.get("code"));
         });
       } else {
         SejongMap watch = new SejongMap();
         SejongSocket s2 = SejongFactory.create(TYPE.WATCH_GRADE);
-        s2.send(watch);
-        s2.response().stream().forEach(v->{
+        s2.send(watch).stream().forEach(v->{
           System.out.println("name : "+ v.get("name") + "code : " + v.get("code"));
         });
       }
