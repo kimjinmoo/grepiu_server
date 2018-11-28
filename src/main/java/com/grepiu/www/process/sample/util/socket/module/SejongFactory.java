@@ -11,7 +11,7 @@ import com.grepiu.www.process.sample.util.socket.module.model.*;
 public class SejongFactory {
 
   public enum TYPE {
-    WATCH_GRADE("9101"), GENRE_SEARCH("9102");
+    WATCH_GRADE("9101"), GENRE_SEARCH("9102"), FILE_DOWN("9103");
 
     String code;
     TYPE(String code) {
@@ -30,6 +30,8 @@ public class SejongFactory {
         return new WatchGrade(type.getCode());
       case GENRE_SEARCH:
         return new GenreSearch(type.getCode());
+      case FILE_DOWN:
+        return new FileDown(type.getCode());
     }
     return null;
   }

@@ -2,6 +2,7 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class SejongSocketConnection {
 
   private DataInputStream in;
   private DataOutputStream out;
+  private FileOutputStream outFile;
 
   private boolean busy = false;
 
@@ -59,6 +61,18 @@ public class SejongSocketConnection {
     return result;
   }
 
+  public void receiveFileData(String path) throws IOException {
+    outFile = new FileOutputStream(path);
+    byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
+    int bytesRead=0;
+    while ((bytesRead = in.read(buffer)) > 0) {
+      logger.info("rcv : {}", bytesRead);
+      outFile.write(buffer, 0, bytesRead);
+    }
+    outFile.flush();
+    outFile.close();
+  }
+
   public void close() {
     this.busy = false;
   }
@@ -86,8 +100,16 @@ public class SejongSocketConnection {
         logger.info("socket 종료 Error : {}", e.getMessage());
       }
     }
+    if(this.outFile != null) {
+      try {
+        this.outFile.close();
+      } catch (IOException e) {
+        logger.info("FileStream 종료 Error : {}", e.getMessage());
+      }
+    }
     this.busy = false;
     this.out = null;
+    this.outFile = null;
     this.in = null;
     this.socket = null;
   }

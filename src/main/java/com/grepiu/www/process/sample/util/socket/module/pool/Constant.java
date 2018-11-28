@@ -7,4 +7,5 @@ public class Constant {
   protected static int MAX_SIZE = 10;
   protected static int MIN_SIZE = 1;
   protected static int DEFAULT_BUFFER = 1024;
+  protected static int FILE_DEFAULT_BUFFER = 10000;
 }

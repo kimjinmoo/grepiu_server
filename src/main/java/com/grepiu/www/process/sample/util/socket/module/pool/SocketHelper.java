@@ -28,4 +28,18 @@ public class SocketHelper {
     }
     return response;
   }
+
+  public static void getFile(byte[] data, String path) {
+    SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
+        .getSocketConnectionPool();
+    SejongSocketConnection connection = connectionPool.getConnection();
+    try {
+      connection.sendData(data);
+      connection.receiveFileData(path);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      connection.destroy();
+    }
+  }
 }
