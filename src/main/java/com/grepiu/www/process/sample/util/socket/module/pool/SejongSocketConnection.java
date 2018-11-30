@@ -62,15 +62,25 @@ public class SejongSocketConnection {
   }
 
   public void receiveFileData(String path) throws IOException {
-    outFile = new FileOutputStream(path);
-    byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-    int bytesRead=0;
-    while ((bytesRead = in.read(buffer)) > 0) {
-      logger.info("rcv : {}", bytesRead);
-      outFile.write(buffer, 0, bytesRead);
+    try {
+      outFile = new FileOutputStream(path);
+      StringBuilder sb = new StringBuilder();
+      byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
+      int bytesRead=0;
+      while ((bytesRead = in.read(buffer)) > 0) {
+        logger.info("rcv : {}", bytesRead);
+        logger.info("byte : {}", buffer);
+        logger.info("String : {}", new String(buffer));
+        outFile.write(buffer, 0, bytesRead);
+      }
+      logger.info("sb : {}", sb.toString());
+      outFile.flush();
+      outFile.close();
+    } catch (Exception e) {
+      logger.info("error {}", e.getMessage());
+      e.printStackTrace();
     }
-    outFile.flush();
-    outFile.close();
+
   }
 
   public void close() {
