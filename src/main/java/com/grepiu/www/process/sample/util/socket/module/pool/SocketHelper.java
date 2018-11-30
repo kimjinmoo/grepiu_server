@@ -4,6 +4,7 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 import com.grepiu.www.process.sample.util.socket.module.pool.SejongSocketConnection;
 import com.grepiu.www.process.sample.util.socket.module.pool.SejongSocketConnectionManager;
 import com.grepiu.www.process.sample.util.socket.module.pool.SejongSocketConnectionPool;
+import java.io.ByteArrayOutputStream;
 
 /**
  *
@@ -29,15 +30,16 @@ public class SocketHelper {
     return response;
   }
 
-  public static void getFile(byte[] data, String path) {
+  public static byte[] getFile(byte[] data) {
     SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
         .getSocketConnectionPool();
     SejongSocketConnection connection = connectionPool.getConnection();
     try {
       connection.sendData(data);
-      connection.receiveFileData(path);
+      return connection.receiveFileData();
     } catch (Exception e) {
       e.printStackTrace();
+      return null;
     } finally {
       connection.destroy();
     }

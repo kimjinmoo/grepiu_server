@@ -14,4 +14,8 @@ public class SejongMap extends ListOrderedMap {
     super.put("type", type);
     super.put("cost", cost);
   }
+
+  public byte[] getFile() {
+    return (byte[]) this.get("file");
+  }
 }

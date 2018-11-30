@@ -66,6 +66,7 @@ class ConnectionFileWrap implements Runnable{
       while ((bytesRead = fileIn.read(buffer)) > 0) {
         out.write(buffer, 0, bytesRead);
       }
+      out.write(3);
       out.flush();
       out.close();
       fileIn.close();

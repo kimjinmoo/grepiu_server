@@ -13,16 +13,17 @@ public class FileDown extends SejongSocket {
   }
 
   @Override
-  public List<HashMap<String, String>> send(SejongMap data) throws Exception {
+  public List<SejongMap> send(SejongMap data) throws Exception {
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)
-        .append(data.get("path"))
         .toString();
-    SocketHelper.getFile(sample.getBytes("KSC5601"),data.get("path").toString());
-    List<HashMap<String, String>> files = Lists.newArrayList();
-    HashMap<String, String> o = Maps.newHashMap();
-    o.put("file", data.get("path").toString());
-    files.add(o);
+
+    SejongMap returnMap = new SejongMap();
+    List<SejongMap> files = Lists.newArrayList();
+
+    returnMap.put("file", SocketHelper.getFile(sample.getBytes("KSC5601")));
+    files.add(returnMap);
+
     return files;
   }
 }

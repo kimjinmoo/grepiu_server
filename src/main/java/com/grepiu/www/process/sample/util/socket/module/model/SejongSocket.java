@@ -30,5 +30,5 @@ public abstract class SejongSocket {
   }
 
   // 메세지를 전송한다.
-  public abstract List<HashMap<String, String>> send(SejongMap map) throws Exception;
+  public abstract List<SejongMap> send(SejongMap map) throws Exception;
 }

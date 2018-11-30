@@ -18,7 +18,7 @@ public class WatchGrade extends SejongSocket {
   }
 
   @Override
-  public List<HashMap<String, String>> send(SejongMap data) throws Exception {
+  public List<SejongMap> send(SejongMap data) throws Exception {
     StringBuilder sb = new StringBuilder();
     String sample = sb.append(header)
         .append(data.get("cost"))
@@ -28,22 +28,22 @@ public class WatchGrade extends SejongSocket {
     return response();
   }
 
-  private List<HashMap<String, String>> response() throws Exception {
+  private List<SejongMap> response() throws Exception {
     // 헤더 Success/Fail 체크
     SejongCheckHelper.isSuccess(response.substring(0, response.indexOf(delimiter) + 1));
     // 데이터 Set
     String d = response.substring(header.length(), response.length()) + delimiter;
 
 
-    List<HashMap<String, String>> data = Lists.newArrayList();
+    List<SejongMap> data = Lists.newArrayList();
 
     int pos = 0, end, index = 1, route = 3;
-    HashMap<String, String> o = Maps.newHashMap();
+    SejongMap o = new SejongMap();
 
     while ((end = d.indexOf(delimiter, pos)) >= 0) {
       switch (index) {
         case 1:
-          o = Maps.newHashMap();
+          o = new SejongMap();
           o.put("code", d.substring(pos, end));
           break;
         case 2:
