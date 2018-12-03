@@ -34,8 +34,7 @@ public class SejongSocketConnection {
   }
 
   public void setFileMode(String host, int port) throws IOException {
-    logger.info("host: {}", host);
-    logger.info("host: {}", port);
+    this.destroy();
     this.socket = new Socket(host, port);
     this.socket.setSoTimeout(1000 * 15);
     this.in = new DataInputStream(socket.getInputStream());
