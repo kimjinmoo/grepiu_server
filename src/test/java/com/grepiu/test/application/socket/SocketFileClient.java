@@ -13,23 +13,30 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.List;
+
+import com.grepiu.www.process.sample.util.socket.module.pool.SejongSocketConnection;
+import com.grepiu.www.process.sample.util.socket.module.pool.SejongSocketConnectionManager;
+import com.grepiu.www.process.sample.util.socket.module.pool.SejongSocketConnectionPool;
 import org.apache.commons.io.FileUtils;
 
 public class SocketFileClient {
-  public static void main(String...args)  {
+  public static void main(String...args)  throws Exception{
     try {
-      SejongSocket s = SejongFactory.create(TYPE.FILE_DOWN);
-      SejongMap fileMap = new SejongMap();
-      fileMap.put("path", "/data/test.ppt");
-      fileMap.put("host", "127.0.0.1");
-      fileMap.put("port", 9080);
-      List<SejongMap> m = s.send(fileMap);
+      byte[] files;
 
-      // 파일 가져오기
-      byte[] files = m.get(0).getFile();
-
-      // 파일 변환
-      FileUtils.writeByteArrayToFile(new File("/data/test.ppt"), files);
+      SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
+              .getSocketConnectionPool();
+      SejongSocketConnection connection = connectionPool.getConnection();
+      // 파일 Mode로 Set
+      connection.setFileMode("127.0.0.1", 9080);
+      try {
+        connection.sendData("data".getBytes());
+        files =  connection.receiveFileData();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        connection.destroy();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
