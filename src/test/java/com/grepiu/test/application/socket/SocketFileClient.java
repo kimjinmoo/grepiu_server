@@ -21,6 +21,8 @@ public class SocketFileClient {
       SejongSocket s = SejongFactory.create(TYPE.FILE_DOWN);
       SejongMap fileMap = new SejongMap();
       fileMap.put("path", "/data/test.ppt");
+      fileMap.put("host", "127.0.0.1");
+      fileMap.put("port", 9080);
       List<SejongMap> m = s.send(fileMap);
 
       // 파일 가져오기

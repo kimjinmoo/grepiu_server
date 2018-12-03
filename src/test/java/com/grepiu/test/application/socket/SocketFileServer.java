@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 public class SocketFileServer {
   // 연결할 포트를 지정합니다.
-  private static final int PORT = 9090;
+  private static final int PORT = 9080;
   // 스레드 풀의 최대 스레드 개수를 지정합니다.
   private static final int THREAD_CNT = 10;
   private static ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_CNT);

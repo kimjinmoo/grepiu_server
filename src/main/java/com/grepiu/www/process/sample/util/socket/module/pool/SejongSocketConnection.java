@@ -33,6 +33,15 @@ public class SejongSocketConnection {
     this.out = new DataOutputStream(socket.getOutputStream());
   }
 
+  public void setFileMode(String host, int port) throws IOException {
+    logger.info("host: {}", host);
+    logger.info("host: {}", port);
+    this.socket = new Socket(host, port);
+    this.socket.setSoTimeout(1000 * 15);
+    this.in = new DataInputStream(socket.getInputStream());
+    this.out = new DataOutputStream(socket.getOutputStream());
+  }
+
   public boolean isBusy() {
     return busy;
   }

@@ -21,7 +21,8 @@ public class FileDown extends SejongSocket {
     SejongMap returnMap = new SejongMap();
     List<SejongMap> files = Lists.newArrayList();
 
-    returnMap.put("file", SocketHelper.getFile(sample.getBytes("KSC5601")));
+    returnMap.put("file", SocketHelper
+        .getFile(data.getString("host"), data.getInt("port"), sample.getBytes("KSC5601")));
     files.add(returnMap);
 
     return files;

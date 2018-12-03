@@ -30,10 +30,12 @@ public class SocketHelper {
     return response;
   }
 
-  public static byte[] getFile(byte[] data) {
+  public static byte[] getFile(String host, int port, byte[] data) throws Exception {
     SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
         .getSocketConnectionPool();
     SejongSocketConnection connection = connectionPool.getConnection();
+    // 파일 Mode로 Set
+    connection.setFileMode(host, port);
     try {
       connection.sendData(data);
       return connection.receiveFileData();

@@ -18,4 +18,20 @@ public class SejongMap extends ListOrderedMap {
   public byte[] getFile() {
     return (byte[]) this.get("file");
   }
+
+  public int getInt(String key) {
+    if(this.containsKey(key)) {
+      return (int) this.get(key);
+    } else {
+      return 0;
+    }
+  }
+
+  public String getString(String key) {
+    if(this.containsKey(key)) {
+      return (String) this.get(key);
+    } else {
+      return null;
+    }
+  }
 }
