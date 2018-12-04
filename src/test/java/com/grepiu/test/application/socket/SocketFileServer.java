@@ -1,5 +1,7 @@
 package com.grepiu.test.application.socket;
 
+import com.grepiu.www.process.sample.util.socket.module.pool.Constant;
+
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -55,11 +57,11 @@ class ConnectionFileWrap implements Runnable{
   public void run() {
 
     try {
-      File file = new File("/temp/test.ppt");
+      File file = new File("/Temp/text.txt");
       FileInputStream fileIn = new FileInputStream(file);
       BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
 
-      byte[] buffer = new byte[8192];
+      byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
       int bytesRead=0;
       System.out.println("file send: " + file.getName());
       System.out.println("file info: " + file.length());
