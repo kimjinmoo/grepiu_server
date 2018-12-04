@@ -1,5 +1,7 @@
 package com.grepiu.www.process.sample.util.socket.module.pool;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -7,6 +9,10 @@ import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +22,8 @@ import org.slf4j.LoggerFactory;
 public class SejongSocketConnection {
 
   static final Logger logger = LoggerFactory.getLogger(SejongSocketConnection.class);
+
+  private final String ETX = "ETX";
 
   private Socket socket;
 
@@ -37,8 +45,8 @@ public class SejongSocketConnection {
     this.destroy();
     this.socket = new Socket(host, port);
     this.socket.setSoTimeout(1000 * 15);
-    this.in = new DataInputStream(socket.getInputStream());
-    this.out = new DataOutputStream(socket.getOutputStream());
+    this.in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+    this.out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
   }
 
   public boolean isBusy() {
@@ -74,10 +82,37 @@ public class SejongSocketConnection {
     bos = new ByteArrayOutputStream();
     byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
     int bytesRead = 0;
-    while ((bytesRead = in.read(buffer)) > 0) {
-      bos.write(buffer, 0, bytesRead);
-    }
+    String etx = "ETX";
+    int limit = 0;
+    boolean isReading = true;
+    while(isReading) {
+      System.out.println("avail : " + in.available());
+//      if(limit > 4) break;
+      int read = in.read(buffer,0, buffer.length);
+      if(read > -1) {
+        System.out.println("read : " + read);
+        bos.write(buffer, 0, read);
+        limit++;
+      } else {
+        isReading = false;
+      }
+    };
+    bos.flush();
     return bos.toByteArray();
+  }
+
+  public int indexOf(byte[] outerArray, byte[] smallerArray) {
+    for(int i = 0; i < outerArray.length - smallerArray.length+1; ++i) {
+      boolean found = true;
+      for(int j = 0; j < smallerArray.length; ++j) {
+        if (outerArray[i+j] != smallerArray[j]) {
+          found = false;
+          break;
+        }
+      }
+      if (found) return i;
+    }
+    return -1;
   }
 
   public void close() {

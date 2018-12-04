@@ -23,7 +23,6 @@ public class SocketFileClient {
   public static void main(String...args)  throws Exception{
     try {
       byte[] files;
-
       SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
               .getSocketConnectionPool();
       SejongSocketConnection connection = connectionPool.getConnection();
@@ -32,6 +31,8 @@ public class SocketFileClient {
       try {
         connection.sendData("data".getBytes());
         files =  connection.receiveFileData();
+        System.out.println(new String(files));
+        FileUtils.writeByteArrayToFile(new File("/data/test.ppt"), files);
       } catch (Exception e) {
         e.printStackTrace();
       } finally {
