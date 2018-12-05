@@ -3,6 +3,7 @@ package com.grepiu.test.application.socket;
 import com.grepiu.www.process.sample.util.socket.module.pool.Constant;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -55,12 +56,13 @@ class ConnectionFileWrap implements Runnable{
 
   @Override
   public void run() {
-
+    DataOutputStream out = null;
     try {
-      File file = new File("/Temp/text.txt");
+      File file = new File("/Temp/test.txt");
+      File file2 = new File("/Temp/test2.txt");
       FileInputStream fileIn = new FileInputStream(file);
-      BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
-
+      FileInputStream fileIn2 = new FileInputStream(file2);
+      out = new DataOutputStream(socket.getOutputStream());
       byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
       int bytesRead=0;
       System.out.println("file send: " + file.getName());
@@ -68,15 +70,23 @@ class ConnectionFileWrap implements Runnable{
       while ((bytesRead = fileIn.read(buffer)) > 0) {
         out.write(buffer, 0, bytesRead);
       }
-//      out.write("ETX".getBytes());
       out.flush();
-      out.close();
+      System.out.println("file send: " + file2.getName());
+      System.out.println("file info: " + file2.length());
+      while ((bytesRead = fileIn2.read(buffer)) > 0) {
+        out.write(buffer, 0, bytesRead);
+      }
+      out.flush();
+//      out.write("ETX".getBytes());
       fileIn.close();
       // 클라이언트로부터 메시지 입력받음
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
       try {
+        if(out != null) {
+          out.close();
+        }
         socket.close(); // 반드시 종료합니다.
       } catch (IOException e) {
         e.printStackTrace();

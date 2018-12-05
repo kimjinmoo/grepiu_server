@@ -23,8 +23,6 @@ public class SejongSocketConnection {
 
   static final Logger logger = LoggerFactory.getLogger(SejongSocketConnection.class);
 
-  private final String ETX = "ETX";
-
   private Socket socket;
 
   private DataInputStream in;
@@ -82,25 +80,26 @@ public class SejongSocketConnection {
     try {
       bos = new ByteArrayOutputStream();
       byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-      int bytesRead = 0;
-      boolean isSuccess = false;
       while(!isEnd(bos.toByteArray())) {
-        System.out.println("loop");
-        System.out.println("loop" + in.available());
         int able = in.available();
-        if(able > 0 && able <= buffer.length) {
-          in.readFully(buffer, 0, able);
-        } else {
-          in.readFully(buffer, 0, buffer.length);
+        if(able == 0 ) continue;
+        try{
+          if(able > 0 && able <= buffer.length) {
+            System.out.println("left: " + in.available());
+            System.out.println("Reading Finished");
+            byte[] end_buffer = new byte[able];
+            in.readFully(end_buffer);
+            bos.write(end_buffer);
+          } else {
+            System.out.println("Reading Data");
+            in.readFully(buffer);
+            bos.write(buffer);
+          }
+        } catch (Exception e){
+          e.printStackTrace();
         }
-        bos.write(buffer);
       }
-      // 기본적인 파일 다운로드
-//      while((bytesRead = in.read(buffer, 0, buffer.length))>0) {
-//        System.out.println("available : "+in.available());
-//        System.out.println("read byte : "+bytesRead);
-//        bos.write(buffer,0, bytesRead);
-//      }
+      System.out.println("length : " + bos.toByteArray().length);
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -111,8 +110,6 @@ public class SejongSocketConnection {
 
   private boolean isEnd(byte[] bytes) {
     String str = new String(bytes);
-    System.out.println(str);
-    System.out.println(str.indexOf(Constant.FILE_ETX));
     return str.indexOf(Constant.FILE_ETX) != -1;
   }
 
