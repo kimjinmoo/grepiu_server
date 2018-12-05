@@ -45,8 +45,8 @@ public class SejongSocketConnection {
     this.destroy();
     this.socket = new Socket(host, port);
     this.socket.setSoTimeout(1000 * 15);
-    this.in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-    this.out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+    this.in = new DataInputStream(socket.getInputStream());
+    this.out = new DataOutputStream(socket.getOutputStream());
   }
 
   public boolean isBusy() {
@@ -82,39 +82,38 @@ public class SejongSocketConnection {
     try {
       bos = new ByteArrayOutputStream();
       byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-      int length = 50000;
-      while(bos.toByteArray().length <= 50000) {
-        int bytesRead = 0;
-        int bytesToRead = Constant.FILE_DEFAULT_BUFFER;
-        System.out.println("buffer : "+buffer.length);
-        while (bytesRead < bytesToRead) {
-          System.out.println("bytesRead:"+bytesRead);
-          int result = in.read(buffer, bytesRead, bytesToRead - bytesRead);
-          if (result == -1) break; //1024이하의 스트림을 읽고 끝났을 때의 상황을 고려해야 한다.
-          bytesRead +=  result;
+      int bytesRead = 0;
+      boolean isSuccess = false;
+      while(!isEnd(bos.toByteArray())) {
+        System.out.println("loop");
+        System.out.println("loop" + in.available());
+        int able = in.available();
+        if(able > 0 && able <= buffer.length) {
+          in.readFully(buffer, 0, able);
+        } else {
+          in.readFully(buffer, 0, buffer.length);
         }
         bos.write(buffer);
       }
-      bos.flush();
+      // 기본적인 파일 다운로드
+//      while((bytesRead = in.read(buffer, 0, buffer.length))>0) {
+//        System.out.println("available : "+in.available());
+//        System.out.println("read byte : "+bytesRead);
+//        bos.write(buffer,0, bytesRead);
+//      }
     } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      bos.flush();
     }
-//    bos.close();
     return bos.toByteArray();
   }
 
-  public int indexOf(byte[] outerArray, byte[] smallerArray) {
-    for(int i = 0; i < outerArray.length - smallerArray.length+1; ++i) {
-      boolean found = true;
-      for(int j = 0; j < smallerArray.length; ++j) {
-        if (outerArray[i+j] != smallerArray[j]) {
-          found = false;
-          break;
-        }
-      }
-      if (found) return i;
-    }
-    return -1;
+  private boolean isEnd(byte[] bytes) {
+    String str = new String(bytes);
+    System.out.println(str);
+    System.out.println(str.indexOf(Constant.FILE_ETX));
+    return str.indexOf(Constant.FILE_ETX) != -1;
   }
 
   public void close() {
