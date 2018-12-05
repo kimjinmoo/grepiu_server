@@ -31,7 +31,6 @@ public class SocketFileClient {
       try {
         connection.sendData("data".getBytes());
         files =  connection.receiveFileData();
-//        System.out.println(new String(files));
         FileUtils.writeByteArrayToFile(new File("/data/test.txt"), files);
       } catch (Exception e) {
         e.printStackTrace();

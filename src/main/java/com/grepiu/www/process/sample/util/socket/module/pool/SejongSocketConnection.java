@@ -77,32 +77,38 @@ public class SejongSocketConnection {
   }
 
   public byte[] receiveFileData() throws IOException {
+    BufferedInputStream bis = null;
     try {
+      int length = 0;
+      bis = new BufferedInputStream(in);
+
       bos = new ByteArrayOutputStream();
       // Set Buffer
       byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-      int loop = 0, maxLoop = 3;
+      int loop = 0, maxLoop = 10;
       while (!isEnd(bos.toByteArray())) {
+        if(loop > maxLoop) {
+          break;
+        }
+        maxLoop++;
         int bytesRead = 0;
-        int bytesToRead = 10000;
         try{
-          while (bytesRead < bytesToRead) {
-            int result = in.read(buffer, bytesRead, bytesToRead - bytesRead);
-            if (result == -1) {
-              break; //1024이하의 스트림을 읽고 끝났을 때의 상황을 고려해야 한다.
-            } else {
-              bos.write(buffer, bytesRead, bytesToRead - bytesRead);
-            }
-            bytesRead += result;
+          while ((bytesRead = bis.read(buffer))>0) {
+            bos.write(buffer, 0, bytesRead);
           }
         } catch (Exception e){
+          // error 시 현재 있는 값을 그대로 return;
           break;
         }
       }
+      System.out.println("real : " + length);
       System.out.println("length : " + bos.toByteArray().length);
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
+      if(bis != null) {
+        bis.close();
+      }
       bos.flush();
     }
     return bos.toByteArray();

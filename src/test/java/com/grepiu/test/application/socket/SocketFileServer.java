@@ -77,8 +77,8 @@ class ConnectionFileWrap implements Runnable{
         out.write(buffer, 0, bytesRead);
       }
       out.flush();
-//      out.write("ETX".getBytes());
       fileIn.close();
+      fileIn2.close();
       // 클라이언트로부터 메시지 입력받음
     } catch (IOException e) {
       e.printStackTrace();
