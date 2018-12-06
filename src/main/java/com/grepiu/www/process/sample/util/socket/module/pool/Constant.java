@@ -7,6 +7,6 @@ public class Constant {
   public static int MAX_SIZE = 10;
   public static int MIN_SIZE = 1;
   public static int DEFAULT_BUFFER = 1024;
-  public static int FILE_DEFAULT_BUFFER = 10000;
+  public static int FILE_DEFAULT_BUFFER = 4096;
   public static String FILE_ETX = "ETX";
 }
