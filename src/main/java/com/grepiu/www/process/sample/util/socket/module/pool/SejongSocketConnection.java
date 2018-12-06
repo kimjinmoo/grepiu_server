@@ -8,7 +8,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -34,7 +36,6 @@ public class SejongSocketConnection {
 
   public SejongSocketConnection() throws IOException {
     this.socket = new Socket(Constant.DEFAULT_HOST, Constant.DEFAULT_PORT);
-    this.socket.setSoTimeout(1000 * 15);
     this.in = new DataInputStream(socket.getInputStream());
     this.out = new DataOutputStream(socket.getOutputStream());
   }
@@ -42,10 +43,7 @@ public class SejongSocketConnection {
   public void setFileMode(String host, int port) throws IOException {
     this.destroy();
     this.socket = new Socket(host, port);
-    this.socket.setSoTimeout(1000 * 15);
-    this.socket.setSoLinger(true, 240);
-    this.in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-    this.out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+    this.in = new DataInputStream(socket.getInputStream());
   }
 
   public boolean isBusy() {
@@ -78,33 +76,30 @@ public class SejongSocketConnection {
   }
 
   public byte[] receiveFileData() throws IOException {
+    int bytesRead;
+    int current = 0;
+    BufferedOutputStream bos = null;
+    Socket sock = null;
     try {
-      int length = 0;
+      sock = new Socket("52.78.158.161", 9080);
+      System.out.println("Connecting...");
 
-      bos = new ByteArrayOutputStream();
-      // Set Buffer
-      byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-      int loop = 0, maxLoop = 10;
-      while (!isEnd(bos.toByteArray())) {
-        if(loop > maxLoop) {
-          break;
-        }
-        maxLoop++;
-        int bytesRead = 0;
-        try{
-          while ((bytesRead = in.read(buffer))>0) {
-            bos.write(buffer, 0, bytesRead);
-          }
-        } catch (Exception e){
-          // error 시 현재 있는 값을 그대로 return;
-          break;
-        }
+      // receive file
+      byte [] buffer  = new byte [1024*4];
+      DataInputStream dis = new DataInputStream(sock.getInputStream());
+      ByteArrayOutputStream bs = new ByteArrayOutputStream();
+      int read = 0 ;
+      while((read = dis.read(buffer, 0, buffer.length)) > 0) {
+        bs.write(buffer, 0, read);
       }
-      System.out.println("length : " + bos.toByteArray().length);
-    } catch (Exception e) {
-      e.printStackTrace();
+      System.out.println(" downloaded (" + bs.size() + " bytes read)");
+
+      return bs.toByteArray();
     }
-    return bos.toByteArray();
+    finally {
+      if (bos != null) bos.close();
+      if (sock != null) sock.close();
+    }
   }
 
   private boolean isEnd(byte[] bytes) {
