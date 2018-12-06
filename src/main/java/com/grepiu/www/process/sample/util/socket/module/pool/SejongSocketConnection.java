@@ -29,7 +29,6 @@ public class SejongSocketConnection {
   private DataOutputStream out;
 //  private FileOutputStream outFile;
   private ByteArrayOutputStream bos;
-  private BufferedInputStream bis;
 
   private boolean busy = false;
 
@@ -45,9 +44,8 @@ public class SejongSocketConnection {
     this.socket = new Socket(host, port);
     this.socket.setSoTimeout(1000 * 15);
     this.socket.setSoLinger(true, 240);
-//    this.in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-    this.bis = new BufferedInputStream(socket.getInputStream());
-    this.out = new DataOutputStream(socket.getOutputStream());
+    this.in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+    this.out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
   }
 
   public boolean isBusy() {
@@ -94,7 +92,7 @@ public class SejongSocketConnection {
         maxLoop++;
         int bytesRead = 0;
         try{
-          while ((bytesRead = bis.read(buffer))>0) {
+          while ((bytesRead = in.read(buffer))>0) {
             bos.write(buffer, 0, bytesRead);
           }
         } catch (Exception e){
@@ -148,18 +146,9 @@ public class SejongSocketConnection {
         logger.info("FileStream 종료 Error : {}", e.getMessage());
       }
     }
-    if(bis != null) {
-      try{
-        bis.close();
-      } catch (Exception e) {
-        logger.info("inputstream 종료 Error : {}", e.getMessage());
-      }
-
-    }
     this.busy = false;
     this.out = null;
     this.bos = null;
-    this.bis = null;
     this.in = null;
     this.socket = null;
   }
