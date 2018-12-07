@@ -2,12 +2,14 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -32,18 +34,25 @@ public class SejongSocketConnection {
 //  private FileOutputStream outFile;
   private ByteArrayOutputStream bos;
 
+
   private boolean busy = false;
 
   public SejongSocketConnection() throws IOException {
+    this.socket = null;
+    this.in = null;
+    this.out = null;
+  }
+
+  public void connect() throws Exception {
     this.socket = new Socket(Constant.DEFAULT_HOST, Constant.DEFAULT_PORT);
     this.in = new DataInputStream(socket.getInputStream());
     this.out = new DataOutputStream(socket.getOutputStream());
   }
 
-  public void setFileMode(String host, int port) throws IOException {
-    this.destroy();
+  public void connect(String host, int port) throws Exception {
     this.socket = new Socket(host, port);
     this.in = new DataInputStream(socket.getInputStream());
+    this.out = new DataOutputStream(socket.getOutputStream());
   }
 
   public boolean isBusy() {
@@ -54,12 +63,9 @@ public class SejongSocketConnection {
     this.busy = busy;
   }
 
-  public void sendData(byte[] data) throws IOException {
+  public void sendData(byte[] data) throws Exception {
     if (this.socket == null || this.socket.isClosed()) {
-      this.socket = new Socket(Constant.DEFAULT_HOST, Constant.DEFAULT_PORT);
-      this.socket.setSoTimeout(5000);
-      this.in = new DataInputStream(socket.getInputStream());
-      out = new DataOutputStream(socket.getOutputStream());
+      throw new Exception("접속이 되지 않았습니다.");
     }
     out.write(data);
     out.flush();
@@ -76,30 +82,23 @@ public class SejongSocketConnection {
   }
 
   public byte[] receiveFileData() throws IOException {
-    int bytesRead;
-    int current = 0;
-    BufferedOutputStream bos = null;
-    Socket sock = null;
     try {
-      sock = new Socket("52.78.158.161", 9080);
-      System.out.println("Connecting...");
+      bos = new ByteArrayOutputStream();
+      // Set Buffer
+      byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
+      // read Firset
+      int bytesRead = 0;
 
-      // receive file
-      byte [] buffer  = new byte [1024*4];
-      DataInputStream dis = new DataInputStream(sock.getInputStream());
-      ByteArrayOutputStream bs = new ByteArrayOutputStream();
-      int read = 0 ;
-      while((read = dis.read(buffer, 0, buffer.length)) > 0) {
-        bs.write(buffer, 0, read);
+      while ((bytesRead = in.read(buffer)) > 0) {
+        logger.info("length :{}", bytesRead);
+        bos.write(buffer, 0, bytesRead);
       }
-      System.out.println(" downloaded (" + bs.size() + " bytes read)");
 
-      return bs.toByteArray();
+      logger.info("total length :{}", bos.size());
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    finally {
-      if (bos != null) bos.close();
-      if (sock != null) sock.close();
-    }
+    return bos.toByteArray();
   }
 
   private boolean isEnd(byte[] bytes) {
