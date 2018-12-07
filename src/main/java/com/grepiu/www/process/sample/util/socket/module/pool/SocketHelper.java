@@ -20,6 +20,7 @@ public class SocketHelper {
     SejongSocketConnection connection = connectionPool.getConnection();
     String response = "";
     try {
+      connection.connect();
       connection.sendData(data);
       response = connection.receiveData();
     } catch (Exception e) {
@@ -34,8 +35,6 @@ public class SocketHelper {
     SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
         .getSocketConnectionPool();
     SejongSocketConnection connection = connectionPool.getConnection();
-    // 파일 Mode로 Set
-    connection.setFileMode(host, port);
     try {
       connection.sendData(data);
       return connection.receiveFileData();

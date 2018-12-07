@@ -2,13 +2,17 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -30,22 +34,25 @@ public class SejongSocketConnection {
 //  private FileOutputStream outFile;
   private ByteArrayOutputStream bos;
 
+
   private boolean busy = false;
 
   public SejongSocketConnection() throws IOException {
+    this.socket = null;
+    this.in = null;
+    this.out = null;
+  }
+
+  public void connect() throws Exception {
     this.socket = new Socket(Constant.DEFAULT_HOST, Constant.DEFAULT_PORT);
-    this.socket.setSoTimeout(1000 * 15);
     this.in = new DataInputStream(socket.getInputStream());
     this.out = new DataOutputStream(socket.getOutputStream());
   }
 
-  public void setFileMode(String host, int port) throws IOException {
-    this.destroy();
+  public void connect(String host, int port) throws Exception {
     this.socket = new Socket(host, port);
-    this.socket.setSoTimeout(1000 * 15);
-    this.socket.setSoLinger(true, 240);
-    this.in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-    this.out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+    this.in = new DataInputStream(socket.getInputStream());
+    this.out = new DataOutputStream(socket.getOutputStream());
   }
 
   public boolean isBusy() {
@@ -56,12 +63,9 @@ public class SejongSocketConnection {
     this.busy = busy;
   }
 
-  public void sendData(byte[] data) throws IOException {
+  public void sendData(byte[] data) throws Exception {
     if (this.socket == null || this.socket.isClosed()) {
-      this.socket = new Socket(Constant.DEFAULT_HOST, Constant.DEFAULT_PORT);
-      this.socket.setSoTimeout(5000);
-      this.in = new DataInputStream(socket.getInputStream());
-      out = new DataOutputStream(socket.getOutputStream());
+      throw new Exception("접속이 되지 않았습니다.");
     }
     out.write(data);
     out.flush();
@@ -79,28 +83,18 @@ public class SejongSocketConnection {
 
   public byte[] receiveFileData() throws IOException {
     try {
-      int length = 0;
-
       bos = new ByteArrayOutputStream();
       // Set Buffer
       byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-      int loop = 0, maxLoop = 10;
-      while (!isEnd(bos.toByteArray())) {
-        if(loop > maxLoop) {
-          break;
-        }
-        maxLoop++;
-        int bytesRead = 0;
-        try{
-          while ((bytesRead = in.read(buffer))>0) {
-            bos.write(buffer, 0, bytesRead);
-          }
-        } catch (Exception e){
-          // error 시 현재 있는 값을 그대로 return;
-          break;
-        }
+      // read Firset
+      int bytesRead = 0;
+
+      while ((bytesRead = in.read(buffer)) > 0) {
+        logger.info("length :{}", bytesRead);
+        bos.write(buffer, 0, bytesRead);
       }
-      System.out.println("length : " + bos.toByteArray().length);
+
+      logger.info("total length :{}", bos.size());
     } catch (Exception e) {
       e.printStackTrace();
     }
