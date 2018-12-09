@@ -58,39 +58,21 @@ class ConnectionFileWrap implements Runnable{
   public void run() {
     DataOutputStream out = null;
     try {
-      File file = new File("/Temp/test.txt");
-      File file2 = new File("/Temp/test2.txt");
-      FileInputStream fileIn = new FileInputStream(file);
-      FileInputStream fileIn2 = new FileInputStream(file2);
+      File file = new File("/Temp/text.txt");
+      FileInputStream fis = new FileInputStream(file);
       out = new DataOutputStream(socket.getOutputStream());
       byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
       int bytesRead=0;
-      System.out.println("file send: " + file.getName());
-      System.out.println("file info: " + file.length());
-      while ((bytesRead = fileIn.read(buffer)) > 0) {
+      while ((bytesRead = fis.read(buffer)) > 0) {
         out.write(buffer, 0, bytesRead);
       }
-      out.flush();
-      System.out.println("file send: " + file2.getName());
-      System.out.println("file info: " + file2.length());
-      while ((bytesRead = fileIn2.read(buffer)) > 0) {
-        out.write(buffer, 0, bytesRead);
-      }
-      out.flush();
-      fileIn.close();
-      fileIn2.close();
+      out.write("ETX".getBytes());
+      System.out.println("send data : " + file.length());
+      fis.close();
+      out.close();
       // 클라이언트로부터 메시지 입력받음
     } catch (IOException e) {
       e.printStackTrace();
-    } finally {
-      try {
-        if(out != null) {
-          out.close();
-        }
-        socket.close(); // 반드시 종료합니다.
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 }

@@ -15,6 +15,10 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Stream;
 import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
@@ -81,29 +85,17 @@ public class SejongSocketConnection {
     return result;
   }
 
-  public byte[] receiveFileData() throws IOException {
-    try {
-      bos = new ByteArrayOutputStream();
-      // Set Buffer
-      byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-      // read Firset
-      int bytesRead = 0;
-
-      while ((bytesRead = in.read(buffer)) > 0) {
-        logger.info("length :{}", bytesRead);
-        bos.write(buffer, 0, bytesRead);
-      }
-
-      logger.info("total length :{}", bos.size());
-    } catch (Exception e) {
-      e.printStackTrace();
+  public byte[] receiveFileData(byte[] data) throws Exception {
+    if (this.socket == null || this.socket.isClosed()) {
+      throw new Exception("접속이 되지 않았습니다.");
     }
-    return bos.toByteArray();
-  }
-
-  private boolean isEnd(byte[] bytes) {
-    String str = new String(bytes);
-    return str.indexOf(Constant.FILE_ETX) != -1;
+    Socket sc = new Socket("52.78.158.161",9080);
+    Reciver r = new Reciver(sc);
+    r.start();
+    new Send(sc, data).start();
+    while(r.isAlive()){
+    }
+    return r.getDate();
   }
 
   public void close() {
@@ -145,5 +137,63 @@ public class SejongSocketConnection {
     this.bos = null;
     this.in = null;
     this.socket = null;
+  }
+}
+class Send extends Thread {
+  private Socket socket;
+  private DataOutputStream out;
+  private byte[] data;
+
+  public Send(Socket socket, byte[] data) throws Exception {
+    this.socket = socket;
+    this.data = data;
+  }
+
+  @Override
+  public void run() {
+    try{
+      this.out = new DataOutputStream(this.socket.getOutputStream());
+      Thread.sleep(1000*2);
+      while(this.socket.isConnected()){
+        System.out.println("send");
+        this.out.write(this.data);
+        this.out.flush();
+        break;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}
+
+class Reciver extends Thread {
+  private Socket socket;
+  private DataInputStream in;
+  private ByteArrayOutputStream bos;
+
+  public Reciver(Socket socket) throws Exception {
+    this.socket = socket;
+  }
+
+  @Override
+  public void run() {
+    try{
+      this.in = new DataInputStream(this.socket.getInputStream());
+      this.bos = new ByteArrayOutputStream();
+
+      while(!(new String(this.bos.toByteArray()).indexOf("ETX") != -1)) {
+        byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
+        // read Firset
+        int bytesRead = 0;
+        while ((bytesRead = in.read(buffer)) > 0) {
+          this.bos.write(buffer, 0, bytesRead);
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  public byte[] getDate() {
+    return this.bos.toByteArray();
   }
 }

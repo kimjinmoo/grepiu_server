@@ -30,9 +30,10 @@ public class SocketFileClient {
 //      connection.setFileMode("52.78.158.161", 9080);
 //      connection.setFileMode("127.0.0.1", 9080);
       try {
-        connection.sendData("data".getBytes());
-        files =  connection.receiveFileData();
-        FileUtils.writeByteArrayToFile(new File("/data/test.txt"), files);
+        connection.connect("52.78.158.161",9080);
+        files = connection.receiveFileData("file".getBytes());
+        System.out.println("file:" + new String(files));
+//        FileUtils.writeByteArrayToFile(new File("/data/test.txt"), files);
       } catch (Exception e) {
         e.printStackTrace();
       } finally {
