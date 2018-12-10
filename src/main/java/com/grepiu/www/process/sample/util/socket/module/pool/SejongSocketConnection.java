@@ -38,6 +38,9 @@ public class SejongSocketConnection {
 //  private FileOutputStream outFile;
   private ByteArrayOutputStream bos;
 
+  //Thread
+  private SejongFileReceiver receiver;
+  private SejongFileTextSender sender;
 
   private boolean busy = false;
 
@@ -89,13 +92,14 @@ public class SejongSocketConnection {
     if (this.socket == null || this.socket.isClosed()) {
       throw new Exception("접속이 되지 않았습니다.");
     }
-    Socket sc = new Socket("52.78.158.161",9080);
-    Reciver r = new Reciver(sc);
-    r.start();
-    new Send(sc, data).start();
-    while(r.isAlive()){
+    this.receiver = new SejongFileReceiver(this.socket);
+    this.receiver.start();
+    this.sender = new SejongFileTextSender(this.socket, data);
+    this.sender.start();
+    logger.info("[{}]" + " thread ends here...", Thread.currentThread().getName());
+    while (this.receiver.isAlive()) {
     }
-    return r.getDate();
+    return this.receiver.getDate();
   }
 
   public void close() {
@@ -132,68 +136,16 @@ public class SejongSocketConnection {
         logger.info("FileStream 종료 Error : {}", e.getMessage());
       }
     }
+    if(this.receiver != null && this.receiver.isAlive()) {
+      this.receiver.interrupt();
+    }
+    if(this.sender != null && this.sender.isAlive()) {
+      this.receiver.interrupt();
+    }
     this.busy = false;
     this.out = null;
     this.bos = null;
     this.in = null;
     this.socket = null;
-  }
-}
-class Send extends Thread {
-  private Socket socket;
-  private DataOutputStream out;
-  private byte[] data;
-
-  public Send(Socket socket, byte[] data) throws Exception {
-    this.socket = socket;
-    this.data = data;
-  }
-
-  @Override
-  public void run() {
-    try{
-      this.out = new DataOutputStream(this.socket.getOutputStream());
-      Thread.sleep(1000*2);
-      while(this.socket.isConnected()){
-        System.out.println("send");
-        this.out.write(this.data);
-        this.out.flush();
-        break;
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-}
-
-class Reciver extends Thread {
-  private Socket socket;
-  private DataInputStream in;
-  private ByteArrayOutputStream bos;
-
-  public Reciver(Socket socket) throws Exception {
-    this.socket = socket;
-  }
-
-  @Override
-  public void run() {
-    try{
-      this.in = new DataInputStream(this.socket.getInputStream());
-      this.bos = new ByteArrayOutputStream();
-
-      while(!(new String(this.bos.toByteArray()).indexOf("ETX") != -1)) {
-        byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
-        // read Firset
-        int bytesRead = 0;
-        while ((bytesRead = in.read(buffer)) > 0) {
-          this.bos.write(buffer, 0, bytesRead);
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-  public byte[] getDate() {
-    return this.bos.toByteArray();
   }
 }

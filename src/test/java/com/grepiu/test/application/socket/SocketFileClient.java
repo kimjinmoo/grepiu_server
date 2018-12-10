@@ -27,8 +27,6 @@ public class SocketFileClient {
               .getSocketConnectionPool();
       SejongSocketConnection connection = connectionPool.getConnection();
       // 파일 Mode로 Set
-//      connection.setFileMode("52.78.158.161", 9080);
-//      connection.setFileMode("127.0.0.1", 9080);
       try {
         connection.connect("52.78.158.161",9080);
         files = connection.receiveFileData("file".getBytes());
