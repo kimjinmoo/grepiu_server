@@ -8,7 +8,7 @@ public class ValidationResult {
   private String onErrorMsg = "";
   private boolean isSuccess = false;
 
-  public ValidationResult(String onErrorMsg, boolean isSuccess) {
+  public ValidationResult(boolean isSuccess, String onErrorMsg) {
     this.onErrorMsg = onErrorMsg;
     this.isSuccess = isSuccess;
   }

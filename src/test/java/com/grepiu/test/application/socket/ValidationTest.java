@@ -7,18 +7,19 @@ import com.grepiu.www.process.sample.util.socket.module.pool.ValidationResult;
 public class ValidationTest {
 
   public static void main(String...args) {
-    String text = "201811";
-    SejongStringValidation validation = SejongStringValidation.isEmpty();
-    validation.apply(text).isSuccess();
+//    // Text
+//    String text = "텍스트";
+//    SejongStringValidation validation = SejongStringValidation.isEmpty();
+//    validation.apply(text).isSuccess();
+//
+//    // 날짜
+//    String time = "20181112";
+//    SejongStringValidation datetime = SejongStringValidation.isDateYYYYMMDD();
+//    System.out.println("date : " + datetime.apply(time).isSuccess());
 
-
-
-    String time = "fsfd";
-    SejongStringValidation datetime = SejongStringValidation.isDateYYYYMMDD();
-    System.out.println("date : " + datetime.apply(time).isSuccess());
-
-    SejongStringValidation d = SejongStringValidation.isEmpty().and(SejongStringValidation.isDateYYYYMMDD());
-    System.out.println(d.apply("20181116").isSuccess());
+    // 일주일 체크
+    SejongStringValidation d = SejongStringValidation.isWithinWeek();
+    System.out.println(d.apply("20181209").isSuccess());
 
 
   }
