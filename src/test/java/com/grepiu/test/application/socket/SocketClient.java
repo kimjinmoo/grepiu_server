@@ -17,7 +17,7 @@ import org.apache.commons.io.FileUtils;
  */
 public class SocketClient {
 
-  private static int loop = 20;
+  private static int loop = 1000;
 
   public static void main(String...args) throws Exception {
     //
