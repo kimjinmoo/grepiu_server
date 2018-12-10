@@ -58,8 +58,6 @@ public class SejongSocketConnection {
 
   public void connect(String host, int port) throws Exception {
     this.socket = new Socket(host, port);
-    this.in = new DataInputStream(socket.getInputStream());
-    this.out = new DataOutputStream(socket.getOutputStream());
   }
 
   public boolean isBusy() {
@@ -92,14 +90,16 @@ public class SejongSocketConnection {
     if (this.socket == null || this.socket.isClosed()) {
       throw new Exception("접속이 되지 않았습니다.");
     }
+//    Socket sc = new Socket("",80);
     this.receiver = new SejongFileReceiver(this.socket);
     this.receiver.start();
     this.sender = new SejongFileTextSender(this.socket, data);
     this.sender.start();
 
     while (this.receiver.isAlive()) {
-      logger.info("[{}]" + " thread ends here...", Thread.currentThread().getName());
+//      logger.info("[{}]" + " thread ends here...", Thread.currentThread().getName());
     }
+    logger.info("total : {}", this.receiver.getDate().length);
     return this.receiver.getDate();
   }
 

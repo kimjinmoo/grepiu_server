@@ -34,12 +34,13 @@ public class SejongFileReceiver extends Thread {
       this.in = new DataInputStream(this.socket.getInputStream());
       this.bos = new ByteArrayOutputStream();
 
-      while(!(new String(this.bos.toByteArray()).indexOf("ETX") != -1)) {
+      while(true) {
         byte[] buffer = new byte[Constant.FILE_DEFAULT_BUFFER];
         // read Firset
         int bytesRead = 0;
         while ((bytesRead = in.read(buffer)) > 0) {
-          this.bos.write(buffer, 0, bytesRead);
+          log.info("length : " + bytesRead);
+//          this.bos.write(buffer, 0, bytesRead);
         }
       }
     } catch (InterruptedIOException ie){
