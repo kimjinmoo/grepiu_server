@@ -8,21 +8,19 @@ import java.util.List;
 
 public class FileDown extends SejongSocket {
 
+  private final String host = "52.78.158.161";
+  private final int port = 9080;
+
   public FileDown(String code) {
     super(code);
   }
 
   @Override
   public List<SejongMap> send(SejongMap data) throws Exception {
-    StringBuilder sb = new StringBuilder();
-    String sample = sb.append(header)
-        .toString();
-
     SejongMap returnMap = new SejongMap();
     List<SejongMap> files = Lists.newArrayList();
 
-    returnMap.put("file", SocketHelper
-        .getFile(data.getString("host"), data.getInt("port"), sample.getBytes("KSC5601")));
+    returnMap.put("file", SocketHelper.getFile(host, port, "file".getBytes()));
     files.add(returnMap);
 
     return files;
