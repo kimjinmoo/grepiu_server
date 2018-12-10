@@ -3,19 +3,23 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 import java.util.Optional;
 
 
-public interface ValidationResult {
+public class ValidationResult {
 
-  static ValidationResult valid() {
-    return ValidationSupport.valid();
+  private String onErrorMsg = "";
+  private boolean isSuccess = false;
+
+  public ValidationResult(String onErrorMsg, boolean isSuccess) {
+    this.onErrorMsg = onErrorMsg;
+    this.isSuccess = isSuccess;
   }
 
-  static ValidationResult invalid(String reason) {
-    return new SejongInvalid(reason);
+  public String getOnErrorMsg() {
+    return onErrorMsg;
   }
 
-  boolean isValid();
-
-  Optional<String> getReason();
+  public boolean isSuccess() {
+    return isSuccess;
+  }
 }
 
 

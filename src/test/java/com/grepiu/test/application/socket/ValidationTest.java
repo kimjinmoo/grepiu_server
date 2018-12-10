@@ -9,11 +9,17 @@ public class ValidationTest {
   public static void main(String...args) {
     String text = "201811";
     SejongStringValidation validation = SejongStringValidation.isEmpty();
-    validation.apply(text).getReason().ifPresent(System.out::println);
+    validation.apply(text).isSuccess();
+
+
 
     String time = "fsfd";
     SejongStringValidation datetime = SejongStringValidation.isDateYYYYMMDD();
-    System.out.println("date : " + datetime.apply(time).isValid());
+    System.out.println("date : " + datetime.apply(time).isSuccess());
+
+    SejongStringValidation d = SejongStringValidation.isEmpty().and(SejongStringValidation.isDateYYYYMMDD());
+    System.out.println(d.apply("20181116").isSuccess());
+
 
   }
 }

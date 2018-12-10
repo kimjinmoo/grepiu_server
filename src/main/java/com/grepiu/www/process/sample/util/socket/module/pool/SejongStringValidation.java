@@ -29,13 +29,13 @@ public interface SejongStringValidation extends Function<String, ValidationResul
   }
 
   static SejongStringValidation holds(Predicate<String> p, String message){
-    return d -> p.test(d) ? ValidationResult.valid() : ValidationResult.invalid(message);
+    return d -> p.test(d) ? new ValidationResult(message, true) : new ValidationResult(message, false);
   }
 
   default SejongStringValidation and(SejongStringValidation other) {
-    return user -> {
-      final ValidationResult result = this.apply(user);
-      return result.isValid() ? other.apply(user) : result;
+    return v -> {
+      final ValidationResult result = this.apply(v);
+      return result.isSuccess() ? other.apply(v) : result;
     };
   }
 }
