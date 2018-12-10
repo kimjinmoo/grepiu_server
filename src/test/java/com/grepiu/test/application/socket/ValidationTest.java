@@ -7,9 +7,13 @@ import com.grepiu.www.process.sample.util.socket.module.pool.ValidationResult;
 public class ValidationTest {
 
   public static void main(String...args) {
-    String datatime = "text";
+    String text = "201811";
     SejongStringValidation validation = SejongStringValidation.isEmpty();
-    ValidationResult result = validation.apply(datatime);
-    result.getReason().ifPresent(System.out::println);
+    validation.apply(text).getReason().ifPresent(System.out::println);
+
+    String time = "fsfd";
+    SejongStringValidation datetime = SejongStringValidation.isDateYYYYMMDD();
+    System.out.println("date : " + datetime.apply(time).isValid());
+
   }
 }

@@ -2,6 +2,7 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 
 import com.grepiu.www.process.sample.util.socket.module.model.SejongMap;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -16,11 +17,11 @@ public interface SejongStringValidation extends Function<String, ValidationResul
     ,"데이터가 비어 있습니다.");
   }
 
-  static SejongStringValidation isDate(String pattern) {
+  static SejongStringValidation isDateYYYYMMDD() {
     return holds(v->{
-      Date date = null;
       try {
-        return !(new SimpleDateFormat(pattern).parse(v).toString()).isEmpty();
+        new SimpleDateFormat("yyyyMMdd").parse(v);
+        return true;
       } catch (Exception e) {
         return false;
       }
