@@ -1,8 +1,11 @@
 package com.grepiu.www.process.sample.util.socket.module.pool;
 
 import java.io.DataOutputStream;
+import java.io.InterruptedIOException;
 import java.net.Socket;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SejongFileTextSender extends Thread {
 
   private Socket socket;
@@ -32,6 +35,8 @@ public class SejongFileTextSender extends Thread {
       this.out = new DataOutputStream(this.socket.getOutputStream());
       this.out.write(this.data);
       this.out.flush();
+    } catch (InterruptedIOException ie){
+      log.info("Thread End");
     } catch (Exception e) {
       e.printStackTrace();
     }

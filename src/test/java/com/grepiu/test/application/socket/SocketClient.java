@@ -2,10 +2,13 @@ package com.grepiu.test.application.socket;
 
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory;
 import com.grepiu.www.process.sample.util.socket.module.SejongFactory.TYPE;
+import com.grepiu.www.process.sample.util.socket.module.model.FileDown;
 import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 
 import com.grepiu.www.process.sample.util.socket.module.model.SejongMap;
+import java.io.File;
 import java.util.Random;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -14,12 +17,13 @@ import java.util.Random;
  */
 public class SocketClient {
 
-  private static int loop = 50;
+  private static int loop = 20;
 
   public static void main(String...args) throws Exception {
     //
+    int number = 0;
     for(int i = 0 ; i < loop; i++) {
-      Thread thread = new Thread(new ThreadTest());
+      Thread thread = new Thread(new FileTest(i));
       thread.start();
     }
   }
@@ -47,6 +51,42 @@ class ThreadTest implements Runnable {
           System.out.println("name : "+ v.get("name") + "code : " + v.get("code"));
         });
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}
+class FileTest implements Runnable {
+
+  private int number = 0;
+
+  public FileTest(int number) {
+    this.number = number;
+  }
+
+  /**
+   * When an object implementing interface <code>Runnable</code> is used to create a thread,
+   * starting the thread causes the object's
+   * <code>run</code> method to be called in that separately executing
+   * thread.
+   * <p>
+   * The general contract of the method <code>run</code> is that it may take any action whatsoever.
+   *
+   * @see Thread#run()
+   */
+  @Override
+  public void run() {
+    try {
+      // 일반 검색
+      SejongMap genre = new SejongMap();
+      SejongSocket s = SejongFactory.create(TYPE.FILE_DOWN);
+      s.send(genre).stream().forEach(v->{
+        try {
+          FileUtils.writeByteArrayToFile(new File("/data/test_" + this.number+".txt"), v.getFile());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      });
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -96,8 +96,9 @@ public class SejongSocketConnection {
     this.receiver.start();
     this.sender = new SejongFileTextSender(this.socket, data);
     this.sender.start();
-    logger.info("[{}]" + " thread ends here...", Thread.currentThread().getName());
+
     while (this.receiver.isAlive()) {
+      logger.info("[{}]" + " thread ends here...", Thread.currentThread().getName());
     }
     return this.receiver.getDate();
   }
@@ -140,12 +141,14 @@ public class SejongSocketConnection {
       this.receiver.interrupt();
     }
     if(this.sender != null && this.sender.isAlive()) {
-      this.receiver.interrupt();
+      this.sender.interrupt();
     }
     this.busy = false;
     this.out = null;
     this.bos = null;
     this.in = null;
     this.socket = null;
+    this.receiver = null;
+    this.sender = null;
   }
 }

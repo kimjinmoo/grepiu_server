@@ -2,8 +2,11 @@ package com.grepiu.www.process.sample.util.socket.module.pool;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.InterruptedIOException;
 import java.net.Socket;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SejongFileReceiver extends Thread {
 
   //Set Data
@@ -39,7 +42,9 @@ public class SejongFileReceiver extends Thread {
           this.bos.write(buffer, 0, bytesRead);
         }
       }
-    } catch (Exception e) {
+    } catch (InterruptedIOException ie){
+      log.info("Thread End");
+    } catch(Exception e) {
       e.printStackTrace();
     }
   }

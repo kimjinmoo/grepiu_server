@@ -35,9 +35,9 @@ public class SocketHelper {
     SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
         .getSocketConnectionPool();
     SejongSocketConnection connection = connectionPool.getConnection();
-    connection.connect("192.168.0.1",9080);
     try {
-      return connection.receiveFileData("file".getBytes());
+      connection.connect(host,port);
+      return connection.receiveFileData(data);
     } catch (Exception e) {
       e.printStackTrace();
       return null;
