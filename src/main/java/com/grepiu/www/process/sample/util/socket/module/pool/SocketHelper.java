@@ -42,6 +42,7 @@ public class SocketHelper {
       e.printStackTrace();
       return null;
     } finally {
+      System.out.println("closed!!");
       connection.destroy();
     }
   }

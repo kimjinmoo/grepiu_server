@@ -20,7 +20,8 @@ public class FileDown extends SejongSocket {
     SejongMap returnMap = new SejongMap();
     List<SejongMap> files = Lists.newArrayList();
 
-    returnMap.put("file", SocketHelper.getFile(host, port, "file".getBytes()));
+    returnMap.put("file", SocketHelper.getFile(host, port, data.getString("file").getBytes()));
+
     files.add(returnMap);
 
     return files;

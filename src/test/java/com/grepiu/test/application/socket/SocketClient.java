@@ -17,14 +17,32 @@ import org.apache.commons.io.FileUtils;
  */
 public class SocketClient {
 
-  private static int loop = 1000;
+  private static int loop = 30;
 
   public static void main(String...args) throws Exception {
     //
     int number = 0;
     for(int i = 0 ; i < loop; i++) {
-      Thread thread = new Thread(new FileTest(i));
-      thread.start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      new Thread(new FileTest(i+1)).start();
+      Thread.sleep(1000);
     }
   }
 }
@@ -78,9 +96,11 @@ class FileTest implements Runnable {
   public void run() {
     try {
       // 일반 검색
-      SejongMap genre = new SejongMap();
+      SejongMap file = new SejongMap();
+      file.put("file","file");
+
       SejongSocket s = SejongFactory.create(TYPE.FILE_DOWN);
-      s.send(genre).stream().forEach(v->{
+      s.send(file).stream().forEach(v->{
         try {
           FileUtils.writeByteArrayToFile(new File("/data/test_" + this.number+".txt"), v.getFile());
         } catch (Exception e) {

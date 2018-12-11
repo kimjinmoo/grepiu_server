@@ -33,21 +33,25 @@ public class SejongSocketConnection {
 
   private Socket socket;
 
+  // Stream
   private DataInputStream in;
   private DataOutputStream out;
-//  private FileOutputStream outFile;
   private ByteArrayOutputStream bos;
 
-  //Thread
+  // Thread
   private SejongFileReceiver receiver;
   private SejongFileTextSender sender;
 
+  // 상태
   private boolean busy = false;
+
+  private int current_loop = 0;
 
   public SejongSocketConnection() throws IOException {
     this.socket = null;
     this.in = null;
     this.out = null;
+    this.current_loop = 0;
   }
 
   public void connect() throws Exception {
@@ -90,17 +94,19 @@ public class SejongSocketConnection {
     if (this.socket == null || this.socket.isClosed()) {
       throw new Exception("접속이 되지 않았습니다.");
     }
-//    Socket sc = new Socket("",80);
+    // Set 쓰레드
     this.receiver = new SejongFileReceiver(this.socket);
     this.receiver.start();
     this.sender = new SejongFileTextSender(this.socket, data);
     this.sender.start();
-
-    while (this.receiver.isAlive()) {
-//      logger.info("[{}]" + " thread ends here...", Thread.currentThread().getName());
+    // Loop 체크 , 시간 초과시 받은것만 리턴
+    while (Constant.MAX_LOOP_LIMIT > current_loop && this.receiver.isAlive()) {
+      current_loop++;
+      Thread.sleep(100);
     }
+
     logger.info("total : {}", this.receiver.getDate().length);
-    return this.receiver.getDate();
+    return current_loop > Constant.MAX_LOOP_LIMIT ? "".getBytes() : this.receiver.getDate();
   }
 
   public void close() {
@@ -143,12 +149,17 @@ public class SejongSocketConnection {
     if(this.sender != null && this.sender.isAlive()) {
       this.sender.interrupt();
     }
+    // set 상태
     this.busy = false;
+    this.current_loop = 0;
+    // Set 스티림
     this.out = null;
     this.bos = null;
     this.in = null;
-    this.socket = null;
+    // Set 쓰레드
     this.receiver = null;
     this.sender = null;
+    // Set 소켓
+    this.socket = null;
   }
 }
