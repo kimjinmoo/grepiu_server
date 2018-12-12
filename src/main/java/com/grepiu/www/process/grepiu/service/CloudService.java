@@ -1,6 +1,8 @@
 package com.grepiu.www.process.grepiu.service;
 
 import com.google.common.collect.Lists;
+import com.grepiu.www.process.common.api.domain.Files;
+import com.grepiu.www.process.common.helper.FileHelper;
 import com.grepiu.www.process.grepiu.dao.CloudStoreRepository;
 import com.grepiu.www.process.grepiu.domain.CloudStore;
 import java.util.Arrays;
@@ -26,6 +28,9 @@ public class CloudService {
   @Autowired
   private CloudStoreRepository cloudStoreRepository;
 
+  @Autowired
+  private FileHelper fileHelper;
+
   /**
    *
    * 현 경로를 가져온다.
@@ -43,7 +48,7 @@ public class CloudService {
 
   /**
    *
-   *
+   * 이름을 변경한다.
    *
    * @param uid user ID
    * @param fid folder ID
@@ -63,10 +68,14 @@ public class CloudService {
    * @param cloudStore CloudStore 객체
    * @return CloudStore 객체
    */
-  public CloudStore create(String uid, CloudStore cloudStore, MultipartFile file) {
-    // set Auth
+  public CloudStore create(String uid, CloudStore cloudStore, MultipartFile file) throws Exception {
+    // Set Auth
     cloudStore.setAuthorizedUsers(Arrays.asList(uid));
-    // save
+    // File Logic
+    if(cloudStore.getAttribute().equals("F")){
+      // File Mapping
+      cloudStore.setFileId(fileHelper.uploadFile(file).getId());
+    }
     return cloudStoreRepository.save(cloudStore);
   }
 

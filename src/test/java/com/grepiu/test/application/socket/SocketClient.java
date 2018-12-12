@@ -22,26 +22,27 @@ public class SocketClient {
   public static void main(String...args) throws Exception {
     //
     int number = 0;
-    for(int i = 0 ; i < loop; i++) {
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
-      new Thread(new FileTest(i+1)).start();
+    while (true) {
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
+      new Thread(new FileTest((number++)+1)).start();
       Thread.sleep(1000);
     }
   }

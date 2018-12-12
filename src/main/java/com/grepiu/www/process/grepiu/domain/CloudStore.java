@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,10 +30,8 @@ public class CloudStore implements Serializable {
   @ApiModelProperty("이름")
   @NotEmpty
   String name;
-  @ApiModelProperty(value = "파일인 경우 파일 경로", hidden = true)
-  String filePath;
-  @ApiModelProperty(value = "파일 저장시 이름")
-  String fileSaveName;
+  @ApiModelProperty(value = "파일 ID", hidden = true)
+  String fileId;
   @ApiModelProperty("속성 - P:폴더, F:파일")
   @NotEmpty
   String attribute;
@@ -41,5 +40,6 @@ public class CloudStore implements Serializable {
   @ApiModelProperty(value = "생성ID", hidden = true)
   String createId;
   @ApiModelProperty(value = "생성일", hidden = true)
+  @CreatedDate
   Date createDate;
 }

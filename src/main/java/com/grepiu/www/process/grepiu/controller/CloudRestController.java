@@ -59,9 +59,10 @@ public class CloudRestController {
   @ApiOperation(value = "클라우드 저장소 생성")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header") })
+          required = true, dataType = "string", paramType = "header")})
   @PostMapping(value = "/")
-  public ResponseEntity<Object> createDir(@RequestBody @Valid CloudStore cloudStore, MultipartFile file, @ApiParam(hidden = true) Principal principal) {
+  public ResponseEntity<Object> createDir(@RequestBody @Valid CloudStore cloudStore,
+      MultipartFile file, @ApiParam(hidden = true) Principal principal) throws Exception {
     return new ResponseEntity<>(cloudService.create(principal.getName(), cloudStore, file),
         HttpStatus.OK);
   }

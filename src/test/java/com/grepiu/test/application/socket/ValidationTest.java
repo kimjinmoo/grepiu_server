@@ -16,10 +16,12 @@ public class ValidationTest {
 //    String time = "20181112";
 //    SejongStringValidation datetime = SejongStringValidation.isDateYYYYMMDD();
 //    System.out.println("date : " + datetime.apply(time).isSuccess());
-
+    SejongStringValidation sv = SejongStringValidation.isEmpty().and(SejongStringValidation.isDateYYYYMMDD()).and(SejongStringValidation.isWithinWeek());
+    ValidationResult r = sv.apply("20171211");
+//    System.out.println(sv.apply("20171211").getOnErrorMsg());
     // 일주일 체크
-    SejongStringValidation d = SejongStringValidation.isWithinWeek();
-    System.out.println(d.apply("20181209").isSuccess());
+//    SejongStringValidation d = SejongStringValidation.isWithinWeek();
+//    System.out.println(d.apply("20181101").isSuccess());
 
 
   }
