@@ -34,6 +34,10 @@ public interface PostRepository extends MongoRepository<Post, Long>, PostReposit
 
   List<Post> findAllByHashTag(String name);
 
+  Page<Post> findBySubjectLikeAndHashTagLike(String subject, List hashTag, Pageable pageable);
+
+  Page<Post> findBySubjectLike(String subject, Pageable pageable);
+
   Page<Post> findByHashTagLike(List hashTag, Pageable pageable);
 
   Long countByHashTag(String hashTagName);

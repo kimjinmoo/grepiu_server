@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,11 +71,13 @@ public class CloudRestController {
   @ApiOperation(value = "클라우드 저장소 삭제")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header") })
-  @DeleteMapping("/")
-  public ResponseEntity<Object> deleteDir(@RequestBody CloudStore cloudStore,
+          required = true, dataType = "string", paramType = "header")})
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteDir(@PathVariable String id,
       @ApiParam(hidden = true) Principal principal) {
-    return new ResponseEntity<>(HttpStatus.OK);
+    //delete
+    cloudService.delete(principal.getName(), id);
+    return new ResponseEntity<Void>(HttpStatus.OK);
   }
 
 }

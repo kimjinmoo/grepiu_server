@@ -13,14 +13,19 @@ import com.grepiu.www.process.grepiu.domain.Post;
 import com.grepiu.www.process.grepiu.domain.form.PostSearchForm;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.Optional;
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Service;
@@ -110,10 +115,27 @@ public class PostService {
   public HashMap<String, Object> findPostAllPage(int page, int size, PostSearchForm form) {
     HashMap<String, Object> r = Maps.newHashMap();
 
-    Page<Post> p = Optional.ofNullable(form.getHashTags()).isPresent() ?
-        postRepository.findByHashTagLike(form.getHashTags(),
-            PageRequest.of(page, size, Direction.DESC, "regDate")) :
-        postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
+    Page<Post> p = null;
+
+    switch (form.getSearchType().getSearchType(Optional.ofNullable(form.getFilter()).orElse(""),
+        Optional.ofNullable(form.getHashTags()).orElse(Lists.newArrayList()))) {
+      case ONLY_FILTER:
+        p = postRepository.findBySubjectLike(form.getFilter(),
+            PageRequest.of(page, size, Direction.DESC, "regDate"));
+        break;
+      case ONLY_HASH_TAG:
+        p = postRepository.findByHashTagLike(form.getHashTags(),
+            PageRequest.of(page, size, Direction.DESC, "regDate"));
+        break;
+      case ALL_SEARCH:
+        p = postRepository.findBySubjectLikeAndHashTagLike(form.getFilter(), form.getHashTags(),
+            PageRequest.of(page, size, Direction.DESC, "regDate"));
+        break;
+      case ALL_LIST:
+        p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
+        break;
+    }
+
     r.put("list", p.getContent());
     r.put("tPage", p.getTotalPages());
     r.put("tCount", postRepository.count());
