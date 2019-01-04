@@ -138,6 +138,17 @@ public class BaseService {
 
     /**
      *
+     * 비밀번호를 초기화 한다. 기본 xptmxm1!
+     *
+     * @param id
+     * @return
+     */
+    public Object resetPassword(String id) {
+        return userService.updatePassword(id, "xptmxm1!");
+    }
+
+    /**
+     *
      * 토큰 유효 체크
      *
      * @param accessToken 토큰 정보

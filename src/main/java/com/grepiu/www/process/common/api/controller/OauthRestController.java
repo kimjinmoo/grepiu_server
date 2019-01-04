@@ -47,6 +47,12 @@ public class OauthRestController {
     return new ResponseEntity<>(baseService.logout(authorization.replace("Bearer", "").trim()), HttpStatus.OK);
   }
 
+  @ApiOperation("비밀번호 초기화")
+  @PostMapping("/reset")
+  public ResponseEntity<Object> resetPassword(@RequestParam String id) {
+    return new ResponseEntity<>(baseService.resetPassword(id), HttpStatus.OK);
+  }
+
   @ApiOperation("Oauth 토큰 유효성 체크")
   @GetMapping("/check")
   public ResponseEntity<Object> oauthTokenCheck(@RequestParam("accessToken") String accessToken) {

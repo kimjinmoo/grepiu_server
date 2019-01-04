@@ -19,16 +19,26 @@ public class UserService {
     return userRepository.findUserById(id);
   }
 
+  // 유저 등록
   public User saveUser(UserCreateForm form) {
     User user = User.build(form.getId(), form.getPassword(), form.getRole());
     return userRepository.save(user);
   }
 
+  // 유저 비밀번호 수정(비밀번호 확인)
   public User updatePassword(UserPasswordUpdateForm form) throws Exception {
     User user = Optional.ofNullable(userRepository.findUserByIdAndAndPasswordHash(form.getId(),
         new BCryptPasswordEncoder().encode(form.getCurrentPassword()))).orElseThrow(Exception::new)
         .get();
     user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getCurrentPassword()));
+    return userRepository.save(user);
+  }
+
+  // 유저 비밀번호 수정(관리자용)
+  public User updatePassword(String id, String password) {
+    User user = userRepository.findUserById(id).get();
+    user.setPasswordHash(new BCryptPasswordEncoder().encode(password));
+
     return userRepository.save(user);
   }
 }
