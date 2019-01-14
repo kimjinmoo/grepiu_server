@@ -14,8 +14,5 @@ public class UserPasswordUpdateForm {
   private String id;
 
   @NotEmpty
-  private String currentPassword;
-
-  @NotEmpty
   private String changedPassword;
 }

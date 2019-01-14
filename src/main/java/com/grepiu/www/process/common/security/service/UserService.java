@@ -27,10 +27,8 @@ public class UserService {
 
   // 유저 비밀번호 수정(비밀번호 확인)
   public User updatePassword(UserPasswordUpdateForm form) throws Exception {
-    User user = Optional.ofNullable(userRepository.findUserByIdAndAndPasswordHash(form.getId(),
-        new BCryptPasswordEncoder().encode(form.getCurrentPassword()))).orElseThrow(Exception::new)
-        .get();
-    user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getCurrentPassword()));
+    User user = userRepository.findUserById(form.getId()).orElseThrow(Exception::new);
+    user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getChangedPassword()));
     return userRepository.save(user);
   }
 
