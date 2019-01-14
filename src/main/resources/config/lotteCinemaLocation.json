@@ -738,5 +738,100 @@
     "type" : "cgv",
     "storeName": "씨네드쉐프 용산아이파크몰",
     "address": "서울특별시 용산구 한강대로23길 55, 6층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "강남",
+    "address": "서울특별시 서초구 서초대로77길 3 아라타워 8층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "강남대로(씨티)",
+    "address": "서울특별시 강남구 강남대로 422"
+  },
+  {
+    "type" : "mega",
+    "storeName": "강동",
+    "address": "서울특별시 강동구 성내로 48"
+  },
+  {
+    "type" : "mega",
+    "storeName": "군자",
+    "address": "서울특별시 광진구 능동로 289"
+  },
+  {
+    "type" : "mega",
+    "storeName": "동대문",
+    "address": "서울특별시 중구 장충단로 247 굿모닝시티 9층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "마곡",
+    "address": "서울특별시 강서구 공항대로 247, 퀸즈파크나인 B동 4층 메가박스 마곡지점"
+  },
+  {
+    "type" : "mega",
+    "storeName": "목동",
+    "address": "서울특별시 양천구 목동동로 309 행복한세상백화점 6층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "상봉",
+    "address": "서울특별시 중랑구 망우로30길 3"
+  },
+  {
+    "type" : "mega",
+    "storeName": "상암월드컵경기장",
+    "address": "서울특별시 마포구 월드컵로 240"
+  },
+  {
+    "type" : "mega",
+    "storeName": "센트럴",
+    "address": "서울특별시 서초구 신반포로 176 센트럴시티빌딩 지하 1층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "송파 파크하비오",
+    "address": "서울특별시 송파구 송파대로 111,(문정동,파크하비오푸르지오) 204동 지하1층 메가박스"
+  },
+  {
+    "type" : "mega",
+    "storeName": "신촌",
+    "address": "서울특별시 서대문구 신촌역로 30 밀리오레 5층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "은평",
+    "address": "서울특별시 은평구 통일로 830 파레제페 5층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "이수",
+    "address": "서울특별시 동작구 동작대로 89 골든 시네마타워 7층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "창동",
+    "address": "서울특별시 도봉구 도봉로 558"
+  },
+  {
+  "type" : "mega",
+  "storeName": "코엑스",
+  "address": "서울특별시 강남구 봉은사로 524 코엑스몰 B1"
+  },
+  {
+    "type" : "mega",
+    "storeName": "화곡",
+    "address": "서울특별시 강서구 화곡로 142 메가스퀘어 4층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "아트나인",
+    "address": "서울특별시 동작구 동작대로 89 골든 시네마타워 12층"
+  },
+  {
+    "type" : "mega",
+    "storeName": "EOE4",
+    "address": " 서울시 중구 장충단로 72 (장충동2가)"
   }
 ]
