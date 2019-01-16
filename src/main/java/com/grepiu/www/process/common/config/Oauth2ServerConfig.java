@@ -95,9 +95,9 @@ public class Oauth2ServerConfig {
     // Scope Set
     static final String SCOPE_WRITE = "write";
     // 토큰 시간
-    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
+    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60*60*24;
     // Refresh 토큰 시간
-    static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
+    static final int REFRESH_TOKEN_VALIDITY_SECONDS = 60*60*24*3;
 
     @Autowired
     private AuthenticationManager authenticationManager;
