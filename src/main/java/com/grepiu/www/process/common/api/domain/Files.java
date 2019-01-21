@@ -1,6 +1,7 @@
 package com.grepiu.www.process.common.api.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Optional;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,6 +33,6 @@ public class Files {
   private Date regDate;
 
   public String getFullFilePath() {
-    return this.rootPath+path+fileName;
+    return Optional.ofNullable(this.rootPath).isPresent()?this.rootPath+path+fileName:null;
   }
 }

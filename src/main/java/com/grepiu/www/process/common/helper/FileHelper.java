@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.grepiu.www.process.common.api.domain.FileRepository;
 import com.grepiu.www.process.common.api.domain.Files;
 
+import java.io.File;
 import java.util.List;
 
 import com.grepiu.www.process.common.utils.DateUtils;
@@ -49,6 +50,19 @@ public class FileHelper {
         this.FileUploadProcess(filesVO, file);
 
         return filesVO;
+    }
+
+    /**
+     *
+     * 파일을 삭제를 한다.
+     *
+     * @param fileList 파일들
+     * @throws Exception
+     */
+    public void deleteFiles(List<Files> fileList) throws Exception {
+        for(Files f : fileList) {
+            new File(f.getFullFilePath()).delete();
+        }
     }
 
     /**
