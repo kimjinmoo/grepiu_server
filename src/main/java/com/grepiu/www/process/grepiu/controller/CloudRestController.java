@@ -57,7 +57,7 @@ public class CloudRestController {
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
           required = true, dataType = "string", paramType = "header") })
   @GetMapping("/{id}")
-  public ResponseEntity<ByteArrayResource> download(@PathVariable("id") String id, Principal principal, HttpServletResponse res) throws Exception {
+  public ResponseEntity<ByteArrayResource> download(@PathVariable("id") String id, Principal principal) throws Exception {
     Path path = Paths.get(cloudService.getFilePath(principal.getName(), id));
     byte[] data = Files.readAllBytes(path);
     ByteArrayResource resource = new ByteArrayResource(data);
