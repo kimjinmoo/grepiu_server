@@ -122,8 +122,8 @@ public class FileHelper {
      *
      * 파일명을 지정한다.
      *
-     * @param oriFileName
-     * @return
+     * @param oriFileName String 객체
+     * @return 파일명
      */
     private String makeFileName(String oriFileName) {
         StringBuilder sb = new StringBuilder();

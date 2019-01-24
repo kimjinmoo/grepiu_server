@@ -44,7 +44,8 @@ public class CloudService {
    */
   public String getFilePath(String uid, String id) {
     List<String> authorizedUsers = Arrays.asList(uid);
-    return cloudStoreRepository.findByAuthorizedUsersInAndId(authorizedUsers, id).getFiles().getFullFilePath();
+    CloudStore cloudStore = cloudStoreRepository.findByAuthorizedUsersInAndId(authorizedUsers, id).orElseThrow(()->new RuntimeException("잘못된 정보를 호출 하였습니다."));
+    return cloudStore.getFiles().getFullFilePath();
   }
 
   /**
@@ -80,7 +81,7 @@ public class CloudService {
    * @return CloudStore 객체
    */
   public CloudStore rename(String uid, String fid, String rename) {
-    CloudStore st = cloudStoreRepository.findById(fid).orElseThrow(() -> new RuntimeException("Not Id"));
+    CloudStore st = cloudStoreRepository.findByAuthorizedUsersInAndId(Arrays.asList(uid), fid).orElseThrow(() -> new RuntimeException("Not Id"));
     st.setName(rename);
     return cloudStoreRepository.save(st);
   }
@@ -100,6 +101,7 @@ public class CloudService {
 
     // File Logic
     if(Optional.ofNullable(file).isPresent()) {
+      cloudStore.setName(file.getOriginalFilename());
       cloudStore.setAttribute(CloudAttributeType.FILE.getCode());
       cloudStore.setFiles(fileHelper.uploadFile(file));
     }

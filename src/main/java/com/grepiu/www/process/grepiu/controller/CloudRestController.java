@@ -10,6 +10,9 @@ import io.swagger.annotations.ApiParam;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -54,15 +57,17 @@ public class CloudRestController {
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
           required = true, dataType = "string", paramType = "header") })
   @GetMapping("/{id}")
-  public ResponseEntity<InputStreamResource> download(@PathVariable("id") String id, Principal principal, HttpServletResponse res) throws Exception {
-    File file = new File(cloudService.getFilePath(principal.getName(), id));
-    InputStreamResource resource = new InputStreamResource(
-        new FileInputStream(file));
+  public ResponseEntity<ByteArrayResource> download(@PathVariable("id") String id, Principal principal, HttpServletResponse res) throws Exception {
+    Path path = Paths.get(cloudService.getFilePath(principal.getName(), id));
+    byte[] data = Files.readAllBytes(path);
+    ByteArrayResource resource = new ByteArrayResource(data);
 
-    return ResponseEntity.ok()
+    return ResponseEntity
+        .ok()
         .header(HttpHeaders.CONTENT_DISPOSITION,
-            "attachment;filename="+file.getName().toString())
-        .contentLength(file.length())
+            "attachment;filename="+path.getFileName().toString())
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .contentLength(data.length)
         .body(resource);
   }
 
