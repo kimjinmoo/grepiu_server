@@ -1,11 +1,9 @@
 package com.grepiu.test.process.study;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import javax.swing.text.html.Option;
 
 /**
  *
@@ -35,9 +33,9 @@ public class LambdaExpressionSample {
     Predicate<String> ex4 = s -> {return s.isEmpty();};
 
     // 메소드 레퍼런스 이용
-    Optional.ofNullable(new Object()).orElseThrow(Exception::new);
-    Consumer<String> ex1_method_r = System.out::println;
-    Function<Optional<String>, Boolean> ex5 = Optional::isEmpty;
+//    Optional.ofNullable(new Object()).orElseThrow(Exception::new);
+//    Consumer<String> ex1_method_r = System.out::println;
+//    Function<Optional<String>, Boolean> ex5 = Optional::isEmpty;
 
     // java8에 기본적인 functional interface
     // Functional Interface / Parameter Type /   return Type /   Abstract Method Name
