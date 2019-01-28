@@ -56,7 +56,7 @@ public class ScheduleJob {
     log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
     //step1. Collect Data
     CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
-    ch.isEnableProxy(proxyServerIp);
+//    ch.isEnableProxy(proxyServerIp);
     ch.addExecuteNode(new LotteCinemaNode());
     ch.addObserver(o -> {
       //DB delete

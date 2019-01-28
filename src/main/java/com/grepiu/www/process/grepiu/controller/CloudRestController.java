@@ -97,7 +97,7 @@ public class CloudRestController {
           required = true, dataType = "string", paramType = "header")})
   @PostMapping(value = "/")
   public ResponseEntity<Object> create(@ModelAttribute @Valid CloudStore cloudStore,
-      MultipartFile file, @ApiParam(hidden = true) Principal principal) throws Exception {
+      @RequestParam(value = "file", required = false) MultipartFile file, @ApiParam(hidden = true) Principal principal) throws Exception {
     return new ResponseEntity<>(cloudService.create(principal.getName(), cloudStore, file),
         HttpStatus.OK);
   }
