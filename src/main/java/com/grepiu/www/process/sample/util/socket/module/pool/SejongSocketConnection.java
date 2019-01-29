@@ -81,12 +81,15 @@ public class SejongSocketConnection {
   }
 
   public String receiveData() throws IOException {
-    String result = null;
-
-    byte[] bytes = new byte[Constant.DEFAULT_BUFFER];
-    int len = in.read(bytes);
-
-    result = new String(bytes, 0, len, "KSC5601");
+    String result;
+    try(ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+      int read = 0;
+      byte[] bytes = new byte[Constant.DEFAULT_BUFFER];
+      while((read = in.read(bytes)) != -1) {
+        bos.write(bytes, 0, read);
+      }
+      result = new String(bos.toByteArray(), "KSC5601");
+    }
     return result;
   }
 
