@@ -19,6 +19,4 @@ public interface CloudStoreRepository extends MongoRepository<CloudStore, String
   Optional<CloudStore> findByAuthorizedUsersInAndId(List<String> userIds, String id);
   // 클라우드 내용 삭제
   void deleteByAuthorizedUsersAndId(List<String> userId, String id);
-  // 클라우트 경로 색인
-  List<CloudStore> findByPathStartingWith(String path);
 }
