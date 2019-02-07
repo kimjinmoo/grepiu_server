@@ -123,7 +123,7 @@ public class CloudService {
     CloudStore obj = cloudStoreRepository.findById(id).orElseThrow(()->new RuntimeException("wrong file"));
     // 파일인 경우 실제 경로에서도 제거한다.
     if (obj.getAttribute().equals(CloudAttributeType.FILE.getCode())) {
-      File file = new File(obj.getPath());
+      File file = new File(obj.getFiles().getFullFilePath());
       file.delete();
     }
 

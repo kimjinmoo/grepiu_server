@@ -1,6 +1,7 @@
 package com.grepiu.www.process.grepiu.domain;
 
 import com.grepiu.www.process.common.api.domain.Files;
+import com.grepiu.www.process.common.constant.CloudAttributeType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
@@ -25,10 +26,6 @@ public class CloudStore implements Serializable {
   String id;
   @ApiModelProperty(value = "상위폴더", hidden = true)
   String pid;
-  @ApiModelProperty("경로  /{id}/path...")
-  @Indexed
-  @NotEmpty
-  String path;
   @ApiModelProperty("이름")
   @NotEmpty
   String name;
@@ -37,7 +34,7 @@ public class CloudStore implements Serializable {
   Files files;
   @ApiModelProperty(value = "속성 - D:폴더, F:파일", hidden = true)
   @NotEmpty
-  String attribute = "D";
+  String attribute = CloudAttributeType.DIRECTORY.getCode();
   @ApiModelProperty(value = "접근가능 유저", hidden = true)
   List<String> authorizedUsers;
   @ApiModelProperty(value = "생성ID", hidden = true)
