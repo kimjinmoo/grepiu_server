@@ -59,8 +59,8 @@ public class CloudService {
   public List<CloudStore> find(String uid, String pid) {
     List<String> authorizedUsers = Arrays.asList(uid);
     return cloudStoreRepository
-        .findByAuthorizedUsersInAndPidOrderByAttributeDesc(authorizedUsers, pid,
-            Sort.by(Direction.DESC, "createDate"))
+        .findByAuthorizedUsersInAndPidOrderByAttributeAsc(authorizedUsers, pid,
+            Sort.by(Direction.ASC, "createDate"))
         .stream().map(p->{
           // 파일 정보는 제거한다.
           if(Optional.ofNullable(p.getFiles()).isPresent()){

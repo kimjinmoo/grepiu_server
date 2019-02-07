@@ -36,6 +36,7 @@ public class CloudStore implements Serializable {
   @NotEmpty
   String attribute = CloudAttributeType.DIRECTORY.getCode();
   @ApiModelProperty(value = "접근가능 유저", hidden = true)
+  @Indexed
   List<String> authorizedUsers;
   @ApiModelProperty(value = "생성ID", hidden = true)
   String createId;

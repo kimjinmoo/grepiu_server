@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface CloudStoreRepository extends MongoRepository<CloudStore, String> {
 
   // 클라우드 내용 가져오기
-  List<CloudStore> findByAuthorizedUsersInAndPidOrderByAttributeDesc(List<String> userIds, String pid, Sort sort);
+  List<CloudStore> findByAuthorizedUsersInAndPidOrderByAttributeAsc(List<String> userIds, String pid, Sort sort);
   // 클라우드 내용 가져오기
   Optional<CloudStore> findByAuthorizedUsersInAndId(List<String> userIds, String id);
   // 클라우드 내용 삭제
