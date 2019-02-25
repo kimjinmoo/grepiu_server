@@ -2,9 +2,10 @@ package com.grepiu.www.process.grepiu.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
+import com.grepiu.www.process.common.tools.crawler.module.CrawlerExecuteOptions;
+import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.helper.GoogleMapParserHelper;
@@ -69,24 +70,21 @@ public class LabService {
     @Async
     public void collectionCinemaMovieInfo(CinemaInfoOptionForm cinemaInfoOptionForm) {
         try {
-            //step1. Collect Data
-            CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
-            if(cinemaInfoOptionForm.isEnableProxy()){
-                ch.isEnableProxy(cinemaInfoOptionForm.getProxyServerIp());
+            SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+            if(cinemaInfoOptionForm.isEnableProxy()) {
+                connect.init(CrawlerExecuteOptions.builder().isProxyUse(true)
+                        .isProxyUse(cinemaInfoOptionForm.isEnableProxy())
+                        .proxyServerIp(cinemaInfoOptionForm.getProxyServerIp()).build(),
+                    new LotteCinemaNode());
+            } else {
+                connect.init(new LotteCinemaNode());
             }
-            ch.addExecuteNode(new LotteCinemaNode());
-            ch.addObserver(o -> {
-                //DB delete
-                mongoDBCrawler.deleteAll();
-                //DB Insert
-                o.parallelStream().forEach(v -> {
-                    mongoDBCrawler.insert(v);
-                });
-                //완료 후 최종 이벤트 처리
-                template.convertAndSend("/topic/messages",
-                        new Message("시스템 알림", "영화 상영 정보 처리 완료 신규 데이터를 확인하세요."));
+            mongoDBCrawler.deleteAll();
+            connect.execute().stream().forEach(v -> {
+                mongoDBCrawler.insert(v);
+
             });
-            ch.execute();
+            template.convertAndSend("/topic/messages", new Message("시스템 알림", "수동 크롤링 처리 완료 신규 데이터를 확인하세요."));
         } catch (Exception e) {
             e.printStackTrace();
         }
