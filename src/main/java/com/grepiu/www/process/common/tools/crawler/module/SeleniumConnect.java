@@ -88,7 +88,7 @@ public class SeleniumConnect<T> implements Connect<T>{
    */
   @Override
   public T execute() {
-    return this.seleniumExecuteNode.execute(this.driver);
+    return this.seleniumExecuteNode.getData(this.driver);
   }
 
   /**

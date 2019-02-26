@@ -10,7 +10,7 @@ public class SampleNode implements SeleniumExecuteNode<String> {
    * Selenium webDriver를 이용한 구현 로직 구현
    */
   @Override
-  public String execute(WebDriver webDriver) {
+  public String getData(WebDriver webDriver) {
     webDriver.get("https://www.google.com");
     webDriver.findElement(By.name("q")).sendKeys("google");
     SeleniumUtils.elementClick(webDriver, webDriver.findElement(By.name("btnK")));

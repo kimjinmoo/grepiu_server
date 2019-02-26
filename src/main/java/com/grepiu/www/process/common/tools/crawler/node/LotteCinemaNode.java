@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
 public class LotteCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
 
     @Override
-    public List<Cinema> execute(WebDriver webDriver) {
+    public List<Cinema> getData(WebDriver webDriver) {
         // URL을 크롤링을 시작한다.
         webDriver.get("http://www.lottecinema.co.kr/LCHS/Contents/ticketing/ticketing.aspx");
         // return 데이터 타입 Set

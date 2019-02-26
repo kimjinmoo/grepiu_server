@@ -12,5 +12,5 @@ public interface SeleniumExecuteNode<T> {
    * 종료시 webDriver.quit();
    *
    */
-  public T execute(WebDriver webDriver);
+  public T getData(WebDriver webDriver);
 }
