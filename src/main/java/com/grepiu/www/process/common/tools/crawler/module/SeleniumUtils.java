@@ -17,9 +17,9 @@ public class SeleniumUtils {
    *
    * Root 엘리먼트에서 Loop 엘리먼트를 가져온다.
    *
-   * @param webElement
-   * @param by
-   * @return
+   * @param webElement webElement 객체
+   * @param by By 객체
+   * @return List<WebElement> 객체
    */
   public static List<WebElement> findElements(WebElement webElement, By by) {
     try {
@@ -34,9 +34,9 @@ public class SeleniumUtils {
    *
    * Root엘리먼트에서 특정 엘리먼트를 가져온다.
    *
-   * @param webElement
-   * @param by
-   * @return
+   * @param webElement WebElement 객체
+   * @param by By 객체
+   * @return WebElement 객체
    * @throws Exception
    */
   public static WebElement findElement(WebElement webElement, By by) throws Exception {
@@ -48,12 +48,29 @@ public class SeleniumUtils {
   }
 
   /**
-   * 엘리먼트를 클릭한다.
+   *
+   * 클릭이벤트
+   *
+   * @param webDriver WebDriver 객체
+   * @param webElement WebElement 객체
    */
   public static void elementClick(WebDriver webDriver, WebElement webElement) {
     Actions actions = new Actions(webDriver);
     actions.moveToElement(webElement).click().perform();
     sleep();
+  }
+
+  /**
+   *
+   * Text box에 입력
+   *
+   * @param webDriver WebDriver 객체
+   * @param by By 객체
+   * @param text String 객체
+   * @throws Exception
+   */
+  public static void enterText(WebDriver webDriver, By by, String text) throws Exception {
+    webDriver.findElement(By.name("q")).sendKeys(text);
   }
 
   /**

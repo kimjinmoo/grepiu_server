@@ -17,11 +17,13 @@ public class CheckVO {
    */
   static String isN(int length, String n) {
     try {
-      if(length < n.length()) {
+      int StringLength = n.getBytes("KSC5601").length;
+
+      if(length < StringLength) {
         throw new RuntimeException("자리수가 초과 하였습니다.");
       }
       StringBuilder str = new StringBuilder();
-      IntStream.range(0, length-n.length()).forEach(v->{
+      IntStream.range(0, length-StringLength).forEach(v->{
         str.append(0);
       });
       str.append(n);
@@ -39,15 +41,21 @@ public class CheckVO {
    * @param n
    * @return
    */
-  static String isX(int length, String n) throws RuntimeException {
-    if(length < n.length()) {
-      throw new RuntimeException("자리수가 초과 하였습니다.");
+  static String isX(int length, String n) {
+    try {
+      int StringLength = n.getBytes("KSC5601").length;
+
+      if(length < StringLength) {
+        throw new RuntimeException("자리수가 초과 하였습니다.");
+      }
+      StringBuilder str = new StringBuilder();
+      str.append(n);
+      IntStream.range(0, length-StringLength).forEach(v->{
+        str.append(" ");
+      });
+      return str.toString();
+    } catch (Exception e) {
+      return e.getMessage();
     }
-    StringBuilder str = new StringBuilder();
-    str.append(n);
-    IntStream.range(0, length-n.length()).forEach(v->{
-      str.append(" ");
-    });
-    return str.toString();
   }
 }
