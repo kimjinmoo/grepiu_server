@@ -32,12 +32,14 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
 
     // alert 안뜨도록 설정
     SeleniumUtils.isAlertDisable(webDriver);
+    // full 스크린
+    webDriver.manage().window().fullscreen();
 
     // return 값 초기
     List<Cinema> cinemaNodeList = Lists.newArrayList();
 
     // 모바일용 극장 버튼 클릭
-    webDriver.findElement(By.linkText("극장선택")).click();
+    webDriver.findElement(By.xpath("/html/body/section/div/section/a")).click();
     // 모든 극장 리스트를 가져온다.
     List<WebElement> ul = webDriver.findElements(By.xpath("/html/body/section/div/section/ul/li[not(contains(@class,'on'))]"));
     HashMap<String, Object> areaMovieInfo = Maps.newHashMap();
@@ -61,7 +63,7 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
     // 영화 데이터 크롤링 시작
     cinemaNodeList.stream().forEach(v->{
       v.getMovieInfo().forEach((s, o) -> {
-        SeleniumUtils.elementClick(webDriver, webDriver.findElement(By.linkText("극장선택")));
+        webDriver.findElement(By.xpath("/html/body/section/div/section/a")).click();
         SeleniumUtils.elementClick(webDriver, webDriver.findElement(By.xpath("/html/body/section/div/section/ul/li/ul/li/a[@title='"+s+"']")));
         // alert 상황이 발생하여 예외 처리
         if(SeleniumUtils.isAlertShow(webDriver)) {
@@ -70,10 +72,19 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
         List<CinemaDetailInfo> cinemaDetailLists = Lists.newArrayList();
         List<WebElement> webSections = webDriver.findElements(By.xpath("/html/body/section/div/div[@id='divContent']/section"));
         webSections.stream().forEach(info->{
-          log.info("store : {}", s);
-          log.info("s : {}", info.findElement(By.tagName("h3")).getText());
-        });
+          // Set Movie Info
+          String movieName = info.findElement(By.tagName("h3")).getText();
+          String room = info.findElement(By.xpath("//div/p/strong/span[3]")).getText();
 
+          info.findElements(By.xpath("//div[@class='time']/ul/li")).stream().forEach(time->{
+            CinemaDetailInfo cinemaDetailInfo = new CinemaDetailInfo();
+            cinemaDetailInfo.setMovieName(movieName);
+            cinemaDetailInfo.setRoom(room);
+            cinemaDetailInfo.setTime(time.getText());
+            cinemaDetailLists.add(cinemaDetailInfo);
+          });
+        });
+        v.getMovieInfo().put(s, cinemaDetailLists);
       });
     });
     webDriver.quit();
