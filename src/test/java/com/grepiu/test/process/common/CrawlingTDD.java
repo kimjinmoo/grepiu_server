@@ -2,8 +2,8 @@ package com.grepiu.test.process.common;
 
 import com.grepiu.test.process.config.LocalBaseConfig;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
-import com.grepiu.www.process.common.tools.crawler.module.CrawlerExecuteOptions;
 import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
+import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.SampleNode;
 import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
@@ -49,6 +49,19 @@ public class CrawlingTDD extends LocalBaseConfig {
 
     SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
     connect.init(new LotteCinemaNode());
+    log.info("data : {}", connect.execute());
+  }
+
+  /**
+   *
+   * 샘플 사이트 데이터 가져오기
+   * @throws Exception
+   */
+  @Test
+  public void doCollectCgv() throws Exception {
+
+    SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+    connect.init(new CGVCinemaNode());
     log.info("data : {}", connect.execute());
   }
 

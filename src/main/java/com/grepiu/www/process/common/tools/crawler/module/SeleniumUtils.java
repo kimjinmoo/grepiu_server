@@ -2,6 +2,8 @@ package com.grepiu.www.process.common.tools.crawler.module;
 
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -71,6 +73,35 @@ public class SeleniumUtils {
    */
   public static void enterText(WebDriver webDriver, By by, String text) throws Exception {
     webDriver.findElement(By.name("q")).sendKeys(text);
+  }
+
+  /**
+   *
+   * 화면에 alert 여부 확인
+   *
+   * @param webDriver WebDriver
+   * @return boolean
+   * @throws Exception
+   */
+  public static boolean isAlertShow(WebDriver webDriver) {
+    try {
+      webDriver.switchTo().alert();
+      return true;
+    } catch (NoAlertPresentException ex) {
+      return false;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  /**
+   *
+   * alert를 허용 하지 않는다.
+   *
+   * @param webDriver WebDriver 객체
+   */
+  public static void isAlertDisable(WebDriver webDriver) {
+    ((JavascriptExecutor) webDriver).executeScript("window.alert = function() {};");
   }
 
   /**
