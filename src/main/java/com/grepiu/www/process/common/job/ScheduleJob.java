@@ -57,11 +57,15 @@ public class ScheduleJob {
     log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
     SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
     connect.init(new LotteCinemaNode());
-    mongoDBCrawler.deleteAll();
-    connect.execute().stream().forEach(v -> {
-      mongoDBCrawler.insert(v);
+    List<Cinema> data = connect.execute();
+    if(data.size() > 0) {
+      mongoDBCrawler.deleteAll();
+      data.stream().forEach(v -> {
+        mongoDBCrawler.insert(v);
+      });
+    }
 
-    });
+
     template.convertAndSend("/topic/messages", new Message("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
     log.info(" finished crawler=======================");
   }
