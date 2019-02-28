@@ -4,8 +4,8 @@ import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
 import com.grepiu.www.process.grepiu.service.LabService;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
-import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
-import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
+import com.grepiu.www.process.grepiu.dao.CineDBRepository;
+import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -37,10 +37,10 @@ public class LabRestController {
     private LabService labService;
 
     @Autowired
-    private LotteCineDBRepository lotteCineDBRepository;
+    private CineDBRepository cineDBRepository;
 
     @Autowired
-    private LotteCineLocalRepository lotteCineLocalRepository;
+    private CineLocalRepository cineLocalRepository;
 
     @ApiOperation(value = "영화관 위치 정보 수동")
     @GetMapping("/root/crawler/cine/saveCinemaLocationByManual")
@@ -69,14 +69,14 @@ public class LabRestController {
     @ApiResponse(code = 200, message = "조회성공")
     @GetMapping("/crawler/cine/screen")
     public ResponseEntity<Object> findCine() {
-        return new ResponseEntity<Object>(lotteCineDBRepository.findAllBy(), HttpStatus.OK);
+        return new ResponseEntity<Object>(cineDBRepository.findAllBy(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
     @ApiResponse(code = 200, message = "조회성공")
     @GetMapping("/crawler/cine/screen/{storeName}")
     public ResponseEntity<Object> findCineByStoreName(@PathVariable("storeName") String storeName) {
-        Optional<Cinema> o = lotteCineDBRepository.findAllBy().parallelStream()
+        Optional<Cinema> o = cineDBRepository.findAllBy().parallelStream()
                 .filter(v -> v.getMovieInfo().containsKey(storeName)).findFirst();
         o.orElse(new Cinema());
 
@@ -87,7 +87,7 @@ public class LabRestController {
     @ApiResponse(code = 200, message = "조회성공")
     @GetMapping("/crawler/cine/locale")
     public ResponseEntity<Object> getCineLocale() {
-        return new ResponseEntity<Object>(lotteCineLocalRepository.findAllBy(), HttpStatus.OK);
+        return new ResponseEntity<Object>(cineLocalRepository.findAllBy(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "인접한 영화관 찾기")
@@ -97,7 +97,7 @@ public class LabRestController {
             @ApiParam(value = "위도") @RequestParam("lat") Double lat,
             @ApiParam(value = "경도") @RequestParam("lng") Double lng,
             @ApiParam(value = "키로미터") @RequestParam("distance") Integer number) {
-        return new ResponseEntity<Object>(lotteCineLocalRepository
+        return new ResponseEntity<Object>(cineLocalRepository
                 .findByLocationNear(new Point(Double.valueOf(lng), Double.valueOf(lat)),
                         new Distance(number.longValue(), Metrics.KILOMETERS)).stream().map(v -> {
                     double locationLat = v.getLocation().getX();

@@ -44,8 +44,10 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
     List<WebElement> ul = webDriver.findElements(By.xpath("/html/body/section/div/section/ul/li[not(contains(@class,'on'))]"));
     HashMap<String, Object> areaMovieInfo = Maps.newHashMap();
     Cinema cinema = new Cinema();
+
     for(WebElement v : ul) {
       if(v.getAttribute("class").equals("list_wrap")) {
+        cinema.setType("cgv");
         if(areaMovieInfo != null && areaMovieInfo.size()>0) {
           cinemaNodeList.add(cinema);
           // 시네마 초기화
@@ -67,6 +69,8 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
         SeleniumUtils.elementClick(webDriver, webDriver.findElement(By.xpath("/html/body/section/div/section/ul/li/ul/li/a[@title='"+s+"']")));
 
         List<CinemaDetailInfo> cinemaDetailLists = Lists.newArrayList();
+        // alert 처리
+        SeleniumUtils.ifShowAlertAccept(webDriver);
         List<WebElement> webSections = webDriver.findElements(By.xpath("/html/body/section/div/div[@id='divContent']/section"));
         webSections.stream().forEach(info->{
           // Set Movie Info
@@ -78,7 +82,6 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
             cinemaDetailInfo.setMovieName(movieName);
             cinemaDetailInfo.setRoom(room);
             cinemaDetailInfo.setTime(time.getText());
-            log.info("cinema : {}", cinemaDetailInfo);
             cinemaDetailLists.add(cinemaDetailInfo);
           });
         });

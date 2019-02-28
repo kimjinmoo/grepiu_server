@@ -30,7 +30,8 @@ public class LotteCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
         webDriver.findElements(By.cssSelector("[class^=area00]")).forEach(v->{
             Cinema lotteCinema = new Cinema();
             HashMap<String, Object> areaMovieInfo = Maps.newHashMap();
-            // Set 시도
+            // Set 기본값
+            lotteCinema.setType("lotte");
             lotteCinema.setSido(v.findElement(By.className("area_zone")).getText());
             String processAria = v.findElement(By.className("area_zone")).getText();
             // 지역 클릭

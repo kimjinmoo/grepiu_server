@@ -3,6 +3,7 @@ package com.grepiu.www.process.grepiu.dao;
 import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 /**
  *
@@ -10,6 +11,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * ref : https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
  *
  */
-public interface LotteCineDBRepository extends MongoRepository<Cinema, String> {
+public interface CineDBRepository extends MongoRepository<Cinema, String> {
     List<Cinema> findAllBy();
 }

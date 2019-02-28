@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * ref : https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
  *
  */
-public interface LotteCineLocalRepository extends MongoRepository<CinemaLocation, String> {
+public interface CineLocalRepository extends MongoRepository<CinemaLocation, String> {
   List<CinemaLocation> findAllBy();
   List<CinemaLocation> findByLocationNear(Point p, Distance d);
 }

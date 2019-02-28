@@ -10,8 +10,8 @@ import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.helper.GoogleMapParserHelper;
-import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
-import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
+import com.grepiu.www.process.grepiu.dao.CineDBRepository;
+import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
 import com.grepiu.www.process.common.api.domain.Message;
 import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +30,10 @@ public class LabService {
 
 
     @Autowired
-    private LotteCineDBRepository mongoDBCrawler;
+    private CineDBRepository mongoDBCrawler;
 
     @Autowired
-    private LotteCineLocalRepository lotteCineLocalRepository;
+    private CineLocalRepository cineLocalRepository;
 
     @Autowired
     private SimpMessagingTemplate template;
@@ -47,7 +47,7 @@ public class LabService {
         ObjectMapper mapper = new ObjectMapper();
         InputStream is = this.getClass().getResourceAsStream("/config/lotteCinemaLocation.json");
         try {
-            lotteCineLocalRepository.deleteAll();
+            cineLocalRepository.deleteAll();
             List<CinemaLocation> list = mapper.readValue(is, new TypeReference<List<CinemaLocation>>(){});
             for(CinemaLocation v : list) {
                 if(googleMapParserHelper.convertToLanLongFromAddress(v.getAddress()).getResults().size() > 0) {
@@ -57,7 +57,7 @@ public class LabService {
                 }
             }
             // db 저장
-            lotteCineLocalRepository.insert(list);
+            cineLocalRepository.insert(list);
 
             //완료 후 최종 이벤트 처리
             template.convertAndSend("/topic/messages",
@@ -103,8 +103,8 @@ public class LabService {
 
             List<Cinema> cgvInfos = connect.execute();
             if(cgvInfos.size() > 0) {
-//                mongoDBCrawler.deleteAll();
-                connect.execute().stream().forEach(v -> {
+                mongoDBCrawler.deleteAll();
+                cgvInfos.stream().forEach(v -> {
                     mongoDBCrawler.insert(v);
 
                 });

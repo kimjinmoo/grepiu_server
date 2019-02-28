@@ -24,6 +24,8 @@ public class Cinema implements Serializable {
     @Indexed
     private String sido; // 시도
 
+    private String type; // 영화관 타입, 롯데 lotte, CGV cgv
+
     @CreatedDate
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,style = "yyyy/MM/dd")
     private Date createDate; // 시간

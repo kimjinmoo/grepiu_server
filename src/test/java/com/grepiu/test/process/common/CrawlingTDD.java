@@ -6,7 +6,7 @@ import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
 import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.SampleNode;
-import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
+import com.grepiu.www.process.grepiu.dao.CineDBRepository;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CrawlingTDD extends LocalBaseConfig {
 
     @Autowired
-    private LotteCineDBRepository mongoDBCrawler;
+    private CineDBRepository mongoDBCrawler;
 
     @Autowired
-    private LotteCineDBRepository lotteCineDBRepository;
+    private CineDBRepository lotteCineDBRepository;
 
     @Override
     public void setUp() {
