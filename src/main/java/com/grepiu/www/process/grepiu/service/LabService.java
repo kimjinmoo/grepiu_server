@@ -96,7 +96,7 @@ public class LabService {
     }
 
     @Async
-    public void collectionCgvCinemaMovieInfo(CinemaInfoOptionForm cinemaInfoOptionForm) {
+    public void collectionCgvCinemaMovieInfo() {
         try {
             SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
             connect.init(new CGVCinemaNode());
