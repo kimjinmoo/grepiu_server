@@ -6,6 +6,7 @@ import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
 import com.grepiu.www.process.common.tools.crawler.module.CrawlerExecuteOptions;
 import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
+import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.domain.MapGoogleResultGeometryVO;
 import com.grepiu.www.process.common.helper.GoogleMapParserHelper;
@@ -79,12 +80,36 @@ public class LabService {
             } else {
                 connect.init(new LotteCinemaNode());
             }
-            mongoDBCrawler.deleteAll();
-            connect.execute().stream().forEach(v -> {
-                mongoDBCrawler.insert(v);
 
-            });
+            List<Cinema> infos = connect.execute();
+            if (infos.size() > 0) {
+                mongoDBCrawler.deleteAll();
+                infos.stream().forEach(v -> {
+                    mongoDBCrawler.insert(v);
+
+                });
+            }
             template.convertAndSend("/topic/messages", new Message("시스템 알림", "수동 크롤링 처리 완료 신규 데이터를 확인하세요."));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Async
+    public void collectionCgvCinemaMovieInfo(CinemaInfoOptionForm cinemaInfoOptionForm) {
+        try {
+            SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+            connect.init(new CGVCinemaNode());
+
+            List<Cinema> cgvInfos = connect.execute();
+            if(cgvInfos.size() > 0) {
+                mongoDBCrawler.deleteAll();
+                connect.execute().stream().forEach(v -> {
+                    mongoDBCrawler.insert(v);
+
+                });
+            }
+            template.convertAndSend("/topic/messages", new Message("시스템 알림", "CGV 수동 크롤링 처리 완료 신규 데이터를 확인하세요."));
         } catch (Exception e) {
             e.printStackTrace();
         }

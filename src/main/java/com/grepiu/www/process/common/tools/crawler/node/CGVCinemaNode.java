@@ -65,10 +65,7 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
       v.getMovieInfo().forEach((s, o) -> {
         webDriver.findElement(By.xpath("/html/body/section/div/section/a")).click();
         SeleniumUtils.elementClick(webDriver, webDriver.findElement(By.xpath("/html/body/section/div/section/ul/li/ul/li/a[@title='"+s+"']")));
-        // alert 상황이 발생하여 예외 처리
-        if(SeleniumUtils.isAlertShow(webDriver)) {
-          webDriver.switchTo().alert().accept();
-        }
+
         List<CinemaDetailInfo> cinemaDetailLists = Lists.newArrayList();
         List<WebElement> webSections = webDriver.findElements(By.xpath("/html/body/section/div/div[@id='divContent']/section"));
         webSections.stream().forEach(info->{
@@ -81,6 +78,7 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
             cinemaDetailInfo.setMovieName(movieName);
             cinemaDetailInfo.setRoom(room);
             cinemaDetailInfo.setTime(time.getText());
+            log.info("cinema : {}", cinemaDetailInfo);
             cinemaDetailLists.add(cinemaDetailInfo);
           });
         });

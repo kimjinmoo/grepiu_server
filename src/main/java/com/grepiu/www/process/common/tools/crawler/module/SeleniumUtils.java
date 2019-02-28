@@ -1,9 +1,11 @@
 package com.grepiu.www.process.common.tools.crawler.module;
 
 import java.util.List;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -60,6 +62,7 @@ public class SeleniumUtils {
     Actions actions = new Actions(webDriver);
     actions.moveToElement(webElement).click().perform();
     sleep();
+    ifShowAlertAccept(webDriver);
   }
 
   /**
@@ -83,14 +86,14 @@ public class SeleniumUtils {
    * @return boolean
    * @throws Exception
    */
-  public static boolean isAlertShow(WebDriver webDriver) {
+  public static void ifShowAlertAccept(WebDriver webDriver) {
     try {
-      webDriver.switchTo().alert();
-      return true;
+      Alert alert = webDriver.switchTo().alert();
+      alert.accept();
     } catch (NoAlertPresentException ex) {
-      return false;
+      ex.getMessage();
     } catch (Exception e) {
-      return false;
+      e.getMessage();
     }
   }
 
@@ -112,7 +115,7 @@ public class SeleniumUtils {
     try {
       Thread.sleep(CrawlerConstants.DEFAULT_SLEEP_SECOND);
     } catch (Exception e) {
-      e.printStackTrace();
+      e.getMessage();
     }
   }
 }
