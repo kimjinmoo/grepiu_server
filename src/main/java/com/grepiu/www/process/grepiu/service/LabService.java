@@ -103,7 +103,7 @@ public class LabService {
 
             List<Cinema> cgvInfos = connect.execute();
             if(cgvInfos.size() > 0) {
-                mongoDBCrawler.deleteAll();
+//                mongoDBCrawler.deleteAll();
                 connect.execute().stream().forEach(v -> {
                     mongoDBCrawler.insert(v);
 

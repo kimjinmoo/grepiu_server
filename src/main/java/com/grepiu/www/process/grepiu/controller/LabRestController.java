@@ -61,7 +61,7 @@ public class LabRestController {
     @GetMapping("/root/crawler/cine/cgv/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCgvCinemaInfoByManual(@ModelAttribute CinemaInfoOptionForm cinemaInfoOptionForm) {
         // 비동기 처리
-        labService.collectionCinemaMovieInfo(cinemaInfoOptionForm);
+        labService.collectionCgvCinemaMovieInfo(cinemaInfoOptionForm);
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
     }
 
