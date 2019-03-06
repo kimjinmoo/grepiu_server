@@ -50,7 +50,7 @@ public class ScheduleJob {
    * 매일 07시,12,17시
    */
 //  @Scheduled(fixedDelay = 1000*60*60*3)
-  @Scheduled(cron="00 30 08,11,17 * * ?")
+  @Scheduled(cron="00 00 07 * * ?")
   public void crawlerLotte() throws Exception {
     log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
     SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
@@ -72,7 +72,7 @@ public class ScheduleJob {
    * 매일 07시,12,17시
    */
 //  @Scheduled(fixedDelay = 1000*60*60*3)
-  @Scheduled(cron="00 00 07 * * ?")
+  @Scheduled(cron="00 30 07 * * ?")
   public void crawlerCGV() throws Exception {
     log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
     SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
