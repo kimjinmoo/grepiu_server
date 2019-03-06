@@ -57,7 +57,7 @@ public class ScheduleJob {
     connect.init(new LotteCinemaNode());
     List<Cinema> data = connect.execute();
     if(data.size() > 0) {
-      mongoDBCrawler.deleteAll();
+      mongoDBCrawler.deleteByType("lotte");
       data.stream().forEach(v -> {
         mongoDBCrawler.insert(v);
       });
@@ -79,7 +79,7 @@ public class ScheduleJob {
     connect.init(new CGVCinemaNode());
     List<Cinema> data = connect.execute();
     if(data.size() > 0) {
-      mongoDBCrawler.deleteAll();
+      mongoDBCrawler.deleteByType("cgv");
       data.stream().forEach(v -> {
         mongoDBCrawler.insert(v);
       });

@@ -13,4 +13,5 @@ import org.springframework.data.mongodb.repository.Query;
  */
 public interface CineDBRepository extends MongoRepository<Cinema, String> {
     List<Cinema> findAllBy();
+    void deleteByType(String type);
 }
