@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.tools.crawler.domain;
+package com.grepiu.www.process.common.tools.crawler.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

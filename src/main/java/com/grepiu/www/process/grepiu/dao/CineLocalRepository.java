@@ -1,6 +1,6 @@
 package com.grepiu.www.process.grepiu.dao;
 
-import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
+import com.grepiu.www.process.common.tools.crawler.entity.CinemaLocation;
 import java.util.List;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
@@ -14,5 +14,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface CineLocalRepository extends MongoRepository<CinemaLocation, String> {
   List<CinemaLocation> findAllBy();
+  List<CinemaLocation> findByType(String type);
   List<CinemaLocation> findByLocationNear(Point p, Distance d);
 }

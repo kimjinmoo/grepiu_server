@@ -1,14 +1,11 @@
-package com.grepiu.www.process.grepiu.domain;
+package com.grepiu.www.process.grepiu.entity;
 
-import com.grepiu.www.process.common.api.domain.Files;
+import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.constant.CloudAttributeType;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

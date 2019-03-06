@@ -1,4 +1,8 @@
-Springboot 2.0 Framework<br>
+Springboot 2.1.3 Framework<br>
+<p>2019.03.06 2.1 update</p>
+https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.1-Release-Notes
+<br>
+<br>
 ##프레임웍 구현<br>
 MVC Web<br>
 Freemarker<br>

@@ -2,8 +2,8 @@ package com.grepiu.www.process.grepiu.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
-import com.grepiu.www.process.common.tools.crawler.domain.CinemaLocation;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
+import com.grepiu.www.process.common.tools.crawler.entity.CinemaLocation;
 import com.grepiu.www.process.common.tools.crawler.module.CrawlerExecuteOptions;
 import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
 import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
@@ -13,8 +13,10 @@ import com.grepiu.www.process.common.helper.GoogleMapParserHelper;
 import com.grepiu.www.process.grepiu.dao.CineDBRepository;
 import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
 import com.grepiu.www.process.common.api.domain.Message;
+import com.grepiu.www.process.grepiu.domain.CineLocalFilter;
 import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -118,4 +120,17 @@ public class LabService {
         e.printStackTrace();
       }
     }
+
+  public List<CinemaLocation> findCineLocale(CineLocalFilter cineLocalFilter) {
+      List<CinemaLocation> cineLists = Lists.newArrayList();
+      switch (cineLocalFilter.getType()) {
+        case LOTTE:
+        case CGV:
+          cineLists = cineLocalRepository.findByType(cineLocalFilter.getType().getCode());
+          break;
+        default :
+          cineLists = cineLocalRepository.findAllBy();
+      }
+      return cineLists;
+  }
 }

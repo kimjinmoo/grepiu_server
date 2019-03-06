@@ -1,6 +1,6 @@
 package com.grepiu.www.process.common.security.dao;
 
-import com.grepiu.www.process.common.security.domain.User;
+import com.grepiu.www.process.common.security.entity.User;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

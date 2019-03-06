@@ -1,4 +1,4 @@
-package com.grepiu.www.process.grepiu.domain;
+package com.grepiu.www.process.grepiu.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

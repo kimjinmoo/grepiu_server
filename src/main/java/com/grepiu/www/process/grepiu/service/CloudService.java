@@ -1,14 +1,11 @@
 package com.grepiu.www.process.grepiu.service;
 
-import com.google.common.collect.Maps;
-import com.grepiu.www.process.common.api.domain.Files;
 import com.grepiu.www.process.common.constant.CloudAttributeType;
 import com.grepiu.www.process.common.helper.FileHelper;
 import com.grepiu.www.process.grepiu.dao.CloudStoreRepository;
-import com.grepiu.www.process.grepiu.domain.CloudStore;
+import com.grepiu.www.process.grepiu.entity.CloudStore;
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

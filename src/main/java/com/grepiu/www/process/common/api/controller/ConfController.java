@@ -1,9 +1,7 @@
 package com.grepiu.www.process.common.api.controller;
 
-import com.grepiu.www.process.common.api.domain.Files;
-import com.grepiu.www.process.common.helper.FileHelper;
 import com.grepiu.www.process.common.security.dao.UserRepository;
-import com.grepiu.www.process.common.security.domain.User;
+import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.api.domain.UserCreateForm;
 import io.swagger.annotations.ApiOperation;
 
@@ -16,9 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  *

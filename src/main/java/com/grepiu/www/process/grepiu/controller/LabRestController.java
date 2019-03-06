@@ -1,14 +1,16 @@
 package com.grepiu.www.process.grepiu.controller;
 
+import com.grepiu.www.process.grepiu.domain.CineLocalFilter;
 import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
 import com.grepiu.www.process.grepiu.service.LabService;
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
 import com.grepiu.www.process.grepiu.dao.CineDBRepository;
 import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -65,14 +67,14 @@ public class LabRestController {
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
     }
 
-    @ApiOperation(value = "상영 영화 크롤링 데이터 리스트")
+    @ApiOperation(value = "영화관 상영정보 크롤링 데이터 리스트")
     @ApiResponse(code = 200, message = "조회성공")
     @GetMapping("/crawler/cine/screen")
     public ResponseEntity<Object> findCine() {
         return new ResponseEntity<Object>(cineDBRepository.findAllBy(), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "롯데 시네마 상영 영화 크롤링 데이터 리스트")
+    @ApiOperation(value = "영화관 크롤링 데이터 리스트")
     @ApiResponse(code = 200, message = "조회성공")
     @GetMapping("/crawler/cine/screen/{storeName}")
     public ResponseEntity<Object> findCineByStoreName(@PathVariable("storeName") String storeName) {
@@ -86,8 +88,8 @@ public class LabRestController {
     @ApiOperation(value = "시네마 매장 정보")
     @ApiResponse(code = 200, message = "조회성공")
     @GetMapping("/crawler/cine/locale")
-    public ResponseEntity<Object> getCineLocale() {
-        return new ResponseEntity<Object>(cineLocalRepository.findAllBy(), HttpStatus.OK);
+    public ResponseEntity<Object> getCineLocale(@ModelAttribute @Valid CineLocalFilter cineFilter) {
+        return new ResponseEntity<Object>(labService.findCineLocale(cineFilter), HttpStatus.OK);
     }
 
     @ApiOperation(value = "인접한 영화관 찾기")

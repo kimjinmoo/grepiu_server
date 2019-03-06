@@ -1,6 +1,6 @@
 package com.grepiu.www.process.sample.dao;
 
-import com.grepiu.www.process.sample.domain.TestUser;
+import com.grepiu.www.process.sample.entity.TestUser;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

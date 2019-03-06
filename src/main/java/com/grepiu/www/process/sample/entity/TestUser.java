@@ -1,4 +1,4 @@
-package com.grepiu.www.process.sample.domain;
+package com.grepiu.www.process.sample.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;

@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.tools.crawler.domain;
+package com.grepiu.www.process.common.tools.crawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;

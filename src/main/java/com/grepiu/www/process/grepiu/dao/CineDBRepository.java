@@ -1,9 +1,8 @@
 package com.grepiu.www.process.grepiu.dao;
 
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 /**
  *

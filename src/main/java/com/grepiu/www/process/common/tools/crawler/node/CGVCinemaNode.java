@@ -2,19 +2,15 @@ package com.grepiu.www.process.common.tools.crawler.node;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.domain.CineType;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaDetailInfo;
 import com.grepiu.www.process.common.tools.crawler.module.SeleniumUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Sets;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -47,7 +43,7 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
 
     for(WebElement v : ul) {
       if(v.getAttribute("class").equals("list_wrap")) {
-        cinema.setType("cgv");
+        cinema.setType(CineType.CGV.getCode());
         if(areaMovieInfo != null && areaMovieInfo.size()>0) {
           cinemaNodeList.add(cinema);
           // 시네마 초기화

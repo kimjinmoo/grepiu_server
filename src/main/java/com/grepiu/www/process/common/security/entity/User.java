@@ -1,5 +1,6 @@
-package com.grepiu.www.process.common.security.domain;
+package com.grepiu.www.process.common.security.entity;
 
+import com.grepiu.www.process.common.security.domain.Role;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Builder;

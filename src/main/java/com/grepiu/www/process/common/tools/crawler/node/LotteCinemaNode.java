@@ -2,7 +2,8 @@ package com.grepiu.www.process.common.tools.crawler.node;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.domain.CineType;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.tools.crawler.domain.CinemaDetailInfo;
 import com.grepiu.www.process.common.tools.crawler.module.SeleniumUtils;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class LotteCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
             Cinema lotteCinema = new Cinema();
             HashMap<String, Object> areaMovieInfo = Maps.newHashMap();
             // Set 기본값
-            lotteCinema.setType("lotte");
+            lotteCinema.setType(CineType.LOTTE.getCode());
             lotteCinema.setSido(v.findElement(By.className("area_zone")).getText());
             String processAria = v.findElement(By.className("area_zone")).getText();
             // 지역 클릭

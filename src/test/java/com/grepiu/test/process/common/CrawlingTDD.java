@@ -1,7 +1,7 @@
 package com.grepiu.test.process.common;
 
 import com.grepiu.test.process.config.LocalBaseConfig;
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
 import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
@@ -62,7 +62,13 @@ public class CrawlingTDD extends LocalBaseConfig {
 
     SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
     connect.init(new CGVCinemaNode());
-    log.info("data : {}", connect.execute());
+
+    List<Cinema> cgvInfos = connect.execute();
+    mongoDBCrawler.deleteByType("cgv");
+    cgvInfos.stream().forEach(v -> {
+      log.info("d : {}", v);
+      mongoDBCrawler.insert(v);
+    });
   }
 
     /**
