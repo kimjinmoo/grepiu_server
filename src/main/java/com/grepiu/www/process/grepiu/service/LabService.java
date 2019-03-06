@@ -97,21 +97,25 @@ public class LabService {
 
     @Async
     public void collectionCgvCinemaMovieInfo() {
-        try {
-            SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
-            connect.init(new CGVCinemaNode());
+      try {
+        SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+        connect.init(new CGVCinemaNode());
 
-            List<Cinema> cgvInfos = connect.execute();
-            if(cgvInfos.size() > 0) {
-                mongoDBCrawler.deleteByType("cgv");
-                cgvInfos.stream().forEach(v -> {
-                    mongoDBCrawler.insert(v);
+        log.info("start cgv m---------------");
+        List<Cinema> cgvInfos = connect.execute();
+        if (cgvInfos.size() > 0) {
+          mongoDBCrawler.deleteByType("cgv");
+          cgvInfos.stream().forEach(v -> {
+            log.info("cgv : {}", v);
+            mongoDBCrawler.insert(v);
 
-                });
-            }
-            template.convertAndSend("/topic/messages", new Message("시스템 알림", "CGV 수동 크롤링 처리 완료 신규 데이터를 확인하세요."));
-        } catch (Exception e) {
-            e.printStackTrace();
+          });
         }
+        log.info("end cgv m---------------");
+        template.convertAndSend("/topic/messages",
+            new Message("시스템 알림", "CGV 수동 크롤링 처리 완료 신규 데이터를 확인하세요."));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
 }
