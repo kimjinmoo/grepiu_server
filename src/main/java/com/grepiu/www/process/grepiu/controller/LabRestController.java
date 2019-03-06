@@ -49,15 +49,15 @@ public class LabRestController {
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.", HttpStatus.OK);
     }
 
-    @ApiOperation(value = "영화 상영 정보 크롤링 수동 처리")
+    @ApiOperation(value = "롯데 영화 상영 정보 크롤링 수동 처리")
     @GetMapping("/root/crawler/cine/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCinemaInfoByManual(@ModelAttribute CinemaInfoOptionForm cinemaInfoOptionForm) {
         // 비동기 처리
-        labService.collectionCinemaMovieInfo(cinemaInfoOptionForm);
+        labService.collectionLotteCinemaMovieInfo(cinemaInfoOptionForm);
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
     }
 
-    @ApiOperation(value = "CGV 테스트 - 영화 상영 정보 크롤링 수동 처리")
+    @ApiOperation(value = "CGV 영화 상영 정보 크롤링 수동 처리")
     @GetMapping("/root/crawler/cine/cgv/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCgvCinemaInfoByManual(@ModelAttribute CinemaInfoOptionForm cinemaInfoOptionForm) {
         // 비동기 처리

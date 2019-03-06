@@ -69,7 +69,7 @@ public class LabService {
     }
 
     @Async
-    public void collectionCinemaMovieInfo(CinemaInfoOptionForm cinemaInfoOptionForm) {
+    public void collectionLotteCinemaMovieInfo(CinemaInfoOptionForm cinemaInfoOptionForm) {
         try {
             SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
             if(cinemaInfoOptionForm.isEnableProxy()) {
@@ -83,7 +83,7 @@ public class LabService {
 
             List<Cinema> infos = connect.execute();
             if (infos.size() > 0) {
-                mongoDBCrawler.deleteAll();
+                mongoDBCrawler.deleteByType("lotte");
                 infos.stream().forEach(v -> {
                     mongoDBCrawler.insert(v);
 
@@ -103,7 +103,7 @@ public class LabService {
 
             List<Cinema> cgvInfos = connect.execute();
             if(cgvInfos.size() > 0) {
-                mongoDBCrawler.deleteAll();
+                mongoDBCrawler.deleteByType("cgv");
                 cgvInfos.stream().forEach(v -> {
                     mongoDBCrawler.insert(v);
 
