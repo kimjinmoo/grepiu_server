@@ -13,4 +13,5 @@ public class CinemaDetailInfo {
     private String room;
     private String seat;
     private String time;
+    private String href;
 }

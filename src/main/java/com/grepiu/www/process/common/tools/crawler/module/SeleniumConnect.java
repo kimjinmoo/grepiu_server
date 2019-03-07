@@ -98,7 +98,15 @@ public class SeleniumConnect<T> implements Connect<T>{
    */
   @Override
   public T execute() {
-    return this.seleniumExecuteNode.getData(this.driver);
+    try {
+      return this.seleniumExecuteNode.getData(this.driver);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    } finally {
+      // 에러가 나도 최종적으로 크롤링 quit 처리
+      this.driver.quit();
+    }
   }
 
   /**

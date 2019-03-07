@@ -70,8 +70,6 @@ public class LotteCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
             });
             cinemaNodeList.add(lotteCinema);
         });
-        webDriver.quit();
-
         return cinemaNodeList;
     }
 }

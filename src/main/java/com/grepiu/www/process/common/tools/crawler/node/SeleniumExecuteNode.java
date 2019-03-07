@@ -9,7 +9,6 @@ public interface SeleniumExecuteNode<T> {
    *
    * Selenium webDriver를 이용한 구현 로직 구현
    * 시작시 webDriver.get(url);
-   * 종료시 webDriver.quit();
    *
    */
   public T getData(WebDriver webDriver);

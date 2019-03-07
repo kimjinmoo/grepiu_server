@@ -62,13 +62,7 @@ public class CrawlingTDD extends LocalBaseConfig {
 
     SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
     connect.init(new CGVCinemaNode());
-
-    List<Cinema> cgvInfos = connect.execute();
-    mongoDBCrawler.deleteByType("cgv");
-    cgvInfos.stream().forEach(v -> {
-      log.info("d : {}", v);
-      mongoDBCrawler.insert(v);
-    });
+    log.info("data : {}", connect.execute());
   }
 
     /**
