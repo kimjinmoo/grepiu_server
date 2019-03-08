@@ -64,11 +64,13 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
       cinemaNodeList.add(cgvCinema);
     });
     // step2. 매장 detail 정보 획득
+    log.info("cinemaNodeList : {}", cinemaNodeList.size());
     cinemaNodeList.stream().forEach(cinema -> {
+      log.info("cinema : {}", cinema.getSido());
       cinema.getMovieInfo().forEach((v, o) -> {
         String href = cinema.getMovieInfo().get(v).toString();
         webDriver.get(href);
-        webDriver.navigate().refresh();
+//        webDriver.navigate().refresh();
 
         // iframe으로 되어 있어 iframe 지정
         WebDriver iframe = webDriver.switchTo().frame("ifrm_movie_time_table");
@@ -76,28 +78,28 @@ public class CGVCinemaNode implements SeleniumExecuteNode<List<Cinema>> {
         List<CinemaDetailInfo> moviesList = Lists.newArrayList();
         // 영화 별 구분
         iframe.findElements(By.xpath("/html/body/div[@class='showtimes-wrap']/div[@class='sect-showtimes']/ul/li")).forEach(movies -> {
-          String movieName = movies.findElement(By.xpath("//div/div[@class='info-movie']/a")).getText();
+          try {
+            String movieName = movies.findElement(By.xpath("//div/div[@class='info-movie']/a")).getText();
 
-          // 영화 상새 정보
-          movies.findElements(By.xpath("//div/div[@class='type-hall']")).forEach(info->{
-            String room = info.findElement(By.xpath("//div[@class='info-hall']/ul/li[1]")).getText() + " " + info.findElement(By.xpath("//div[@class='info-hall']/ul/li[2]")).getText();
-            String seat = info.findElement(By.xpath("//div[@class='info-hall']/ul/li[3]")).getText();
+            // 영화 상새 정보
+            movies.findElements(By.xpath("//div/div[@class='type-hall']")).forEach(info->{
+              String room = info.findElement(By.xpath("//div[@class='info-hall']/ul/li[1]")).getText() + " " + info.findElement(By.xpath("//div[@class='info-hall']/ul/li[2]")).getText();
+              String seat = info.findElement(By.xpath("//div[@class='info-hall']/ul/li[3]")).getText();
 
-            // 시간
-            info.findElements(By.xpath("//div[@class='info-timetable']/ul/li")).forEach(t->{
-              CinemaDetailInfo cinemaDetailInfo = new CinemaDetailInfo();
-              cinemaDetailInfo.setMovieName(movieName);
-              cinemaDetailInfo.setRoom(room);
-              cinemaDetailInfo.setSeat(seat);
-              cinemaDetailInfo.setTime(t.getText());
-              log.info("영화관 : {}", v);
-              log.info("name : {}", movieName);
-              log.info("room : {}", room);
-              log.info("seat : {}", seat);
-              log.info("time : {}", t.getText());
-              moviesList.add(cinemaDetailInfo);
+              // 시간
+              info.findElements(By.xpath("//div[@class='info-timetable']/ul/li")).forEach(t->{
+                CinemaDetailInfo cinemaDetailInfo = new CinemaDetailInfo();
+                cinemaDetailInfo.setMovieName(movieName);
+                cinemaDetailInfo.setRoom(room);
+                cinemaDetailInfo.setSeat(seat);
+                cinemaDetailInfo.setTime(t.getText());
+                moviesList.add(cinemaDetailInfo);
+              });
             });
-          });
+          } catch (Exception e) {
+           // skip
+           e.printStackTrace();
+          }
         });
         cinema.getMovieInfo().put(v, moviesList);
       });
