@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.tools.crawler.domain;
+package com.grepiu.www.process.common.tools.crawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +23,8 @@ public class Cinema implements Serializable {
     private String id;
     @Indexed
     private String sido; // 시도
+
+    private String type; // 영화관 타입, 롯데 lotte, CGV cgv
 
     @CreatedDate
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,style = "yyyy/MM/dd")

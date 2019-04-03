@@ -1,12 +1,13 @@
 package com.grepiu.www.process.common.job;
 
+import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
+import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
 import com.grepiu.www.process.common.utils.DateUtils;
-import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
-import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
-import com.grepiu.www.process.grepiu.dao.LotteCineLocalRepository;
+import com.grepiu.www.process.grepiu.dao.CineDBRepository;
 import com.grepiu.www.process.common.api.domain.Message;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,10 +35,7 @@ import org.springframework.stereotype.Component;
 public class ScheduleJob {
 
   @Autowired
-  private LotteCineDBRepository mongoDBCrawler;
-
-  @Autowired
-  private LotteCineLocalRepository lotteCineLocalRepository;
+  private CineDBRepository mongoDBCrawler;
 
   @Autowired
   private SimpMessagingTemplate template;
@@ -51,25 +49,41 @@ public class ScheduleJob {
    * 매일 07시,12,17시
    */
 //  @Scheduled(fixedDelay = 1000*60*60*3)
-  @Scheduled(cron="00 30 08,11,17 * * ?")
-  public void crawler() throws Exception {
+  @Scheduled(cron="00 10 08 * * ?")
+  public void crawlerLotte() throws Exception {
     log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
-    //step1. Collect Data
-    CrawlerHelper<Cinema> ch = new CrawlerHelper<>();
-//    ch.isEnableProxy(proxyServerIp);
-    ch.addExecuteNode(new LotteCinemaNode());
-    ch.addObserver(o -> {
-      //DB delete
-      mongoDBCrawler.deleteAll();
-      //DB Insert
-      o.parallelStream().forEach(v -> {
+    SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+    connect.init(new LotteCinemaNode());
+    List<Cinema> data = connect.execute();
+    if(data.size() > 0) {
+      mongoDBCrawler.deleteByType("lotte");
+      data.stream().forEach(v -> {
         mongoDBCrawler.insert(v);
       });
-      //완료 후 최종 이벤트 처리
-      template.convertAndSend("/topic/messages",
-          new Message("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
-    });
-    ch.execute();
+    }
+    template.convertAndSend("/topic/messages", new Message("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
+    log.info(" finished crawler=======================");
+  }
+
+  /**
+   * 크롤링 스케쥴러
+   * <second> <minute> <hour> <day-of-month> <month> <day-of-week> <year> <command>
+   * 매일 07시,12,17시
+   */
+//  @Scheduled(fixedDelay = 1000*60*60*3)
+  @Scheduled(cron="00 30 07 * * ?")
+  public void crawlerCGV() throws Exception {
+    log.info(" start crawler======================= {}", DateUtils.now("yyyy/MM/dd hh:mm:ss"));
+    SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+    connect.init(new CGVCinemaNode());
+    List<Cinema> data = connect.execute();
+    if(data.size() > 0) {
+      mongoDBCrawler.deleteByType("cgv");
+      data.stream().forEach(v -> {
+        mongoDBCrawler.insert(v);
+      });
+    }
+    template.convertAndSend("/topic/messages", new Message("시스템 알림", "크롤링 처리 완료 신규 데이터를 확인하세요."));
     log.info(" finished crawler=======================");
   }
 }

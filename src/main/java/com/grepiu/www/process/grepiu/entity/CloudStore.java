@@ -1,13 +1,11 @@
-package com.grepiu.www.process.grepiu.domain;
+package com.grepiu.www.process.grepiu.entity;
 
-import com.grepiu.www.process.common.api.domain.Files;
-import io.swagger.annotations.Api;
+import com.grepiu.www.process.common.api.entity.Files;
+import com.grepiu.www.process.common.constant.CloudAttributeType;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,10 +23,6 @@ public class CloudStore implements Serializable {
   String id;
   @ApiModelProperty(value = "상위폴더", hidden = true)
   String pid;
-  @ApiModelProperty("경로  /{id}/path...")
-  @Indexed
-  @NotEmpty
-  String path;
   @ApiModelProperty("이름")
   @NotEmpty
   String name;
@@ -37,8 +31,9 @@ public class CloudStore implements Serializable {
   Files files;
   @ApiModelProperty(value = "속성 - D:폴더, F:파일", hidden = true)
   @NotEmpty
-  String attribute = "D";
+  String attribute = CloudAttributeType.DIRECTORY.getCode();
   @ApiModelProperty(value = "접근가능 유저", hidden = true)
+  @Indexed
   List<String> authorizedUsers;
   @ApiModelProperty(value = "생성ID", hidden = true)
   String createId;

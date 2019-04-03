@@ -1,11 +1,13 @@
 package com.grepiu.test.process.common;
 
 import com.grepiu.test.process.config.LocalBaseConfig;
-import com.grepiu.www.process.common.tools.crawler.CrawlerHelper;
-import com.grepiu.www.process.common.tools.crawler.domain.Cinema;
+import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
+import com.grepiu.www.process.common.tools.crawler.module.SeleniumConnect;
+import com.grepiu.www.process.common.tools.crawler.node.CGVCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.tools.crawler.node.SampleNode;
-import com.grepiu.www.process.grepiu.dao.LotteCineDBRepository;
+import com.grepiu.www.process.grepiu.dao.CineDBRepository;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CrawlingTDD extends LocalBaseConfig {
 
     @Autowired
-    private LotteCineDBRepository mongoDBCrawler;
+    private CineDBRepository mongoDBCrawler;
 
     @Autowired
-    private LotteCineDBRepository lotteCineDBRepository;
+    private CineDBRepository lotteCineDBRepository;
 
     @Override
     public void setUp() {
@@ -26,37 +28,42 @@ public class CrawlingTDD extends LocalBaseConfig {
 
     /**
      *
-     * 예매 사이트 데이터 가져오기
+     * 샘플 사이트 데이터 가져오기
      * @throws Exception
      */
     @Test
     public void doCollectSample() throws Exception {
-        CrawlerHelper<Object> crawler = new CrawlerHelper<>();
-        crawler.addExecuteNode(new SampleNode());
-        crawler.execute();
+
+        SeleniumConnect<String> connect = new SeleniumConnect<>();
+        connect.init(new SampleNode());
+        log.info("data : {}", connect.execute());
     }
 
-    /**
-     *
-     * 예매 사이트 데이터 가져오기
-     * @throws Exception
-     */
-    @Test
-    public void doCollectLotte() throws Exception {
-        CrawlerHelper<Cinema> crawler = new CrawlerHelper<>();
-        crawler.addExecuteNode(new LotteCinemaNode());
-        crawler.addObserver(o -> {
-            //DB delete
-            mongoDBCrawler.deleteAll();
-            //DB Insert
-            o.parallelStream().forEach(v -> {
-                mongoDBCrawler.insert(v);
-            });
-        });
-        crawler.execute();
-        log.info("lotte : {}", crawler.getData());
-    }
+  /**
+   *
+   * 샘플 사이트 데이터 가져오기
+   * @throws Exception
+   */
+  @Test
+  public void doCollectLotte() throws Exception {
 
+    SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+    connect.init(new LotteCinemaNode());
+    log.info("data : {}", connect.execute());
+  }
+
+  /**
+   *
+   * 샘플 사이트 데이터 가져오기
+   * @throws Exception
+   */
+  @Test
+  public void doCollectCgv() throws Exception {
+
+    SeleniumConnect<List<Cinema>> connect = new SeleniumConnect<>();
+    connect.init(new CGVCinemaNode());
+    log.info("data : {}", connect.execute());
+  }
 
     /**
      *

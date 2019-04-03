@@ -4,7 +4,7 @@ package com.grepiu.test.process.common;
 import com.grepiu.test.process.config.LocalBaseConfig;
 import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.domain.Role;
-import com.grepiu.www.process.common.security.domain.User;
+import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.security.service.UserService;
 
 import java.util.Optional;

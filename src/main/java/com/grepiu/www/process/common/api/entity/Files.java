@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.api.domain;
+package com.grepiu.www.process.common.api.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Optional;

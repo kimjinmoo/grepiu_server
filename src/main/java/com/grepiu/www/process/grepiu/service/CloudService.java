@@ -1,14 +1,11 @@
 package com.grepiu.www.process.grepiu.service;
 
-import com.google.common.collect.Maps;
-import com.grepiu.www.process.common.api.domain.Files;
 import com.grepiu.www.process.common.constant.CloudAttributeType;
 import com.grepiu.www.process.common.helper.FileHelper;
 import com.grepiu.www.process.grepiu.dao.CloudStoreRepository;
-import com.grepiu.www.process.grepiu.domain.CloudStore;
+import com.grepiu.www.process.grepiu.entity.CloudStore;
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,8 +56,8 @@ public class CloudService {
   public List<CloudStore> find(String uid, String pid) {
     List<String> authorizedUsers = Arrays.asList(uid);
     return cloudStoreRepository
-        .findByAuthorizedUsersInAndPidOrderByAttributeDesc(authorizedUsers, pid,
-            Sort.by(Direction.DESC, "createDate"))
+        .findByAuthorizedUsersInAndPidOrderByAttributeAsc(authorizedUsers, pid,
+            Sort.by(Direction.ASC, "createDate"))
         .stream().map(p->{
           // 파일 정보는 제거한다.
           if(Optional.ofNullable(p.getFiles()).isPresent()){
@@ -123,7 +120,7 @@ public class CloudService {
     CloudStore obj = cloudStoreRepository.findById(id).orElseThrow(()->new RuntimeException("wrong file"));
     // 파일인 경우 실제 경로에서도 제거한다.
     if (obj.getAttribute().equals(CloudAttributeType.FILE.getCode())) {
-      File file = new File(obj.getPath());
+      File file = new File(obj.getFiles().getFullFilePath());
       file.delete();
     }
 

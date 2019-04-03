@@ -1,4 +1,4 @@
-package com.grepiu.www.process.grepiu.domain;
+package com.grepiu.www.process.grepiu.entity;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;

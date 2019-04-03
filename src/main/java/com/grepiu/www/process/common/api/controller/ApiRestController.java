@@ -1,9 +1,7 @@
 package com.grepiu.www.process.common.api.controller;
 
-import com.grepiu.www.process.common.api.domain.Files;
+import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.service.BaseService;
-import com.grepiu.www.process.common.security.domain.Role;
-import com.grepiu.www.process.common.security.domain.User;
 import com.grepiu.www.process.common.helper.FileHelper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

@@ -6,26 +6,21 @@ import com.grepiu.www.process.common.api.exception.BadRequestException;
 import com.grepiu.www.process.common.api.service.BaseService;
 import com.grepiu.www.process.grepiu.dao.HashTagRepository;
 import com.grepiu.www.process.grepiu.dao.PostRepository;
-import com.grepiu.www.process.grepiu.domain.HashTag;
+import com.grepiu.www.process.grepiu.entity.HashTag;
 import com.grepiu.www.process.grepiu.domain.HashTagStatistics;
-import com.grepiu.www.process.grepiu.domain.Post;
+import com.grepiu.www.process.grepiu.entity.Post;
 
 import com.grepiu.www.process.grepiu.domain.form.PostSearchForm;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import java.util.Optional;
-import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Service;

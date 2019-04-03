@@ -1,8 +1,8 @@
 package com.grepiu.www.process.grepiu.controller;
 
 import com.google.common.collect.Maps;
-import com.grepiu.www.process.grepiu.domain.HashTag;
-import com.grepiu.www.process.grepiu.domain.Post;
+import com.grepiu.www.process.grepiu.entity.HashTag;
+import com.grepiu.www.process.grepiu.entity.Post;
 import com.grepiu.www.process.grepiu.domain.form.PostSearchForm;
 import com.grepiu.www.process.grepiu.service.PostService;
 import io.swagger.annotations.ApiModelProperty;

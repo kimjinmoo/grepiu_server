@@ -7,6 +7,7 @@ import com.grepiu.www.process.sample.util.socket.module.model.SejongSocket;
 
 import com.grepiu.www.process.sample.util.socket.module.model.SejongMap;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Random;
 import org.apache.commons.io.FileUtils;
 
@@ -20,96 +21,47 @@ public class SocketClient {
   private static int loop = 30;
 
   public static void main(String...args) throws Exception {
-    //
-    int number = 0;
-    while (true) {
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      new Thread(new FileTest((number++)+1)).start();
-      Thread.sleep(1000);
-    }
+//    SejongSocket socket = SejongFactory.create(TYPE.WATCH_GRADE);
+//    SejongMap map = new SejongMap();
+//    socket.send(map).forEach(v->{
+//      v.forEach((k, f)->{
+//        System.out.println("k : " + k);
+//        System.out.println("f : " + f);
+//      });
+//    });
+    System.out.println("CheckVO.isX() : [" +CheckVO.isX(3,"한글")+"]");
+
   }
-}
 
-class ThreadTest implements Runnable {
+  public static String getString(  byte[ ]  input  )
+  {
 
-  @Override
-  public void run() {
-    try {
-      // 일반 검색
-      Random random = new Random();
-      Thread.sleep(random.nextInt(1000)+1);
-      if(random.nextInt(10)%2==0){
-        SejongMap genre = new SejongMap();
-        genre.setGenerSearchSet("20181101","20180101");
-        SejongSocket s = SejongFactory.create(TYPE.GENRE_SEARCH);
-        s.send(genre).stream().forEach(v->{
-          System.out.println("name : "+ v.get("name") + "code : " + v.get("code"));
-        });
-      } else {
-        SejongMap watch = new SejongMap();
-        SejongSocket s2 = SejongFactory.create(TYPE.WATCH_GRADE);
-        s2.send(watch).stream().forEach(v->{
-          System.out.println("name : "+ v.get("name") + "code : " + v.get("code"));
-        });
+    //  StringBuffer객체를 선언하여 String을 이어 붙입니다.
+    StringBuffer  rtn  =  new  StringBuffer();
+
+    //  byte[  ]의 길이만큼 반복해서 byte 하나 하나씩 처리합니다.
+    for(  int i = 0;  i < input.length; )
+    {
+      //  한글처리부분
+      //   (  input[  i  ]   &  0x80  )  ==  0x80 이조건을 만족하면 input[i]는
+      //  음수 즉, 한글의 두개의 byte중 첫번째 byte라는 뜻이므로
+      //  input[++i]와 함께 String으로 만들어서 한글 한글자를 생성합니다.
+      if(  (  input[  i  ]   &  0x80  )  ==  0x80  )
+      {
+        byte[ ]  hangle  =  new  byte[  2  ];
+        hangle[  0  ]  =  input[  i  ];
+        hangle[  1  ]  =  input[  ++ i  ];
+        rtn.append(  new  String(  hangle  )  );
+
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+
+      //  한글이외 처리부분 (  영어, 숫자, 특문등등  )
+      else  rtn.append(  (  char  )input[  i  ]  );
+
+      //  다음번 byte를 읽기 위해 input의 index증가시키는 부분
+      ++i;
     }
-  }
-}
-class FileTest implements Runnable {
+    return  rtn.toString(  );
 
-  private int number = 0;
-
-  public FileTest(int number) {
-    this.number = number;
-  }
-
-  /**
-   * When an object implementing interface <code>Runnable</code> is used to create a thread,
-   * starting the thread causes the object's
-   * <code>run</code> method to be called in that separately executing
-   * thread.
-   * <p>
-   * The general contract of the method <code>run</code> is that it may take any action whatsoever.
-   *
-   * @see Thread#run()
-   */
-  @Override
-  public void run() {
-    try {
-      // 일반 검색
-      SejongMap file = new SejongMap();
-      file.put("file","file");
-
-      SejongSocket s = SejongFactory.create(TYPE.FILE_DOWN);
-      s.send(file).stream().forEach(v->{
-        try {
-          FileUtils.writeByteArrayToFile(new File("/data/test_" + this.number+".txt"), v.getFile());
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      });
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 }

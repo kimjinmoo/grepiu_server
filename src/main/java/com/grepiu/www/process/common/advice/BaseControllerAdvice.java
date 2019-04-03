@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.component;
+package com.grepiu.www.process.common.advice;
 
 import com.grepiu.www.process.common.api.domain.Response;
 import com.grepiu.www.process.common.api.exception.BadRequestException;

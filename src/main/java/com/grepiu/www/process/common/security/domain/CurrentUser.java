@@ -1,5 +1,6 @@
 package com.grepiu.www.process.common.security.domain;
 
+import com.grepiu.www.process.common.security.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.authority.AuthorityUtils;
 
