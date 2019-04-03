@@ -93,6 +93,52 @@ public class SejongSocketConnection {
     return result;
   }
 
+  public String receiveDataLimit() throws IOException {
+    String result;
+    try(ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+      int read = 0;
+      byte[] bytes = new byte[8192];
+      int limitCount = 0;
+      int totalCount = 0;
+      String type ="";
+      logger.info("receiver start");
+      while((read = in.read(bytes)) != -1) {
+        bos.write(bytes, 0, read);
+        // 현재까지 받은 String 값
+        int length = bos.size();
+        logger.info("######Reading Data ##### ----- {}", length);
+        // 타입을 가져온다. 처음만 호출
+        if(limitCount == 0 && length > 16 ) {
+          type = new String(bos.toByteArray()).substring(12,16);
+          logger.info("######Sejong_Type##### ----- {}", type);
+        }
+        // 초기 Length 170까지 읽어서 limitCount를 지정한다.
+        if(limitCount == 0 && length > 170) {
+          if(type.equals("9213")) {
+            limitCount = Integer.valueOf(new String(bos.toByteArray()).substring(167,170));    	//예매 필드 갯수(예매볼륨)
+            logger.info("######limitCount_rsrv##### ---- {}", limitCount);
+          } else {
+            limitCount = Integer.valueOf(new String(bos.toByteArray()).substring(123, 129));    //필드갯수
+            logger.info("######limitCount##### ---- {}", limitCount);
+          }
+        }
+
+        // 종료 Flag
+        if(new String(bos.toByteArray()).substring(122,123).equals("Y")){                  // 파일유무체크
+          break;
+        }
+        // 종료 Flag
+        totalCount += new String(bytes,0, read).chars().filter(v->v=='#').count();
+        if(limitCount != 0 && totalCount >= limitCount) {
+          break;
+        }
+      }
+      logger.info("receiver end");
+      result = new String(bos.toByteArray(), "KSC5601");
+    }
+    return result;
+  }
+
   public byte[] receiveFileData(byte[] data) throws Exception {
     if (this.socket == null || this.socket.isClosed()) {
       throw new Exception("접속이 되지 않았습니다.");
