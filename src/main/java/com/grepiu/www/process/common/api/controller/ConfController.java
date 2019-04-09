@@ -1,5 +1,6 @@
 package com.grepiu.www.process.common.api.controller;
 
+import com.grepiu.www.process.common.api.service.BaseService;
 import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.api.domain.UserCreateForm;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class ConfController {
 
   @Autowired
-  private UserRepository userRepository;
+  private BaseService baseService;
 
   @GetMapping("/login")
   public String login(ModelMap model) {
@@ -40,11 +41,12 @@ public class ConfController {
   @ApiOperation("회원가입")
   @PostMapping("/signUp")
   public @ResponseBody ResponseEntity<Object> signUp(@Valid UserCreateForm form) throws Exception {
-    if(userRepository.findUserById(form.getId()).isPresent()){
+    if(baseService.getUserById(form.getId()).isPresent()){
       throw new ValidationException("중복된 사용자가 존재 합니다.");
     }
-    User user = User.build(form.getId(), form.getPassword(), form.getRole());
-    return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+    return new ResponseEntity<>(
+        baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole())),
+        HttpStatus.OK);
   }
 
   @GetMapping("/")

@@ -1,7 +1,7 @@
 package com.grepiu.www.process.common.api.controller;
 
 import com.grepiu.www.process.common.api.entity.Files;
-import com.grepiu.www.process.common.api.service.BaseService;
+import com.grepiu.www.process.common.api.service.BaseServiceImpl;
 import com.grepiu.www.process.common.helper.FileHelper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class ApiRestController {
     private FileHelper fileHelper;
 
     @Autowired
-    private BaseService baseService;
+    private BaseServiceImpl baseService;
 
     @ApiOperation(value = "단일 파일업로드")
     @PostMapping(path = "/{ver}/upload/file")

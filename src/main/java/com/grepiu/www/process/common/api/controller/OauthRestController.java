@@ -1,30 +1,21 @@
 package com.grepiu.www.process.common.api.controller;
 
-import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.base.GrepIUResponse;
 import com.grepiu.www.process.common.api.domain.LoginForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
-import com.grepiu.www.process.common.api.service.BaseService;
+import com.grepiu.www.process.common.api.service.BaseServiceImpl;
 import com.grepiu.www.process.common.security.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -38,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class OauthRestController {
 
   @Autowired
-  private BaseService baseService;
+  private BaseServiceImpl baseService;
 
   @Autowired
   private UserService userService;
@@ -94,6 +85,6 @@ public class OauthRestController {
           required = true, dataType = "string", paramType = "header") })
   @PostMapping("/users/leave")
   public Object leave(Authentication authentication) throws Exception {
-    return new GrepIUResponse().ok(baseService.deleteUser(authentication));
+    return new GrepIUResponse().ok(baseService.leaveUser(authentication));
   }
 }

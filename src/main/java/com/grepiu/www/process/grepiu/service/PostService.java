@@ -3,7 +3,7 @@ package com.grepiu.www.process.grepiu.service;
 
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
-import com.grepiu.www.process.common.api.service.BaseService;
+import com.grepiu.www.process.common.api.service.BaseServiceImpl;
 import com.grepiu.www.process.grepiu.dao.HashTagRepository;
 import com.grepiu.www.process.grepiu.dao.PostRepository;
 import com.grepiu.www.process.grepiu.entity.HashTag;
@@ -41,7 +41,7 @@ public class PostService {
   private HashTagRepository hashTagRepository;
 
   @Autowired
-  private BaseService baseService;
+  private BaseServiceImpl baseService;
   /**
    *
    * POST 등록
