@@ -22,7 +22,7 @@ public class GenreSearch extends SejongSocket {
         .append(data.get("beginDate"))
         .append(data.get("endDate"))
         .toString();
-    this.response = SocketHelper.sendDataStream(sample.getBytes("KSC5601"));
+    this.response = SocketHelper.sendDataStreamLimit(sample.getBytes("KSC5601"));
     return response();
   }
 

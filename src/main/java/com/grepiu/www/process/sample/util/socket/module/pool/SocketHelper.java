@@ -31,6 +31,23 @@ public class SocketHelper {
     return response;
   }
 
+  public static String sendDataStreamLimit(byte[] data) {
+    SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
+            .getSocketConnectionPool();
+    SejongSocketConnection connection = connectionPool.getConnection();
+    String response = "";
+    try {
+      connection.connect();
+      connection.sendData(data);
+      response = connection.receiveDataLimit();
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      connection.destroy();
+    }
+    return response;
+  }
+
   public static byte[] getFile(String host, int port, byte[] data) throws Exception {
     SejongSocketConnectionPool connectionPool = SejongSocketConnectionManager.getInstance()
         .getSocketConnectionPool();
