@@ -1,4 +1,4 @@
-package com.grepiu.www.process.common.constant;
+package com.grepiu.www.process.grepiu.common;
 
 /**
  *
@@ -6,8 +6,9 @@ package com.grepiu.www.process.common.constant;
  *
  */
 public enum CloudAttributeType {
-  FILE("F"),
-  DIRECTORY("D");
+
+  FILE("F"),  // 파일
+  DIRECTORY("D"); // 디렉토리
 
   String code;
 

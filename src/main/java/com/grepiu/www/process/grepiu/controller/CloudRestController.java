@@ -2,6 +2,7 @@ package com.grepiu.www.process.grepiu.controller;
 
 import com.grepiu.www.process.grepiu.entity.CloudStore;
 import com.grepiu.www.process.grepiu.service.CloudService;
+import com.grepiu.www.process.grepiu.service.CloudServiceImpl;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,40 @@ public class CloudRestController {
   @Autowired
   private CloudService cloudService;
 
+  @ApiOperation(value = "클라우드 파일 저장")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
+  @PostMapping(value = "/")
+  public ResponseEntity<Object> createFile(
+      @RequestParam(value = "file", required = false) MultipartFile file,
+      @RequestParam(required = false) String parentId,
+      @ApiParam(hidden = true) Principal principal) throws Exception {
+    return ResponseEntity.ok(
+        cloudService.createFile(principal.getName(),
+            parentId,
+            file
+        )
+    );
+  }
+
+  @ApiOperation(value = "클라우드 경로 조회")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
+  @PostMapping(value = "/")
+  public ResponseEntity<Object> createDir(
+      @RequestParam(required = false) String parentId,
+      @RequestParam String name,
+      @ApiParam(hidden = true) Principal principal) throws Exception {
+    return ResponseEntity.ok(cloudService.createDir(
+        principal.getName(),
+        parentId,
+        name
+        )
+    );
+  }
+
   @ApiOperation(value = "파일을 다운받는다.")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
@@ -68,28 +103,28 @@ public class CloudRestController {
           required = true, dataType = "string", paramType = "header") })
   @GetMapping("/")
   public ResponseEntity<Object> readDir(@RequestParam String pid, @ApiParam(hidden = true) Principal principal) {
-    return new ResponseEntity<>(cloudService.find(principal.getName(), pid), HttpStatus.OK);
+    return ResponseEntity.ok(cloudService.findAll(principal.getName(), pid));
   }
 
-  @ApiOperation(value = "클라우드 저장소 이름 변경")
+  @ApiOperation(value = "클라우드 폴더명 변경")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
           required = true, dataType = "string", paramType = "header") })
   @PutMapping(value = "/")
   public ResponseEntity<Object> renameDir(@RequestBody CloudStore cloudStore,
       @ApiParam(hidden = true) Principal principal) {
-    return new ResponseEntity<>(cloudService.rename(principal.getName(), cloudStore.getId(), cloudStore.getName()),
+    return new ResponseEntity<>(cloudService.updateDirName(principal.getName(), cloudStore.getId(), cloudStore.getName()),
         HttpStatus.OK);
   }
 
-  @ApiOperation(value = "클라우드 저장소 생성")
+  @ApiOperation(value = "클라우드 파일명 변경")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header")})
-  @PostMapping(value = "/")
-  public ResponseEntity<Object> create(@ModelAttribute @Valid CloudStore cloudStore,
-      @RequestParam(value = "file", required = false) MultipartFile file, @ApiParam(hidden = true) Principal principal) throws Exception {
-    return new ResponseEntity<>(cloudService.create(principal.getName(), cloudStore, file),
+          required = true, dataType = "string", paramType = "header") })
+  @PutMapping(value = "/")
+  public ResponseEntity<Object> renameFIleName(@RequestBody CloudStore cloudStore,
+      @ApiParam(hidden = true) Principal principal) {
+    return new ResponseEntity<>(cloudService.updateFileName(principal.getName(), cloudStore.getId(), cloudStore.getName()),
         HttpStatus.OK);
   }
 
@@ -98,10 +133,22 @@ public class CloudRestController {
       @ApiImplicitParam(name = "Authorization", value = "Authorization token",
           required = true, dataType = "string", paramType = "header")})
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable String id,
+  public ResponseEntity<Void> deleteFile(@PathVariable String id,
       @ApiParam(hidden = true) Principal principal) {
     //delete
-    cloudService.delete(principal.getName(), id);
+    cloudService.deleteFile(principal.getName(), id);
+    return new ResponseEntity<Void>(HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "클라우드 저장소 삭제")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteDir(@PathVariable String id,
+      @ApiParam(hidden = true) Principal principal) {
+    //delete
+    cloudService.deleteDir(principal.getName(), id);
     return new ResponseEntity<Void>(HttpStatus.OK);
   }
 
