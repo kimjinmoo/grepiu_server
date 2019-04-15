@@ -51,7 +51,7 @@ public class Ex1 {
         Long keyMin = m.keySet().stream().mapToLong(f->f).min().orElse(0l);
         Long keyMax = m.keySet().stream().mapToLong(f->f).max().orElse(0l);
 
-        if(m.size() == 2 && minValue == 1) {
+        if(m.size() == 2 && minValue == 1l) {
             // 카운트 그룹by가 2개 중 1개만 지우면 되는 케이스와 둘다 숫자가 많은 경우 1개차이인지 확인 하여 Yes 리턴
             if(m.get(keyMin.intValue()) == 1 || (keyMax-keyMin) == 1 ) {
                 return "YES";
