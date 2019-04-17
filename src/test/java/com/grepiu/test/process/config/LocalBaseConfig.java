@@ -1,6 +1,6 @@
 package com.grepiu.test.process.config;
 
-import com.grepiu.www.SpringbootApplication;
+import com.grepiu.www.GrepIUApplication;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  *
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringbootApplication.class)
+@SpringBootTest(classes = GrepIUApplication.class)
 @WebAppConfiguration
 @ActiveProfiles("local")
 public abstract class LocalBaseConfig {
