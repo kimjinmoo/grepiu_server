@@ -34,8 +34,8 @@ public class DBConfig {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Value("${spring.data.redis.password}")
-    private String redisPWD;
+//    @Value("${spring.data.redis.password}")
+//    private String redisPWD;
 
     @Value("${spring.data.redis.host}")
     private String redisHost;
@@ -46,7 +46,7 @@ public class DBConfig {
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
-        redisStandaloneConfiguration.setPassword(RedisPassword.of(redisPWD));
+//        redisStandaloneConfiguration.setPassword(RedisPassword.of(redisPWD));
         return new JedisConnectionFactory(redisStandaloneConfiguration);
     }
 

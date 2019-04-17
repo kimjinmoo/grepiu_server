@@ -5,12 +5,17 @@ import com.grepiu.www.process.common.api.dao.FileRepository;
 import com.grepiu.www.process.common.api.entity.Files;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import com.grepiu.www.process.common.utils.DateUtils;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -97,10 +102,12 @@ public class FileHelper {
      * @throws Exception
      */
     private void FileUploadProcess(Files Files, MultipartFile file) throws Exception {
-        // 파일 생성
-        java.io.File currentFile = new java.io.File(Files.getFullFilePath());
-        // 파일 등록
-        FileUtils.writeByteArrayToFile(currentFile, file.getBytes());
+        // 파일 저장
+        FileUtils.copyInputStreamToFile(file.getInputStream(), new File(Files.getFullFilePath()));
+////        // 파일 생성
+//        java.io.File currentFile = new java.io.File(Files.getFullFilePath());
+//        // 파일 등록
+//        FileUtils.writeByteArrayToFile(currentFile, file.getBytes());
         // DB 등록
         fileRepository.save(Files);
     }

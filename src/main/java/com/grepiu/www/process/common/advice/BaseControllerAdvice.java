@@ -32,6 +32,7 @@ public class BaseControllerAdvice {
   @ExceptionHandler(value = Exception.class)
   public @ResponseBody Object exception(Exception e) {
     LinkedHashMap r = new LinkedHashMap();
+    e.printStackTrace();
     r.put("code",HttpStatus.INTERNAL_SERVER_ERROR.value());
     r.put("message", e.getMessage());
     return r;

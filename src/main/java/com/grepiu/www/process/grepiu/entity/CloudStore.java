@@ -8,8 +8,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,6 +22,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "cloudStore")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CloudStore implements Serializable {
 
   @Id
@@ -39,6 +43,7 @@ public class CloudStore implements Serializable {
 
   @ApiModelProperty(value = "속성 - D:폴더, F:파일, Default D", hidden = true)
   @NotEmpty
+  @Builder.Default
   String attribute = CloudAttributeType.DIRECTORY.getCode();
 
   @ApiModelProperty(value = "접근가능 유저", hidden = true)
@@ -52,9 +57,10 @@ public class CloudStore implements Serializable {
   @CreatedDate
   Date createDate;
 
+  @ApiModelProperty(value = "수정자", hidden = true)
+  String updateId;
+
   @ApiModelProperty(value = "수정일", hidden = true)
   @LastModifiedDate
   Date updateDate;
-
-
 }

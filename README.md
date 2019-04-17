@@ -4,6 +4,7 @@ https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.1-Release-Note
 <br>
 <br>
 ##프레임웍 구현<br>
+Gradle 5.x<br>
 MVC Web<br>
 Freemarker<br>
 Mybatis<br>

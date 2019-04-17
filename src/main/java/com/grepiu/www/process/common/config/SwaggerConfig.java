@@ -1,5 +1,6 @@
 package com.grepiu.www.process.common.config;
 
+import java.security.Principal;
 import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,11 +35,12 @@ public class SwaggerConfig {
      * @return
      */
     @Bean
-    public Docket sampleApi(){
+    public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.grepiu.www.process"))
-                .paths(PathSelectors.any()).build()
+            .ignoredParameterTypes(Principal.class)
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.grepiu.www.process"))
+            .paths(PathSelectors.any()).build()
             .apiInfo(apiInfo()).pathProvider(new RelativePathProvider(context))
             .useDefaultResponseMessages(false);
     }

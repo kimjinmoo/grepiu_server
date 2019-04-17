@@ -7,6 +7,7 @@ import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
 import com.grepiu.www.process.grepiu.dao.CineDBRepository;
 import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  * /grepiu/lab/root 는 권한 체크함
  *
  */
-@ApiOperation("GrepIU Lab API")
+@Api("GrepIU Lab API")
 @RestController
 @RequestMapping("/grepiu/lab")
 @Slf4j

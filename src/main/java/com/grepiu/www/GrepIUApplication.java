@@ -4,19 +4,16 @@ import javax.servlet.MultipartConfigElement;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 /**
@@ -38,7 +35,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 @EnableScheduling
 @EnableMongoAuditing
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SpringbootApplication {
+public class GrepIUApplication {
 
 	@Bean
 	public ExitCodeGenerator exitCodeGenerator() {
@@ -46,7 +43,7 @@ public class SpringbootApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringbootApplication.class, args);
+		SpringApplication.run(GrepIUApplication.class, args);
 	}
 
 	/**
@@ -68,7 +65,7 @@ public class SpringbootApplication {
 	@Bean
 	public MultipartConfigElement multipartConfigElement() {
 		MultipartConfigFactory factory = new MultipartConfigFactory();
-		factory.setMaxFileSize(-1);
+		factory.setMaxFileSize(DataSize.ofGigabytes(1l));
 		return factory.createMultipartConfig();
 	}
 

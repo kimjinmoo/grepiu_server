@@ -2,6 +2,7 @@ package com.grepiu.www.process.grepiu.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -10,13 +11,8 @@ import org.springframework.data.annotation.Id;
  *
  */
 @Data
+@NoArgsConstructor
 public class GrepIUMenuDetailVO {
-
-  /**
-   * 기본 생성자
-   */
-  public GrepIUMenuDetailVO() {
-  }
 
   /**
    *

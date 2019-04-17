@@ -5,6 +5,7 @@ import com.grepiu.www.process.grepiu.entity.HashTag;
 import com.grepiu.www.process.grepiu.entity.Post;
 import com.grepiu.www.process.grepiu.domain.form.PostSearchForm;
 import com.grepiu.www.process.grepiu.service.PostService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,7 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@ApiOperation("GrepIU Post API")
+@Api("GrepIU Post API")
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/grepiu")
@@ -103,7 +104,7 @@ public class PostRestController {
   @ApiResponses(value = {
       @ApiResponse(code = 201, message = "등록 완료"),
   })
-  @PostMapping("/post/hash")
+//  @PostMapping("/post/hash")
   public ResponseEntity<Object> saveHashTag(@RequestBody HashTag hashTag) {
     return new ResponseEntity<>(postService.saveHashTag(hashTag), HttpStatus.CREATED);
   }

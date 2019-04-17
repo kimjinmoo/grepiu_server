@@ -28,6 +28,7 @@ repositories {
 }
 // fully executable
 bootJar {
+	// https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html
 	launchScript()
 }
 // Junit 테스트는 빌드시 제외
@@ -95,6 +96,8 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
 
+	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
+
 	implementation group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.1.5.RELEASE'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-oauth2', version: '2.1.1.RELEASE'
 
@@ -116,13 +119,18 @@ dependencies {
 	implementation group: 'com.google.guava', name: 'guava', version: '23.6-jre'
 
 	// 스웨거
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation ('io.springfox:springfox-swagger2:2.9.2') {
+		exclude group: 'io.swagger', module: 'swagger-annotations'
+		exclude group: 'io.swagger', module: 'swagger-models'
+	}
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.22'
+	implementation group: 'io.swagger', name: 'swagger-models', version: '1.5.22'
 
 	// Lombok 플로그인
 	implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
 
-	// https://mvnrepository.com/artifact/org.jsoup/jsoup 크롤링
+	// jsoup
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
 
 	// websocket
@@ -155,6 +163,7 @@ dependencies {
 
 	// Annotation Procesor 적용
 	annotationProcessor 'org.projectlombok:lombok:1.18.6'
+	testAnnotationProcessor("org.projectlombok:lombok:1.18.6")
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -29,7 +29,7 @@ public class ConfController {
   private BaseService baseService;
 
   @GetMapping("/login")
-  public String login(ModelMap model) {
+  public String login() {
     return "login";
   }
 
