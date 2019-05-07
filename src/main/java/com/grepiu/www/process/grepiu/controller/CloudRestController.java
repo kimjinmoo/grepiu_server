@@ -72,10 +72,9 @@ public class CloudRestController {
 
     HashMap<Object, Object> map = Maps.newHashMap();
 
-    // 상위 폴더 정보
-    map.put("upperId", Optional
-        .ofNullable(cloudService.findOneByParentId(principal.getName(), parentId).getParentId())
-        .orElse(""));
+    // 상위 필요 정보 Set
+    map.put("upperInfo", Optional
+        .ofNullable(cloudService.findOneByParentId(principal.getName(), parentId)).orElse(new CloudStore()));
 
     // 데이터
     map.put("list", cloudService.findAll(principal.getName(), parentId));
