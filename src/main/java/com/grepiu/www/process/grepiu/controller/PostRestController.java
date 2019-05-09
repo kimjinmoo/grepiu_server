@@ -104,7 +104,7 @@ public class PostRestController {
   @ApiResponses(value = {
       @ApiResponse(code = 201, message = "등록 완료"),
   })
-//  @PostMapping("/post/hash")
+  @PostMapping("/post/hash")
   public ResponseEntity<Object> saveHashTag(@RequestBody HashTag hashTag) {
     return new ResponseEntity<>(postService.saveHashTag(hashTag), HttpStatus.CREATED);
   }
