@@ -48,7 +48,7 @@ public class LabRestController {
     @ApiOperation(value = "영화관 위치 정보 수동")
     @GetMapping("/root/crawler/cine/saveCinemaLocationByManual")
     public ResponseEntity<Object> saveCinemaLocationByManual() {
-        labService.collectionCinemaLocation();
+        labService.collectCinemaLocation();
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.", HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class LabRestController {
     @GetMapping("/root/crawler/cine/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCinemaInfoByManual(@ModelAttribute CinemaInfoOptionForm cinemaInfoOptionForm) {
         // 비동기 처리
-        labService.collectionLotteCinemaMovieInfo(cinemaInfoOptionForm);
+        labService.collectLotteCinemaMovieInfo(cinemaInfoOptionForm);
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
     }
 
@@ -64,7 +64,7 @@ public class LabRestController {
     @GetMapping("/root/crawler/cine/cgv/saveCinemaInfoByManual")
     public ResponseEntity<Object> saveCgvCinemaInfoByManual(@ModelAttribute CinemaInfoOptionForm cinemaInfoOptionForm) {
         // 비동기 처리
-        labService.collectionCgvCinemaMovieInfo();
+        labService.collectCgvCinemaMovieInfo();
         return new ResponseEntity<Object>("완료되면 grep웹에서 확인 가능합니다.",HttpStatus.OK);
     }
 
