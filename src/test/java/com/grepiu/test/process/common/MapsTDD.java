@@ -37,6 +37,6 @@ public class MapsTDD extends LocalBaseConfig {
 
   @Test
   public void getLocale() throws Exception {
-    labService.collectionCinemaLocation();
+    labService.collectCinemaLocation();
   }
 }
