@@ -28,11 +28,15 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class PostRestController {
 
-  @Autowired
-  private PostService postService;
+  private final PostService postService;
 
-  @Autowired
-  private CacheManager cacheManager;
+  private final CacheManager cacheManager;
+
+  public PostRestController(PostService postService,
+      CacheManager cacheManager) {
+    this.postService = postService;
+    this.cacheManager = cacheManager;
+  }
 
   @ApiOperation("포스트 캐시 삭제[임시 캐시 삭제함]")
   @GetMapping("/post/cache/clear")

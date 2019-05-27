@@ -28,11 +28,15 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class OauthRestController {
 
-  @Autowired
-  private BaseServiceImpl baseService;
+  private final BaseServiceImpl baseService;
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
+
+  public OauthRestController(BaseServiceImpl baseService,
+      UserService userService) {
+    this.baseService = baseService;
+    this.userService = userService;
+  }
 
   @ApiOperation("Oauth 기반 로그인")
   @PostMapping("/login")

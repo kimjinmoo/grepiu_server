@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SlinkController {
 
-  @Autowired
-  private LabService labService;
+  private final LabService labService;
+
+  public SlinkController(LabService labService) {
+    this.labService = labService;
+  }
 
   @GetMapping(value = "/s")
   public ResponseEntity<Slink> getLink(@RequestParam String s){

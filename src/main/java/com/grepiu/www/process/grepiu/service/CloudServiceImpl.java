@@ -27,14 +27,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class CloudServiceImpl implements CloudService {
 
-  @Autowired
-  private CloudStoreRepository cloudStoreRepository;
+  private final CloudStoreRepository cloudStoreRepository;
 
-  @Autowired
-  private FileRepository fileRepository;
+  private final FileRepository fileRepository;
 
-  @Autowired
-  private FileHelper fileHelper;
+  private final FileHelper fileHelper;
+
+  public CloudServiceImpl(CloudStoreRepository cloudStoreRepository,
+      FileRepository fileRepository, FileHelper fileHelper) {
+    this.cloudStoreRepository = cloudStoreRepository;
+    this.fileRepository = fileRepository;
+    this.fileHelper = fileHelper;
+  }
 
 
   /**

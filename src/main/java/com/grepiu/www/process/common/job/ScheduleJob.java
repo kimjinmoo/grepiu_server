@@ -34,14 +34,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduleJob {
 
-  @Autowired
-  private CineDBRepository mongoDBCrawler;
+  private final CineDBRepository mongoDBCrawler;
 
-  @Autowired
-  private SimpMessagingTemplate template;
+  private final SimpMessagingTemplate template;
 
   @Value("${crawler.proxy}")
   private String proxyServerIp;
+
+  public ScheduleJob(CineDBRepository mongoDBCrawler,
+      SimpMessagingTemplate template) {
+    this.mongoDBCrawler = mongoDBCrawler;
+    this.template = template;
+  }
 
   /**
    * 크롤링 스케쥴러

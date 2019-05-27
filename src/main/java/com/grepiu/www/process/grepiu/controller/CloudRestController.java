@@ -45,8 +45,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CloudRestController {
 
-  @Autowired
-  private CloudService cloudService;
+  private final CloudService cloudService;
+
+  public CloudRestController(CloudService cloudService) {
+    this.cloudService = cloudService;
+  }
+
 
   @ApiOperation(value = "클라우드 파일 저장, 스웨거에 파일 대응 안됨")
   @ApiImplicitParams({

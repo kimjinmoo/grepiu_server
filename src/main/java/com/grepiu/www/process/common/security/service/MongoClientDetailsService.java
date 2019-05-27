@@ -26,8 +26,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MongoClientDetailsService implements ClientDetailsService, ClientRegistrationService {
 
-  @Autowired
-  private MongoClientDetailsRepository mongoClientDetailsRepository;
+  private final MongoClientDetailsRepository mongoClientDetailsRepository;
+
+  public MongoClientDetailsService(
+      MongoClientDetailsRepository mongoClientDetailsRepository) {
+    this.mongoClientDetailsRepository = mongoClientDetailsRepository;
+  }
 
   @Override
   public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {

@@ -16,11 +16,15 @@ import java.util.List;
 @Slf4j
 public class SampleServiceImpl implements SampleService {
 
-    @Autowired
-    private SampleDAO sampleDAO;
+    private final SampleDAO sampleDAO;
 
-    @Autowired
-    private SampleMapper sampleMapper;
+    private final SampleMapper sampleMapper;
+
+    public SampleServiceImpl(SampleDAO sampleDAO,
+        SampleMapper sampleMapper) {
+        this.sampleDAO = sampleDAO;
+        this.sampleMapper = sampleMapper;
+    }
 
     @Override
     public List<String> getSampleList() {

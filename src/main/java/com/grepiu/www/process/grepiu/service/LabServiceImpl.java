@@ -39,20 +39,25 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class LabServiceImpl implements LabService {
 
-  @Autowired
-  private CineDBRepository mongoDBCrawler;
+  private final CineDBRepository mongoDBCrawler;
 
-  @Autowired
-  private CineLocalRepository cineLocalRepository;
+  private final CineLocalRepository cineLocalRepository;
 
-  @Autowired
-  private SimpMessagingTemplate template;
+  private final SimpMessagingTemplate template;
 
-  @Autowired
-  private GoogleMapParserHelper googleMapParserHelper;
+  private final GoogleMapParserHelper googleMapParserHelper;
 
-  @Autowired
-  private SlinkRepository slinkRepository;
+  private final SlinkRepository slinkRepository;
+
+  public LabServiceImpl(CineDBRepository mongoDBCrawler,
+      CineLocalRepository cineLocalRepository, SimpMessagingTemplate template,
+      GoogleMapParserHelper googleMapParserHelper, SlinkRepository slinkRepository) {
+    this.mongoDBCrawler = mongoDBCrawler;
+    this.cineLocalRepository = cineLocalRepository;
+    this.template = template;
+    this.googleMapParserHelper = googleMapParserHelper;
+    this.slinkRepository = slinkRepository;
+  }
 
   /**
    *

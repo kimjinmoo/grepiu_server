@@ -22,12 +22,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SampleTaskService {
 
-    @Autowired
-    private ParallelTask getSampleTask1;
+    private final ParallelTask getSampleTask1;
 
-    @Autowired
-    private ParallelTask getSampleTask2;
+    private final ParallelTask getSampleTask2;
 
+    public SampleTaskService(ParallelTask getSampleTask1,
+        ParallelTask getSampleTask2) {
+        this.getSampleTask1 = getSampleTask1;
+        this.getSampleTask2 = getSampleTask2;
+    }
 
     /**
      *
@@ -39,37 +42,5 @@ public class SampleTaskService {
         taskHelper.addTask(getSampleTask1,getSampleTask2);
         taskHelper.run(params);
         return taskHelper.getResultMap();
-    }
-
-    @Bean
-    public ParallelTask getSampleTask1(){
-        return (HashMap<String, Object> params) -> {
-            log.debug("getSampleTask1 ParallelTask");
-            HashMap<String, Object> result = Maps.newHashMap();
-
-            List<Integer> job = Lists.newArrayList();
-            IntStream.range(0,30).forEach(i->{
-                log.info("getSampleTask1 {} : ", i);
-                job.add(i);
-            });
-            result.put("task1", job);
-
-            return result;
-        };
-    }
-
-    @Bean
-    public ParallelTask getSampleTask2(){
-        return (HashMap<String, Object> params) -> {
-            HashMap<String, Object> result = Maps.newHashMap();
-
-            List<Integer> job = Lists.newArrayList();
-            IntStream.range(0,25).forEach(i->{
-                log.info("getSampleTask2 {} : ", i);
-                job.add(i);
-            });
-            result.put("task2", job);
-            return result;
-        };
     }
 }

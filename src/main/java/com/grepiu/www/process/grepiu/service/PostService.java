@@ -34,14 +34,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostService {
 
-  @Autowired
-  private PostRepository postRepository;
+  private final PostRepository postRepository;
 
-  @Autowired
-  private HashTagRepository hashTagRepository;
+  private final HashTagRepository hashTagRepository;
 
-  @Autowired
-  private BaseServiceImpl baseService;
+  private final BaseServiceImpl baseService;
+
+  public PostService(PostRepository postRepository,
+      HashTagRepository hashTagRepository, BaseServiceImpl baseService) {
+    this.postRepository = postRepository;
+    this.hashTagRepository = hashTagRepository;
+    this.baseService = baseService;
+  }
+
   /**
    *
    * POST 등록

@@ -99,20 +99,25 @@ public class Oauth2ServerConfig {
     // Refresh 토큰 시간
     static final int REFRESH_TOKEN_VALIDITY_SECONDS = 60*60*24*3;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JedisConnectionFactory jedisConnectionFactory;
+    private final JedisConnectionFactory jedisConnectionFactory;
 
-    @Autowired
-    private UserDetailsService currentUserDetailService;
+    private final UserDetailsService currentUserDetailService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${grepiu.oauth.login}")
     private String loginUrl;
+
+    public AuthorizationServerConfig(
+        AuthenticationManager authenticationManager, JedisConnectionFactory jedisConnectionFactory,
+        UserDetailsService currentUserDetailService, PasswordEncoder passwordEncoder) {
+      this.authenticationManager = authenticationManager;
+      this.jedisConnectionFactory = jedisConnectionFactory;
+      this.currentUserDetailService = currentUserDetailService;
+      this.passwordEncoder = passwordEncoder;
+    }
 
     /**
      *

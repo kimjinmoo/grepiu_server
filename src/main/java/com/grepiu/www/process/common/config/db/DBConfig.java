@@ -31,8 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class DBConfig {
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Value("${spring.data.redis.password}")
     private String redisPWD;
@@ -42,6 +41,10 @@ public class DBConfig {
 
     @Value("${spring.data.redis.port}")
     private int redisPort;
+
+    public DBConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {

@@ -42,14 +42,18 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class SampleRestController {
 
-  @Autowired
-  private SampleService sampleService;
+  private final SampleService sampleService;
 
-  @Autowired
-  private SampleTaskService sampleTaskService;
+  private final SampleTaskService sampleTaskService;
 
-  @Autowired
-  private SimpMessagingTemplate template;
+  private final SimpMessagingTemplate template;
+
+  public SampleRestController(SampleService sampleService,
+      SampleTaskService sampleTaskService, SimpMessagingTemplate template) {
+    this.sampleService = sampleService;
+    this.sampleTaskService = sampleTaskService;
+    this.template = template;
+  }
 
   @ApiOperation(value = "헬로월드")
   @GetMapping(value = "/sample/helloworld")

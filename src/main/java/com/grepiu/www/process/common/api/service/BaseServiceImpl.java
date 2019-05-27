@@ -46,20 +46,25 @@ public class BaseServiceImpl implements BaseService {
     @Value("${grepiu.oauth.token}")
     private String tokenUrl;
 
-    @Autowired
-    private TokenStore tokenStore;
+    private final TokenStore tokenStore;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private MongoOperations mongoOperations;
+    private final MongoOperations mongoOperations;
 
-    @Autowired
-    private FileRepository fileRepository;
+    private final FileRepository fileRepository;
+
+    public BaseServiceImpl(TokenStore tokenStore,
+        UserService userService, UserRepository userRepository, MongoOperations mongoOperations,
+        FileRepository fileRepository) {
+        this.tokenStore = tokenStore;
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.mongoOperations = mongoOperations;
+        this.fileRepository = fileRepository;
+    }
 
     /**
      *

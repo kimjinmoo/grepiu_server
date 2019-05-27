@@ -28,12 +28,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileHelper {
 
-    @Autowired
-    private FileRepository fileRepository;
-
+    private final FileRepository fileRepository;
+    
     // 기본 최상위 경로
     @Value(value = "${grepiu.file.path}")
     private String rootPath;
+
+    public FileHelper(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
+    }
 
     /**
      * 단일 파일 업로드

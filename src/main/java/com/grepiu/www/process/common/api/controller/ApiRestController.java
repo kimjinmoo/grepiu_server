@@ -23,11 +23,15 @@ import java.util.List;
 @Slf4j
 public class ApiRestController {
 
-    @Autowired
-    private FileHelper fileHelper;
+    private final FileHelper fileHelper;
 
-    @Autowired
-    private BaseServiceImpl baseService;
+    private final BaseServiceImpl baseService;
+
+    public ApiRestController(FileHelper fileHelper,
+        BaseServiceImpl baseService) {
+        this.fileHelper = fileHelper;
+        this.baseService = baseService;
+    }
 
     @ApiOperation(value = "단일 파일업로드")
     @PostMapping(path = "/{ver}/upload/file")

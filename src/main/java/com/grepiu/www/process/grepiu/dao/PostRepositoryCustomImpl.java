@@ -18,8 +18,7 @@ import org.springframework.stereotype.Repository;
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
   private final MongoTemplate mongoTemplate;
-
-  @Autowired
+  
   public PostRepositoryCustomImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
   }

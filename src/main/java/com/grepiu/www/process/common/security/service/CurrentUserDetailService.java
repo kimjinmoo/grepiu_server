@@ -17,10 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CurrentUserDetailService implements UserDetailsService {
 
-  @Autowired
   private final UserService userService;
 
-  @Autowired
   public CurrentUserDetailService(UserService userService) {
     this.userService = userService;
   }

@@ -28,8 +28,12 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
-  @Autowired
-  private UserDetailsService currentUserDetailService;
+  private final UserDetailsService currentUserDetailService;
+
+  public WebSecurityConfig(
+      UserDetailsService currentUserDetailService) {
+    this.currentUserDetailService = currentUserDetailService;
+  }
 
   /**
    *

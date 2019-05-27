@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class ConfController {
 
-  @Autowired
-  private BaseService baseService;
+  private final BaseService baseService;
+
+  public ConfController(BaseService baseService) {
+    this.baseService = baseService;
+  }
 
   @GetMapping("/login")
   public String login() {

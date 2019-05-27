@@ -26,8 +26,14 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Autowired
+    final
     ServletContext context;
+
+    public SwaggerConfig(ServletContext context) {
+        this.context = context;
+    }
+
+
     /**
      *
      * 샘플 API 적용

@@ -36,14 +36,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class LabRestController {
 
-    @Autowired
-    private LabService labService;
+    private final LabService labService;
 
-    @Autowired
-    private CineDBRepository cineDBRepository;
+    private final CineDBRepository cineDBRepository;
 
-    @Autowired
-    private CineLocalRepository cineLocalRepository;
+    private final CineLocalRepository cineLocalRepository;
+
+    public LabRestController(LabService labService,
+        CineDBRepository cineDBRepository, CineLocalRepository cineLocalRepository) {
+        this.labService = labService;
+        this.cineDBRepository = cineDBRepository;
+        this.cineLocalRepository = cineLocalRepository;
+    }
 
     @ApiOperation(value = "영화관 위치 정보 수동")
     @GetMapping("/root/crawler/cine/saveCinemaLocationByManual")
