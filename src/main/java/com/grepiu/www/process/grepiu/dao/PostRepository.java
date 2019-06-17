@@ -30,7 +30,7 @@ public interface PostRepository extends MongoRepository<Post, Long>, PostReposit
 
   List<Post> findAllByHashTag(String name);
 
-  @Query(value = "{'subject':{$regex:?0,$options:'i'}}", fields = "{'content': 0}")
+  @Query(value = "{}", fields = "{'content': 0}")
   Page<Post> findAllExcludeContent(Pageable pageable);
 
   @Query(value = "{'subject':{$regex:?0,$options:'i'}}", fields = "{'content': 0}")
@@ -39,7 +39,7 @@ public interface PostRepository extends MongoRepository<Post, Long>, PostReposit
   @Query(value = "{'subject':{$regex:?0,$options:'i'}}", fields = "{'content': 0}")
   Page<Post> findBySubjectLike(String subject, Pageable pageable);
 
-  @Query(value = "{}", fields = "{'content': 0}")
+  @Query(value = "{'subject':{$regex:?0,$options:'i'}}", fields = "{'content': 0}")
   Page<Post> findByHashTagLike(List hashTag, Pageable pageable);
 
   Long countByHashTag(String hashTagName);
