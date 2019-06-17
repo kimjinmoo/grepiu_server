@@ -117,8 +117,10 @@ public class PostService {
 
     Page<Post> p = null;
 
-    switch (form.getSearchType().getSearchType(Optional.ofNullable(form.getFilter()).orElse(""),
-        Optional.ofNullable(form.getHashTags()).orElse(Lists.newArrayList()))) {
+    switch (form.getSearchType().getSearchType(
+        Optional.ofNullable(form.getFilter()).orElse(""),
+        Optional.ofNullable(form.getHashTags()).orElse(Lists.newArrayList())
+    )) {
       case ONLY_FILTER:
         p = postRepository.findBySubjectLike(form.getFilter(),
             PageRequest.of(page, size, Direction.DESC, "regDate"));
