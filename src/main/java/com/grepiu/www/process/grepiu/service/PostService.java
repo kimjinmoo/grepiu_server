@@ -132,7 +132,7 @@ public class PostService {
             PageRequest.of(page, size, Direction.DESC, "regDate"));
         break;
       case ALL_LIST:
-        p = postRepository.findAll(PageRequest.of(page, size, Direction.DESC, "regDate"));
+        p = postRepository.findAllExcludeContent(PageRequest.of(page, size, Direction.DESC, "regDate"));
         break;
     }
 
