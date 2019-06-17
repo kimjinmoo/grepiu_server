@@ -30,6 +30,9 @@ public interface PostRepository extends MongoRepository<Post, Long>, PostReposit
 
   List<Post> findAllByHashTag(String name);
 
+  @Query(value = "{}", fields = "{'content': 0}")
+  Page<Post> findAllExcludeContent(Pageable pageable);
+
   Page<Post> findBySubjectLikeAndHashTagLike(String subject, List hashTag, Pageable pageable);
 
   Page<Post> findBySubjectLike(String subject, Pageable pageable);
