@@ -3,17 +3,24 @@ Springboot 2.1.3 Framework<br>
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.1-Release-Notes
 <br>
 <br>
-##프레임웍 구현<br>
+
+#프레임웍
+
 Gradle 5.x<br>
-MVC Web<br>
 Freemarker<br>
 Mybatis<br>
 MongoDB connect<br>
 MariaDB connect</br>
 
-History
+#support jdk
+java 8 이상
+
+##스토리지 
+aws s3
+
+##History
 <pre>
-1. Spring Oauth => Spring cloud 변경
+Spring Oauth => Spring cloud 변경
 => Oauth 적용시 GlobalAuthenticationConfigurerAdapter 에러 발생으로 변경
 </pre>
 
@@ -53,12 +60,12 @@ step4. 유저등록 후 몽고 서비스 재기동<br>
 <pre>
 mongod --auth
 </pre>
-##Swagger UI 적용
+##Swagger UI 
 <pre>
 [host]:[port]/swagger-ui.html
 </pre>
 
-##WebSocket 적용 - STOMP
+##WebSocket - STOMP
 <pre>
 [host]:[port]/ws
 </pre>
@@ -117,13 +124,22 @@ src
       build.gradle - gradle build 파일         
 </pre>
 
+#설정 파일
+application.yml
+
 ##build&execute
 Windows<br>
-gradlew build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
-centos-local<br>
-gradle build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
-centos-prod<br>
-gradle build -Pprofile=prod && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar<br>
+<pre>
+gradlew build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar
+</pre>
+centos-local
+<pre>
+gradle build && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar
+</pre>
+centos-prod
+<pre>
+gradle build -Pprofile=prod && java -jar build/libs/springboot-0.0.1-SNAPSHOT.jar
+</pre>
 
 ##참조
 https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-structuring-your-code.html

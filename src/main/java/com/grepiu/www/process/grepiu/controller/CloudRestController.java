@@ -2,8 +2,8 @@ package com.grepiu.www.process.grepiu.controller;
 
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.grepiu.common.ResponseMap;
-import com.grepiu.www.process.grepiu.domain.CloudCreateForm;
-import com.grepiu.www.process.grepiu.domain.CloudUpdateForm;
+import com.grepiu.www.process.grepiu.domain.form.CloudCreateForm;
+import com.grepiu.www.process.grepiu.domain.form.CloudUpdateForm;
 import com.grepiu.www.process.grepiu.entity.CloudStore;
 import com.grepiu.www.process.grepiu.service.CloudService;
 import io.swagger.annotations.Api;
@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

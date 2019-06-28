@@ -1,4 +1,4 @@
-package com.grepiu.www.process.grepiu.domain;
+package com.grepiu.www.process.grepiu.domain.form;
 
 import com.grepiu.www.process.grepiu.common.CloudAttributeType;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,7 +1,7 @@
 package com.grepiu.www.process.grepiu.service;
 
-import com.grepiu.www.process.grepiu.domain.CloudCreateForm;
-import com.grepiu.www.process.grepiu.domain.CloudUpdateForm;
+import com.grepiu.www.process.grepiu.domain.form.CloudCreateForm;
+import com.grepiu.www.process.grepiu.domain.form.CloudUpdateForm;
 import com.grepiu.www.process.grepiu.entity.CloudStore;
 import java.util.List;
 
