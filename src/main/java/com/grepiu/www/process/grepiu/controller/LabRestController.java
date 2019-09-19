@@ -2,6 +2,7 @@ package com.grepiu.www.process.grepiu.controller;
 
 import com.grepiu.www.process.grepiu.domain.CineLocalFilter;
 import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
+import com.grepiu.www.process.grepiu.entity.RealtimeVote;
 import com.grepiu.www.process.grepiu.service.LabService;
 import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
@@ -116,4 +117,38 @@ public class LabRestController {
                     return v;
                 }).collect(Collectors.toList()), HttpStatus.OK);
     }
+
+    @ApiOperation("투표 저장")
+    @ApiResponse(code = 200, message = "저장성공")
+    @PostMapping("/vote")
+    public ResponseEntity<Object> saveVote(
+        @RequestBody RealtimeVote realtimeVote
+    ) {
+        return ResponseEntity.ok(labService.saveRealtimeVote(realtimeVote));
+    }
+
+    @ApiOperation("투표 전체 조회")
+    @ApiResponse(code = 200, message = "조회성공")
+    @GetMapping("/vote")
+    public ResponseEntity<Object> getVote() {
+        return ResponseEntity.ok(labService.getRealtimeVotes());
+    }
+
+    @ApiOperation("투표 ID로 조회")
+    @ApiResponse(code = 200, message = "조회성공")
+    @GetMapping("/vote/{id}")
+    public ResponseEntity<Object> getVoteById(@PathVariable("id") String id) throws Exception {
+        return ResponseEntity.ok(labService.getRealtimeVoteById(id));
+    }
+
+    @ApiOperation("투표 ID 삭제")
+    @ApiResponse(code = 200, message = "삭제성공")
+    @DeleteMapping("/vote/{id}")
+    public ResponseEntity<Object> deleteVoteById(@PathVariable("id") String id) throws Exception {
+        // delete
+        labService.deleteRealtimeVote(id);
+        // 성공
+        return ResponseEntity.ok().build();
+    }
+
 }

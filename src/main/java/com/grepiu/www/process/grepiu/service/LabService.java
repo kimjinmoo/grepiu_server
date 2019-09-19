@@ -16,6 +16,7 @@ import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
 import com.grepiu.www.process.common.api.domain.Message;
 import com.grepiu.www.process.grepiu.domain.CineLocalFilter;
 import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
+import com.grepiu.www.process.grepiu.entity.RealtimeVote;
 import com.grepiu.www.process.grepiu.entity.Slink;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -55,4 +56,16 @@ public interface LabService {
 
   // SHort Url 정보를 삭제한다.
   public void deleteSlink(String sUrl);
+
+  // 실시간 투표를 저장한다.
+  public RealtimeVote saveRealtimeVote(RealtimeVote realtimeVote);
+
+  // 실시간 투표리스트를 가져온다.
+  public List<RealtimeVote> getRealtimeVotes();
+
+  // 실시간 투표리스트를 가져온다.
+  public RealtimeVote getRealtimeVoteById(String id) throws Exception;
+
+  // 실시간 투표 삭제
+  public void deleteRealtimeVote(String id);
 }

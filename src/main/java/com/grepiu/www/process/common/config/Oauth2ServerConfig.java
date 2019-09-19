@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,7 @@ public class Oauth2ServerConfig {
 
   @Configuration
   @EnableResourceServer
+  @Order(2)
   protected static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String RESOURCE_ID = "grepiu";
@@ -51,9 +53,16 @@ public class Oauth2ServerConfig {
     public void configure(HttpSecurity http) throws Exception {
       http
           .anonymous().disable()
-          .requestMatchers().antMatchers("/grepiu/cloud/**","/oauth/users/**")
+          .requestMatchers()
+          .antMatchers("/grepiu/cloud/**","/oauth/users/**")
+          .antMatchers(HttpMethod.DELETE,"/grepiu/post/**")
+          .antMatchers(HttpMethod.POST,"/grepiu/post/**")
+          .antMatchers(HttpMethod.PUT,"/grepiu/post/**")
           .and()
           .authorizeRequests()
+          .antMatchers(HttpMethod.DELETE, "/grepiu/post/**").authenticated()
+          .antMatchers(HttpMethod.POST,"/grepiu/post/**").authenticated()
+          .antMatchers(HttpMethod.PUT,"/grepiu/post/**").authenticated()
           .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
           .and()
           .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());

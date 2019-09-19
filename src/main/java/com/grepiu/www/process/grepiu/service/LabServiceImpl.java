@@ -15,9 +15,11 @@ import com.grepiu.www.process.common.tools.crawler.node.LotteCinemaNode;
 import com.grepiu.www.process.common.utils.UUIDUtils;
 import com.grepiu.www.process.grepiu.dao.CineDBRepository;
 import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
+import com.grepiu.www.process.grepiu.dao.RealtimeVoteRepository;
 import com.grepiu.www.process.grepiu.dao.SlinkRepository;
 import com.grepiu.www.process.grepiu.domain.CineLocalFilter;
 import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
+import com.grepiu.www.process.grepiu.entity.RealtimeVote;
 import com.grepiu.www.process.grepiu.entity.Slink;
 import java.io.InputStream;
 import java.util.List;
@@ -49,14 +51,19 @@ public class LabServiceImpl implements LabService {
 
   private final SlinkRepository slinkRepository;
 
+  private final RealtimeVoteRepository realtimeVoteRepository;
+
   public LabServiceImpl(CineDBRepository mongoDBCrawler,
       CineLocalRepository cineLocalRepository, SimpMessagingTemplate template,
-      GoogleMapParserHelper googleMapParserHelper, SlinkRepository slinkRepository) {
+      GoogleMapParserHelper googleMapParserHelper, SlinkRepository slinkRepository,
+      RealtimeVoteRepository realtimeVoteRepository
+  ) {
     this.mongoDBCrawler = mongoDBCrawler;
     this.cineLocalRepository = cineLocalRepository;
     this.template = template;
     this.googleMapParserHelper = googleMapParserHelper;
     this.slinkRepository = slinkRepository;
+    this.realtimeVoteRepository = realtimeVoteRepository;
   }
 
   /**
@@ -211,5 +218,25 @@ public class LabServiceImpl implements LabService {
   @Override
   public void deleteSlink(String sUrl) {
     slinkRepository.deleteBySUrl(sUrl);
+  }
+
+  @Override
+  public RealtimeVote saveRealtimeVote(RealtimeVote realtimeVote) {
+    return realtimeVoteRepository.save(realtimeVote);
+  }
+
+  @Override
+  public List<RealtimeVote> getRealtimeVotes() {
+    return realtimeVoteRepository.findAll();
+  }
+
+  @Override
+  public RealtimeVote getRealtimeVoteById(String id) throws Exception {
+    return realtimeVoteRepository.findById(id).orElseThrow(Exception::new);
+  }
+
+  @Override
+  public void deleteRealtimeVote(String id) {
+    realtimeVoteRepository.deleteById(id);
   }
 }

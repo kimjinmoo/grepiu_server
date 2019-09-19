@@ -6,12 +6,16 @@ import com.grepiu.www.process.grepiu.entity.Post;
 import com.grepiu.www.process.grepiu.domain.form.PostSearchForm;
 import com.grepiu.www.process.grepiu.service.PostService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.security.Principal;
 import java.util.LinkedHashMap;
+import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,21 +52,34 @@ public class PostRestController {
   }
 
   @ApiOperation("포스트 등록")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
   @ApiResponses(value = {
       @ApiResponse(code = 201, message = "등록 완료"),
   })
   @PostMapping("/post")
-  public ResponseEntity<Object> savePost(@RequestBody @Valid Post post) {
+  public ResponseEntity<Object> savePost(
+      @RequestBody @Valid Post post,
+      @ApiParam(hidden = true) Principal principal
+  ) {
     return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
   }
 
   @ApiOperation("포스트 상세 업데이트")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
   @ApiResponses(value = {
       @ApiResponse(code = 202, message = "수정 완료"),
       @ApiResponse(code = 400, message = "잘못된 요청"),
   })
   @PutMapping("/post/{id}")
-  public ResponseEntity<Object> updatePost(@PathVariable long id, @RequestBody @Valid Post post)
+  public ResponseEntity<Object> updatePost(
+      @PathVariable long id,
+      @RequestBody @Valid Post post,
+      @ApiParam(hidden = true) Principal principal
+  )
       throws Exception {
     return new ResponseEntity<>(postService.updatePost(id, post), HttpStatus.ACCEPTED);
   }
@@ -95,16 +112,25 @@ public class PostRestController {
   }
 
   @ApiOperation("포스트 삭제")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "삭제 완료"),
   })
   @DeleteMapping("/post/{id}")
-  public ResponseEntity<Void> deletePost(@PathVariable long id) {
+  public ResponseEntity<Void> deletePost(
+      @PathVariable long id,
+      @ApiParam(hidden = true) Principal principal
+  ) {
     postService.deletePostById(id);
     return new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   @ApiOperation("해시태그 등록")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
   @ApiResponses(value = {
       @ApiResponse(code = 201, message = "등록 완료"),
   })
@@ -114,6 +140,9 @@ public class PostRestController {
   }
 
   @ApiOperation("해시태그 삭제")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+          required = true, dataType = "string", paramType = "header")})
   @ApiResponses(value = {
       @ApiResponse(code = 201, message = "등록 완료"),
   })
