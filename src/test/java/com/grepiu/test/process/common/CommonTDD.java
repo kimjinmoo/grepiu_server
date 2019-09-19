@@ -20,7 +20,6 @@ public class CommonTDD extends LocalBaseConfig {
 
   @Test
   public void ymlGet(){
-      log.info("yaml : {}", yamlConfig.getOauth());
+//      log.info("yaml : {}", yamlConfig.getOauth());
   }
-
 }
