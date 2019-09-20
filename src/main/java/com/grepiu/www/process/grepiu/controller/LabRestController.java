@@ -1,29 +1,36 @@
 package com.grepiu.www.process.grepiu.controller;
 
-import com.grepiu.www.process.grepiu.domain.CineLocalFilter;
-import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
-import com.grepiu.www.process.grepiu.entity.RealtimeVote;
-import com.grepiu.www.process.grepiu.service.LabService;
 import com.grepiu.www.process.common.tools.crawler.entity.Cinema;
 import com.grepiu.www.process.common.utils.DistanceCalculator;
 import com.grepiu.www.process.grepiu.dao.CineDBRepository;
 import com.grepiu.www.process.grepiu.dao.CineLocalRepository;
+import com.grepiu.www.process.grepiu.domain.CineLocalFilter;
+import com.grepiu.www.process.grepiu.domain.form.CinemaInfoOptionForm;
+import com.grepiu.www.process.grepiu.entity.RealtimeVote;
+import com.grepiu.www.process.grepiu.service.LabService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
@@ -139,6 +146,17 @@ public class LabRestController {
     @GetMapping("/vote/{id}")
     public ResponseEntity<Object> getVoteById(@PathVariable("id") String id) throws Exception {
         return ResponseEntity.ok(labService.getRealtimeVoteById(id));
+    }
+
+  @ApiOperation("투표 ID로 투표, 중복 안됨")
+  @ApiResponse(code = 200, message = "투표성공")
+  @PostMapping("/vote/{id}")
+    public ResponseEntity<Object> addVote(
+        HttpServletRequest request,
+        @PathVariable("id") String id,
+        int voteIndex) throws Exception {
+      labService.addRealtimeVote(id, request.getRemoteHost(), voteIndex);
+      return ResponseEntity.ok().build();
     }
 
     @ApiOperation("투표 ID 삭제")

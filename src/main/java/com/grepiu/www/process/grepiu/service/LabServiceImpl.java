@@ -24,9 +24,9 @@ import com.grepiu.www.process.grepiu.entity.Slink;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -227,16 +227,42 @@ public class LabServiceImpl implements LabService {
 
   @Override
   public List<RealtimeVote> getRealtimeVotes() {
-    return realtimeVoteRepository.findAll();
+    List<RealtimeVote> votes = realtimeVoteRepository.findAll();
+    votes.stream().map(o-> {
+      o.getItems().stream().map(item->{
+        item.setVote(item.getVoteIp().size());
+        item.setVoteIp(null);
+        return item;
+      }).collect(Collectors.toList());
+      return o;
+    }).collect(Collectors.toList());
+    return votes;
   }
 
   @Override
   public RealtimeVote getRealtimeVoteById(String id) throws Exception {
-    return realtimeVoteRepository.findById(id).orElseThrow(Exception::new);
+    RealtimeVote realtimeVote = realtimeVoteRepository.findById(id).orElseThrow(Exception::new);
+    realtimeVote.getItems().stream().map(o-> {
+      o.setVote(o.getVoteIp().size());
+      o.setVoteIp(null);
+      return o;
+    }).collect(Collectors.toList());
+    return realtimeVote;
   }
 
   @Override
   public void deleteRealtimeVote(String id) {
     realtimeVoteRepository.deleteById(id);
+  }
+
+  @Override
+  public void addRealtimeVote(String id, String ip, int voteIndex) throws Exception {
+    RealtimeVote realtimeVote = realtimeVoteRepository.findById(id).orElseThrow(Exception::new);
+
+    // vote
+    realtimeVote.getItems().get(voteIndex).getVoteIp().add(ip);
+
+    // save
+    realtimeVoteRepository.save(realtimeVote);
   }
 }

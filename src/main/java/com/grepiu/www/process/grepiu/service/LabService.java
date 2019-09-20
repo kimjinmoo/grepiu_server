@@ -68,4 +68,7 @@ public interface LabService {
 
   // 실시간 투표 삭제
   public void deleteRealtimeVote(String id);
+
+  // 실시간 투표 하기
+  public void addRealtimeVote(String id, String ip, int voteIndex) throws Exception;
 }
