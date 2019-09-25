@@ -26,4 +26,11 @@ public class WebSocketController {
         return message;
     }
 
+    @MessageMapping("/vote")
+    @SendTo("/topic/vote")
+    public Object vote(Message message) throws Exception {
+        Thread.sleep(500);
+        return message;
+    }
+
 }

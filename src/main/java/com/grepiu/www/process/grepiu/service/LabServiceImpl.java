@@ -259,7 +259,6 @@ public class LabServiceImpl implements LabService {
   public void addRealtimeVote(String id, String ip, int voteIndex) throws Exception {
     RealtimeVote realtimeVote = realtimeVoteRepository.findById(id).orElseThrow(Exception::new);
 
-    //test를 위해 set -> list로 변경하여 중복 무제한 튜표 가능하게 변경
 //    if (realtimeVote.getItems()
 //        .stream()
 //        .filter(o -> o.getVoteIp().equals(ip)).findAny()
@@ -271,5 +270,9 @@ public class LabServiceImpl implements LabService {
 
     // save
     realtimeVoteRepository.save(realtimeVote);
+
+    // push
+    template.convertAndSend("/topic/vote",
+        new Message("vote", "vote"));
   }
 }
