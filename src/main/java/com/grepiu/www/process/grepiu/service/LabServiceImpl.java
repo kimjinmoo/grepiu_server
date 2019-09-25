@@ -259,12 +259,13 @@ public class LabServiceImpl implements LabService {
   public void addRealtimeVote(String id, String ip, int voteIndex) throws Exception {
     RealtimeVote realtimeVote = realtimeVoteRepository.findById(id).orElseThrow(Exception::new);
 
-    if (realtimeVote.getItems()
-        .stream()
-        .filter(o -> o.getVoteIp().equals(ip)).findAny()
-        .isPresent()) {
-        throw new Exception("중복 투표는 할 수 없습니다.");
-    }
+    //test를 위해 set -> list로 변경하여 중복 무제한 튜표 가능하게 변경
+//    if (realtimeVote.getItems()
+//        .stream()
+//        .filter(o -> o.getVoteIp().equals(ip)).findAny()
+//        .isPresent()) {
+//        throw new Exception("중복 투표는 할 수 없습니다.");
+//    }
     // vote
     realtimeVote.getItems().get(voteIndex).getVoteIp().add(ip);
 
