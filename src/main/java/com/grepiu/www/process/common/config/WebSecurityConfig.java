@@ -9,6 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,6 +33,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
   public WebSecurityConfig(
       UserDetailsService currentUserDetailService) {
     this.currentUserDetailService = currentUserDetailService;
+  }
+
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.ignoring().mvcMatchers(
+        "/v2/api-docs",
+        "/configuration/ui",
+        "/swagger-resources",
+        "/configuration/security",
+        "/swagger-resources/configuration/ui",
+        "/swagger-resources/configuration/security",
+        "/topic/messages",
+        "/resources/**/*",
+        "/webjars/**",
+        "/ws/**/*",
+        "/null/**",
+        "/swagger-ui.html*",
+        "/app/**"
+        );
+    super.configure(web);
   }
 
   /**
@@ -62,29 +83,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
             "/grepiu/**",
             "/sample/**",
             "/signUp",
-            "/resources/**/*",
-            "/webjars/**",
-            "/ws/**/*",
-            "/app/**",
-            "/topic/messages",
-            "/v2/api-docs",
-            "/configuration/ui",
-            "/swagger-resources",
-            "/configuration/security",
-            "/swagger-resources/configuration/ui",
-            "/swagger-resources/configuration/security",
-            "/null/**",
-            "/swagger-ui.html*",
-            "/oauth/**",
+//            "/oauth/**",
             "/grepiu/cloud/**"
             ).permitAll()
         .anyRequest().authenticated()
         .and()
         .formLogin()
-          .loginPage("/login")
-          .usernameParameter("id")
-          .passwordParameter("passwd")
-          .defaultSuccessUrl("/", true)
+//          .loginPage("/login")
+//          .usernameParameter("id")
+//          .passwordParameter("passwd")
+//          .defaultSuccessUrl("/", true)
           .failureUrl("/login?error=true")
          .permitAll()
         .and()

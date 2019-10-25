@@ -64,6 +64,7 @@ public class Oauth2ServerConfig {
           .antMatchers(HttpMethod.POST,"/grepiu/post/**").authenticated()
           .antMatchers(HttpMethod.PUT,"/grepiu/post/**").authenticated()
           .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
+          .antMatchers("/me").access("#oauth2.hasScope('read')")
           .and()
           .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
@@ -170,8 +171,12 @@ public class Oauth2ServerConfig {
           .withClient(CLIENT_ID)
           .secret(passwordEncoder.encode(CLIENT_SECRET))
           .scopes(SCOPE_READ, SCOPE_WRITE)
-          .authorizedGrantTypes(GRANT_TYPE_PASSWORD, GRANT_TYPE_CLIENT_CREDENTIALS,
-              GRANT_TYPE_AUTHORIZATION_CODE, GRANT_TYPE_IMPLICIT, GRANT_TYPE_REFRESH_TOKEN)
+          .authorizedGrantTypes(
+              GRANT_TYPE_PASSWORD,
+              GRANT_TYPE_CLIENT_CREDENTIALS,
+              GRANT_TYPE_AUTHORIZATION_CODE,
+              GRANT_TYPE_IMPLICIT,
+              GRANT_TYPE_REFRESH_TOKEN)
           .authorities(Role.USER.toString(), Role.ADMIN.toString(), Role.SUPER_ADMIN.toString())
           .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
           .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)

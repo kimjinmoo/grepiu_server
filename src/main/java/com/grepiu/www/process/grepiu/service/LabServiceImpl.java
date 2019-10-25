@@ -271,8 +271,17 @@ public class LabServiceImpl implements LabService {
     // save
     realtimeVoteRepository.save(realtimeVote);
 
-    // push
+    // 전체 방 push
     template.convertAndSend("/topic/vote",
         new Message("vote", "vote"));
+    // 그룹별 방
+    template.convertAndSend("/topic/vote/"+id,
+        new Message("vote", "vote"));
+  }
+
+  @Override
+  public RealtimeVote updateRealtimeVoteById(RealtimeVote realtimeVote) throws Exception {
+    Optional.ofNullable(realtimeVoteRepository.findById(realtimeVote.getId())).orElseThrow(Exception::new);
+    return realtimeVoteRepository.save(realtimeVote);
   }
 }

@@ -1,6 +1,7 @@
 package com.grepiu.www.process.common.api.controller;
 
 import com.grepiu.www.process.common.api.domain.Message;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -33,4 +34,12 @@ public class WebSocketController {
         return message;
     }
 
+    @MessageMapping("/vote/{id}")
+    @SendTo("/topic/vote/{id}")
+    public Object vote(
+        @DestinationVariable String id,
+        Message message
+    ) {
+        return message;
+    }
 }

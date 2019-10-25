@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -146,6 +147,19 @@ public class LabRestController {
     @GetMapping("/vote/{id}")
     public ResponseEntity<Object> getVoteById(@PathVariable("id") String id) throws Exception {
         return ResponseEntity.ok(labService.getRealtimeVoteById(id));
+    }
+
+    @ApiOperation("투표 ID로 수정")
+    @ApiResponse(code = 200, message = "조회성공")
+    @PutMapping("/vote/{id}")
+    public ResponseEntity<Object> updateVoteById(
+        @PathVariable("id") String id,
+        @RequestBody RealtimeVote realtimeVote
+    ) throws Exception {
+        // set ID
+        realtimeVote.setId(id);
+        // update RealtimeVote
+        return ResponseEntity.ok(labService.updateRealtimeVoteById(realtimeVote));
     }
 
   @ApiOperation("투표 ID로 투표, 중복 안됨")

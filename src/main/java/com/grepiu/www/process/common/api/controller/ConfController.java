@@ -1,20 +1,21 @@
 package com.grepiu.www.process.common.api.controller;
 
-import com.grepiu.www.process.common.api.service.BaseService;
-import com.grepiu.www.process.common.security.dao.UserRepository;
-import com.grepiu.www.process.common.security.entity.User;
+import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.domain.UserCreateForm;
+import com.grepiu.www.process.common.api.service.BaseService;
+import com.grepiu.www.process.common.security.entity.User;
 import io.swagger.annotations.ApiOperation;
-
+import java.util.HashMap;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -55,6 +56,13 @@ public class ConfController {
   @GetMapping("/")
   public String home(ModelMap model) {
     return "home";
+  }
+
+  @GetMapping("/me")
+  public @ResponseBody Object me() {
+    HashMap<String, String> obj = Maps.newHashMap();
+    obj.put("test","test");
+    return obj;
   }
 
 }

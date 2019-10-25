@@ -66,6 +66,9 @@ public interface LabService {
   // 실시간 투표리스트를 가져온다.
   public RealtimeVote getRealtimeVoteById(String id) throws Exception;
 
+  // 실시간 투표리스트를 수정한다.
+  public RealtimeVote updateRealtimeVoteById(RealtimeVote realtimeVote) throws Exception;
+
   // 실시간 투표 삭제
   public void deleteRealtimeVote(String id);
 
