@@ -79,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
         .authorizeRequests()
         // 일반적인 Open 정책
         .antMatchers("/s/**",
+            "/oauth/login",
             "/api/**",
             "/grepiu/**",
             "/sample/**",
