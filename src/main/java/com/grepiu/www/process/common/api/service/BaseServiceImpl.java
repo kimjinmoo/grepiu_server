@@ -116,6 +116,7 @@ public class BaseServiceImpl implements BaseService {
             r.put("id", user.getId());
             r.put("role", user.getRole());
             r.put("accessToken", token.getValue());
+            r.put("refreshToken", token.getRefreshToken());
 
         } catch (Exception e) {
             throw new LoginErrPasswordException();
