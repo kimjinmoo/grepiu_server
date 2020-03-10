@@ -18,8 +18,8 @@ public class UserCreateForm {
   @NotEmpty
   private String password = "";
 
-  @NotEmpty
-  private String passwordRepeated = "";
+//  @NotEmpty
+//  private String passwordRepeated = "";
 
   @NotNull
   @ApiModelProperty(hidden = true)
