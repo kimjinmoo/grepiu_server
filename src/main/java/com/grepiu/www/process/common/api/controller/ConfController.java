@@ -3,6 +3,7 @@ package com.grepiu.www.process.common.api.controller;
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.domain.UserCreateForm;
 import com.grepiu.www.process.common.api.service.BaseService;
+import com.grepiu.www.process.common.security.domain.Role;
 import com.grepiu.www.process.common.security.entity.User;
 import io.swagger.annotations.ApiOperation;
 import java.util.HashMap;
@@ -51,6 +52,20 @@ public class ConfController {
     return new ResponseEntity<>(
         baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole())),
         HttpStatus.OK);
+  }
+
+  @ApiOperation("회원가입 - App 회원 가입")
+  @PostMapping("/app/signUp")
+  public @ResponseBody ResponseEntity<Object> signUpApp(@Valid UserCreateForm form) throws Exception {
+    if(baseService.getUserById(form.getId()).isPresent()){
+      throw new ValidationException("중복된 사용자가 존재 합니다.");
+    }
+    //set App
+    form.setRole(Role.GS_APP);
+    // Save
+    return new ResponseEntity<>(
+            baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole())),
+            HttpStatus.OK);
   }
 
   @GetMapping("/")

@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.grepiu.www.process.common.security.domain.Role;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -21,5 +22,6 @@ public class UserCreateForm {
   private String passwordRepeated = "";
 
   @NotNull
+  @ApiModelProperty(hidden = true)
   private Role role = Role.USER;
 }
