@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -66,6 +67,16 @@ public class ConfController {
     return new ResponseEntity<>(
             baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole())),
             HttpStatus.OK);
+  }
+
+  @ApiOperation("ID 중복 확인")
+  @GetMapping("/app/signUp/{id}")
+  public @ResponseBody ResponseEntity<Object> checkDuplicatedId(@PathVariable("id") String id) {
+    // set result
+    HashMap<String, Boolean> resultMap = Maps.newHashMap();
+    resultMap.put("duplicated", baseService.getUserById(id).isPresent());
+    // result
+    return ResponseEntity.ok(resultMap);
   }
 
   @GetMapping("/")
