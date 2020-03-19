@@ -117,6 +117,7 @@ public class BaseServiceImpl implements BaseService {
             r.put("role", user.getRole());
             r.put("accessToken", token.getValue());
             r.put("refreshToken", token.getRefreshToken().getValue());
+            r.put("expireDate", token.getExpiration());
 
         } catch (Exception e) {
             throw new LoginErrPasswordException();
