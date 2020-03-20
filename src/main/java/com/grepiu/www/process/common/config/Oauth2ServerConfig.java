@@ -25,54 +25,52 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- *
  * Spring Oauth 설정
- *   ref - https://spring.io/projects/spring-security-oauth
- *         https://spring.io/guides/tutorials/spring-boot-oauth2/
- *
- *
+ * ref - https://spring.io/projects/spring-security-oauth
+ * https://spring.io/guides/tutorials/spring-boot-oauth2/
  */
 @Configuration
 public class Oauth2ServerConfig {
 
-  @Configuration
-  @EnableResourceServer
-  @Order(2)
-  protected static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+    @Configuration
+    @EnableResourceServer
+    @Order(2)
+    protected static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String RESOURCE_ID = "grepiu";
+        private static final String RESOURCE_ID = "grepiu";
 
-    /**
-     *
-     * grepiu Lab Url 세팅
-     *
-     * @param http
-     * @throws Exception
-     */
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-      http
-          .anonymous().disable()
-          .requestMatchers()
-          .antMatchers("/grepiu/cloud/**","/oauth/users/**")
-          .antMatchers(HttpMethod.DELETE,"/grepiu/post/**")
-          .antMatchers(HttpMethod.POST,"/grepiu/post/**")
-          .antMatchers(HttpMethod.PUT,"/grepiu/post/**")
-          .and()
-          .authorizeRequests()
-          .antMatchers(HttpMethod.DELETE, "/grepiu/post/**").authenticated()
-          .antMatchers(HttpMethod.POST,"/grepiu/post/**").authenticated()
-          .antMatchers(HttpMethod.PUT,"/grepiu/post/**").authenticated()
-          .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
-          .antMatchers("/me").access("#oauth2.hasScope('read')")
-          .and()
-          .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
-    }
+        /**
+         * grepiu Lab Url 세팅
+         *
+         * @param http
+         * @throws Exception
+         */
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            http
+                    .anonymous().disable()
+                    .requestMatchers()
+                    .antMatchers("/oauth/token")
+                    .antMatchers("/grepiu/cloud/**", "/oauth/users/**")
+                    .antMatchers(HttpMethod.DELETE, "/grepiu/post/**")
+                    .antMatchers(HttpMethod.POST, "/grepiu/post/**")
+                    .antMatchers(HttpMethod.PUT, "/grepiu/post/**")
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/oauth/token").permitAll()
+                    .antMatchers(HttpMethod.DELETE, "/grepiu/post/**").authenticated()
+                    .antMatchers(HttpMethod.POST, "/grepiu/post/**").authenticated()
+                    .antMatchers(HttpMethod.PUT, "/grepiu/post/**").authenticated()
+                    .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
+                    .antMatchers("/me").access("#oauth2.hasScope('read')")
+                    .and()
+                    .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+        }
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-      super.configure(resources);
-    }
+        @Override
+        public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+            super.configure(resources);
+        }
 
 //
 //  @Override
@@ -80,129 +78,126 @@ public class Oauth2ServerConfig {
 //    resources.resourceId(RESOURCE_ID).stateless(false);
 //  }
 
-  }
-
-  @Configuration
-  @EnableAuthorizationServer
-  protected static class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
-    // 클라이언트 id
-    static final String CLIENT_ID = "grepiu-client";
-    // 클라이언트 secret 코드
-    static final String CLIENT_SECRET = "grepiu-secret";
-    // 인증 방식 Oauth 주석에 남김
-    static final String GRANT_TYPE_PASSWORD = "password";
-    // 인증 방식 Oauth 주석에 남김
-    static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
-    // 인증 방식 Oauth 주석에 남김
-    static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
-    // 인증 방식 Oauth 주석에 남김
-    static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
-    // 인증 방식 Oauth 주석에 남김
-    static final String GRANT_TYPE_IMPLICIT = "implicit";
-    // Scope Set
-    static final String SCOPE_READ = "read";
-    // Scope Set
-    static final String SCOPE_WRITE = "write";
-    // 토큰 시간 [1주]
-    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60*60*24*7;
-    // Refresh 토큰 시간 [3주]
-    static final int REFRESH_TOKEN_VALIDITY_SECONDS = 60*60*24*21;
-
-    private final AuthenticationManager authenticationManager;
-
-    private final JedisConnectionFactory jedisConnectionFactory;
-
-    private final UserDetailsService currentUserDetailService;
-
-    private final PasswordEncoder passwordEncoder;
-
-    @Value("${grepiu.oauth.login}")
-    private String loginUrl;
-
-    public AuthorizationServerConfig(
-        AuthenticationManager authenticationManager, JedisConnectionFactory jedisConnectionFactory,
-        UserDetailsService currentUserDetailService, PasswordEncoder passwordEncoder) {
-      this.authenticationManager = authenticationManager;
-      this.jedisConnectionFactory = jedisConnectionFactory;
-      this.currentUserDetailService = currentUserDetailService;
-      this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     *
-     *  보안 제안사항을 정의한다.
-     *  tokenKeyAccess /oauth/token 인증 설정
-     *  checkTokenAccess /oauth/check_token 인증 설정
-     *
-     * @param oauthServer AuthorizationServerSecurityConfigurer 객체
-     * @throws Exception
-     */
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-      oauthServer
-          .tokenKeyAccess("permitAll()")
-              .checkTokenAccess("permitAll()");
+    @Configuration
+    @EnableAuthorizationServer
+    protected static class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+        // 클라이언트 id
+        static final String CLIENT_ID = "grepiu-client";
+        // 클라이언트 secret 코드
+        static final String CLIENT_SECRET = "grepiu-secret";
+        // 인증 방식 Oauth 주석에 남김
+        static final String GRANT_TYPE_PASSWORD = "password";
+        // 인증 방식 Oauth 주석에 남김
+        static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
+        // 인증 방식 Oauth 주석에 남김
+        static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
+        // 인증 방식 Oauth 주석에 남김
+        static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
+        // 인증 방식 Oauth 주석에 남김
+        static final String GRANT_TYPE_IMPLICIT = "implicit";
+        // Scope Set
+        static final String SCOPE_READ = "read";
+        // Scope Set
+        static final String SCOPE_WRITE = "write";
+        // 토큰 시간 [1주]
+        static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 7;
+        // Refresh 토큰 시간 [3주]
+        static final int REFRESH_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 21;
+
+        private final AuthenticationManager authenticationManager;
+
+        private final JedisConnectionFactory jedisConnectionFactory;
+
+        private final UserDetailsService currentUserDetailService;
+
+        private final PasswordEncoder passwordEncoder;
+
+        @Value("${grepiu.oauth.login}")
+        private String loginUrl;
+
+        public AuthorizationServerConfig(
+                AuthenticationManager authenticationManager, JedisConnectionFactory jedisConnectionFactory,
+                UserDetailsService currentUserDetailService, PasswordEncoder passwordEncoder) {
+            this.authenticationManager = authenticationManager;
+            this.jedisConnectionFactory = jedisConnectionFactory;
+            this.currentUserDetailService = currentUserDetailService;
+            this.passwordEncoder = passwordEncoder;
+        }
+
+        /**
+         * 보안 제안사항을 정의한다.
+         * tokenKeyAccess /oauth/token 인증 설정
+         * checkTokenAccess /oauth/check_token 인증 설정
+         *
+         * @param oauthServer AuthorizationServerSecurityConfigurer 객체
+         * @throws Exception
+         */
+        @Override
+        public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+            oauthServer
+                    .tokenKeyAccess("permitAll()")
+                    .checkTokenAccess("permitAll()");
 //          .checkTokenAccess("isAuthenticated()");
-    }
+        }
 
-    /**
-     *
-     * API 요청 클라이언트 정보를 다룬다.
-     *
-     * <pre>
-     *   ref . https://oauth.net/2/grant-types/
-     *   grant_type
-     *   Authorization Code : 허가 코드로 엑세스 토큰을 받는다.
-     *   Implicit(암목적) : 공개된 클라이언트에게 쉽게 사용된다. 추가 단계 없이 즉시 엑세스 토큰이 발급된다.
-     *   Password : 사용자의 ID와 비밀번호로 엑세스 토큰을 발급한다.
-     *   Client Credentials :
-     *   Device Code :
-     *   Refresh Token : refresh 토큰으로 엑세스 토큰을 받는다. 기존 토큰은 제거 된다.
-     * </pre>
-     *
-     * @param clients
-     * @throws Exception
-     */
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-      /*//    clients.withClientDetails(mongoClientDetailsService);*/
-      clients
-          .inMemory()
-          .withClient(CLIENT_ID)
-          .secret(passwordEncoder.encode(CLIENT_SECRET))
-          .scopes(SCOPE_READ, SCOPE_WRITE)
-          .authorizedGrantTypes(
-              GRANT_TYPE_PASSWORD,
-              GRANT_TYPE_CLIENT_CREDENTIALS,
-              GRANT_TYPE_AUTHORIZATION_CODE,
-              GRANT_TYPE_IMPLICIT,
-              GRANT_TYPE_REFRESH_TOKEN)
-          .authorities(Role.USER.toString(), Role.ADMIN.toString(), Role.SUPER_ADMIN.toString())
-          .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
-          .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
-          .redirectUris(loginUrl);
-    }
+        /**
+         * API 요청 클라이언트 정보를 다룬다.
+         *
+         * <pre>
+         *   ref . https://oauth.net/2/grant-types/
+         *   grant_type
+         *   Authorization Code : 허가 코드로 엑세스 토큰을 받는다.
+         *   Implicit(암목적) : 공개된 클라이언트에게 쉽게 사용된다. 추가 단계 없이 즉시 엑세스 토큰이 발급된다.
+         *   Password : 사용자의 ID와 비밀번호로 엑세스 토큰을 발급한다.
+         *   Client Credentials :
+         *   Device Code :
+         *   Refresh Token : refresh 토큰으로 엑세스 토큰을 받는다. 기존 토큰은 제거 된다.
+         * </pre>
+         *
+         * @param clients
+         * @throws Exception
+         */
+        @Override
+        public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+            /*//    clients.withClientDetails(mongoClientDetailsService);*/
+            clients
+                    .inMemory()
+                    .withClient(CLIENT_ID)
+                    .secret(passwordEncoder.encode(CLIENT_SECRET))
+                    .scopes(SCOPE_READ, SCOPE_WRITE)
+                    .authorizedGrantTypes(
+                            GRANT_TYPE_PASSWORD,
+                            GRANT_TYPE_CLIENT_CREDENTIALS,
+                            GRANT_TYPE_AUTHORIZATION_CODE,
+                            GRANT_TYPE_IMPLICIT,
+                            GRANT_TYPE_REFRESH_TOKEN)
+                    .authorities(Role.USER.toString(), Role.ADMIN.toString(), Role.SUPER_ADMIN.toString())
+                    .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+                    .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
+                    .redirectUris(loginUrl);
+        }
 
-    /**
-     *
-     * 승인 및 토큰을 정의 한다.
-     *
-     * @param endpoints
-     * @throws Exception
-     */
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-      endpoints.tokenStore(tokenStore())
-          .authenticationManager(authenticationManager)
-          .userDetailsService(currentUserDetailService);
-    }
+        /**
+         * 승인 및 토큰을 정의 한다.
+         *
+         * @param endpoints
+         * @throws Exception
+         */
+        @Override
+        public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+            endpoints.tokenStore(tokenStore())
+                    .authenticationManager(authenticationManager)
+                    .userDetailsService(currentUserDetailService);
+        }
 
-    @Bean
-    public TokenStore tokenStore() {
-      RedisTokenStore redisTokenStore = new RedisTokenStore(jedisConnectionFactory);
-      redisTokenStore.setPrefix("grepiu-user-token:");
-      return redisTokenStore;
+        @Bean
+        public TokenStore tokenStore() {
+            RedisTokenStore redisTokenStore = new RedisTokenStore(jedisConnectionFactory);
+            redisTokenStore.setPrefix("grepiu-user-token:");
+            return redisTokenStore;
+        }
     }
-  }
 }
