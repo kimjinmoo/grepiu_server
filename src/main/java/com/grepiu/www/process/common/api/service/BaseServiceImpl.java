@@ -181,9 +181,11 @@ public class BaseServiceImpl implements BaseService {
             r.put("isValid", false);
             r.put("message", "유효하지 않은 토큰값입니다.");
         }else if(token.isExpired()) {
+            r.put("expiresIn", token.getExpiresIn());
             r.put("isValid", false);
             r.put("message", "토큰기간이 만기 되었습니다.");
         } else {
+            r.put("expiresIn", token.getExpiresIn());
             r.put("isValid", true);
             r.put("message", "정상 적인 토큰 입니다.");
         }
