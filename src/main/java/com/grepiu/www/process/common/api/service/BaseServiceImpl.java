@@ -11,10 +11,12 @@ import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.service.UserService;
 import com.grepiu.www.process.grepiu.entity.GrepIUSequence;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jsoup.Connection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -22,19 +24,22 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedHashMap;
-import java.util.List;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 기본 서비스
@@ -117,7 +122,7 @@ public class BaseServiceImpl implements BaseService {
             r.put("role", user.getRole());
             r.put("accessToken", token.getValue());
             r.put("refreshToken", token.getRefreshToken().getValue());
-            r.put("expireDate", token.getExpiration());
+            r.put("expiresIn", token.getExpiresIn());
 
         } catch (Exception e) {
             throw new LoginErrPasswordException();
@@ -265,5 +270,28 @@ public class BaseServiceImpl implements BaseService {
     @Override
     public List<Files> getUploadFileList() {
         return fileRepository.findAll();
+    }
+
+    @Override
+    public Object refreshToken(String refreshToken) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        LinkedHashMap<String, Object> r = Maps.newLinkedHashMap();
+
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("grant_type", "refresh_token");
+        formData.add("refresh_token", refreshToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString(("grepiu-client:grepiu-secret").getBytes()));
+
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(formData, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, httpEntity, Map.class);
+        OAuth2AccessToken newAccessToken = DefaultOAuth2AccessToken.valueOf(response.getBody());
+
+        r.put("new_access_token", newAccessToken.getValue());
+        r.put("expiresIn", newAccessToken.getExpiresIn());
+        return r;
     }
 }

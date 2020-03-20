@@ -65,7 +65,7 @@ public class OauthRestController {
   @ApiOperation("refresh 토큰으로 엑세스 토큰을 갱신한다.")
   @PostMapping("/refresh")
   public ResponseEntity<Object> oauthGetTokenByRefresh(@RequestParam("refreshToken") String refreshToken) {
-    return new ResponseEntity<>(null, HttpStatus.OK);
+    return new ResponseEntity<>(baseService.refreshToken(refreshToken), HttpStatus.OK);
   }
 
   @ApiOperation("유저 정보를 가져온다.")
