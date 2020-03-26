@@ -51,7 +51,7 @@ public class ConfController {
       throw new ValidationException("중복된 사용자가 존재 합니다.");
     }
     return new ResponseEntity<>(
-        baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole())),
+        baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole(), true)),
         HttpStatus.OK);
   }
 
@@ -65,7 +65,7 @@ public class ConfController {
     form.setRole(Role.GS_APP);
     // Save
     return new ResponseEntity<>(
-            baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole())),
+            baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole(), true)),
             HttpStatus.OK);
   }
 

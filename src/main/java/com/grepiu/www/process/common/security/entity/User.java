@@ -11,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @Builder
 @Document(collection = "member")
@@ -23,13 +25,16 @@ public class User implements Serializable {
 
   private Role role;
 
+  @NotNull
+  private boolean active = true;
+
   @CreatedDate
   private Date createDate;
 
   @LastModifiedDate
   private Date modifyDate;
 
-  public static User build(String id, String plainPassword, Role role) {
-    return builder().id(id).passwordHash(new BCryptPasswordEncoder().encode(plainPassword)).role(role).build();
+  public static User build(String id, String plainPassword, Role role, boolean isActive) {
+    return builder().id(id).passwordHash(new BCryptPasswordEncoder().encode(plainPassword)).role(role).active(isActive).build();
   }
 }

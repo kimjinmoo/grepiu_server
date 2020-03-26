@@ -2,22 +2,17 @@ package com.grepiu.www.process.common.api.service;
 
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.dao.FileRepository;
-import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.domain.LoginForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
+import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
+import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.entity.User;
-import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.service.UserService;
 import com.grepiu.www.process.grepiu.entity.GrepIUSequence;
-
-import java.util.*;
-
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jsoup.Connection;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -28,9 +23,7 @@ import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -40,6 +33,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.*;
 
 /**
  * 기본 서비스
@@ -229,7 +224,7 @@ public class BaseServiceImpl implements BaseService {
 
     @Override
     public Optional<User> getUserById(String id) {
-        return userRepository.findUserById(id);
+        return userRepository.findUserByIdAndActiveTrue(id);
     }
 
     /**
@@ -257,7 +252,9 @@ public class BaseServiceImpl implements BaseService {
             .ofNullable(tokenStore.readAccessToken(details.get("tokenValue")))
             .orElseThrow(BadRequestException::new);
         if(!token.isExpired()){
-            userRepository.deleteById(principal.get("username"));
+            User user = userRepository.findUserByIdAndActiveTrue(principal.get("username")).orElseThrow(BadRequestException::new);
+            user.setActive(false);
+            userRepository.save(user);
             tokenStore.removeAccessToken(token);
         }
         return principal.get("username");
