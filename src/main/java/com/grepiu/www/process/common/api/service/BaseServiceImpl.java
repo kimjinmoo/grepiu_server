@@ -148,7 +148,7 @@ public class BaseServiceImpl implements BaseService {
 
     /**
      *
-     * 비밀번호를 초기화 한다. 기본 xptmxm1!
+     * 비밀번호를 초기화 한다.
      *
      * @param email
      * @return
@@ -161,6 +161,11 @@ public class BaseServiceImpl implements BaseService {
         String alphabet = "abcdefgHijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         for (int i = 0; i < 8; i++) {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
+        }
+        Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientId(email);
+        log.error("token : {}", tokens.size());
+        if(tokens != null && tokens.size() > 0) {
+            tokens.clear();
         }
         // 수정된 유저값을 보정
         User user = userService.updatePassword(email, sb.toString());
