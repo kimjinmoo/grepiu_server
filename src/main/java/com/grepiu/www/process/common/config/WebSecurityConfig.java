@@ -99,6 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/oauth/login", "/oauth/logout",
                         "/oauth/token",
                         "/oauth/refresh",
+                        "/oauth/reset",
                         "/api/**",
                         "/grepiu/**",
                         "/sample/**",
