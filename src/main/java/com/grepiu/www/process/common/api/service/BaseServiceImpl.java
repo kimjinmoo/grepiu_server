@@ -162,10 +162,12 @@ public class BaseServiceImpl implements BaseService {
         for (int i = 0; i < 8; i++) {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
-        Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientId(email);
-        log.error("token : {}", tokens.size());
+        Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientIdAndUserName("grepiu-client",email);
+        // 토큰 제거
         if(tokens != null && tokens.size() > 0) {
-            tokens.clear();
+            tokens.forEach(oAuth2AccessToken -> {
+                tokenStore.removeAccessToken(oAuth2AccessToken);
+            });
         }
         // 수정된 유저값을 보정
         User user = userService.updatePassword(email, sb.toString());
