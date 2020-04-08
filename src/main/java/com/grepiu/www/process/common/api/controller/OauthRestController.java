@@ -52,7 +52,7 @@ public class OauthRestController {
 
   @ApiOperation("비밀번호 초기화")
   @PostMapping("/reset")
-  public ResponseEntity<Object> resetPassword(@RequestParam String id) {
+  public ResponseEntity<Object> resetPassword(@RequestParam String id) throws Exception {
     return new ResponseEntity<>(baseService.resetPassword(id), HttpStatus.OK);
   }
 

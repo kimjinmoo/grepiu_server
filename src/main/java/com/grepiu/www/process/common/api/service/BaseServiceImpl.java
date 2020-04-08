@@ -154,7 +154,7 @@ public class BaseServiceImpl implements BaseService {
      */
     @Override
     public Object resetPassword(String email) throws Exception {
-        userRepository.findUserById(email).orElseThrow(Exception::new);
+        userRepository.findUserByIdAndActiveTrue(email).orElseThrow(Exception::new);
         StringBuilder sb = new StringBuilder();
         Random r = new Random();
         String alphabet = "abcdefgHijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
