@@ -32,7 +32,7 @@ public interface BaseService {
   public User signUp(User user);
 
   // 비밀번호 Reset
-  public Object resetPassword(String id);
+  public Object resetPassword(String email) throws Exception;
 
   // 비밀번호 변경
   public User changePassword(UserPasswordUpdateForm form) throws Exception;

@@ -2,20 +2,17 @@ package com.grepiu.www.process.common.api.service;
 
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.dao.FileRepository;
-import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.domain.LoginForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
+import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
+import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.entity.User;
-import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.service.UserService;
 import com.grepiu.www.process.grepiu.entity.GrepIUSequence;
-import java.util.Map;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -33,8 +30,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * 기본 서비스
@@ -149,12 +145,19 @@ public class BaseServiceImpl implements BaseService {
      *
      * 비밀번호를 초기화 한다. 기본 xptmxm1!
      *
-     * @param id
+     * @param email
      * @return
      */
     @Override
-    public Object resetPassword(String id) {
-        return userService.updatePassword(id, "xptmxm1!");
+    public Object resetPassword(String email) throws Exception {
+        userRepository.findUserById(email).orElseThrow(Exception::new);
+        StringBuilder sb = new StringBuilder();
+        Random r = new Random();
+        String alphabet = "abcdefgHijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        for (int i = 0; i < 8; i++) {
+            sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
+        }
+        return userService.updatePassword(email, sb.toString());
     }
 
     /**
