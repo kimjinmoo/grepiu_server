@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface UserRepository extends MongoRepository<User, String> {
   // ID로 User를 찾는다.
-  Optional<User> findUserById(String id);
+  Optional<User> findUserByIdAndActiveTrue(String id);
 
   // ID 및 password로 User를 찾는다.
   Optional<User> findUserByIdAndAndPasswordHash(String id, String password);

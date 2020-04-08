@@ -19,16 +19,20 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -113,7 +117,7 @@ public class BaseServiceImpl implements BaseService {
             r.put("role", user.getRole());
             r.put("accessToken", token.getValue());
             r.put("refreshToken", token.getRefreshToken().getValue());
-            r.put("expireDate", token.getExpiration());
+            r.put("expiresIn", token.getExpiresIn());
 
         } catch (Exception e) {
             throw new LoginErrPasswordException();
@@ -179,9 +183,11 @@ public class BaseServiceImpl implements BaseService {
             r.put("isValid", false);
             r.put("message", "유효하지 않은 토큰값입니다.");
         }else if(token.isExpired()) {
+            r.put("expiresIn", token.getExpiresIn());
             r.put("isValid", false);
             r.put("message", "토큰기간이 만기 되었습니다.");
         } else {
+            r.put("expiresIn", token.getExpiresIn());
             r.put("isValid", true);
             r.put("message", "정상 적인 토큰 입니다.");
         }
@@ -225,7 +231,7 @@ public class BaseServiceImpl implements BaseService {
 
     @Override
     public Optional<User> getUserById(String id) {
-        return userRepository.findUserById(id);
+        return userRepository.findUserByIdAndActiveTrue(id);
     }
 
     /**
@@ -253,7 +259,9 @@ public class BaseServiceImpl implements BaseService {
             .ofNullable(tokenStore.readAccessToken(details.get("tokenValue")))
             .orElseThrow(BadRequestException::new);
         if(!token.isExpired()){
-            userRepository.deleteById(principal.get("username"));
+            User user = userRepository.findUserByIdAndActiveTrue(principal.get("username")).orElseThrow(BadRequestException::new);
+            user.setActive(false);
+            userRepository.save(user);
             tokenStore.removeAccessToken(token);
         }
         return principal.get("username");
@@ -268,5 +276,28 @@ public class BaseServiceImpl implements BaseService {
     @Override
     public List<Files> getUploadFileList() {
         return fileRepository.findAll();
+    }
+
+    @Override
+    public Object refreshToken(String refreshToken) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        LinkedHashMap<String, Object> r = Maps.newLinkedHashMap();
+
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("grant_type", "refresh_token");
+        formData.add("refresh_token", refreshToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString(("grepiu-client:grepiu-secret").getBytes()));
+
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(formData, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, httpEntity, Map.class);
+        OAuth2AccessToken newAccessToken = DefaultOAuth2AccessToken.valueOf(response.getBody());
+
+        r.put("new_access_token", newAccessToken.getValue());
+        r.put("expiresIn", newAccessToken.getExpiresIn());
+        return r;
     }
 }

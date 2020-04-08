@@ -1,12 +1,9 @@
 package com.grepiu.www.process.common.config;
 
 import com.grepiu.www.process.common.security.domain.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +19,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  *
@@ -52,21 +48,22 @@ public class Oauth2ServerConfig {
     @Override
     public void configure(HttpSecurity http) throws Exception {
       http
-          .anonymous().disable()
-          .requestMatchers()
-          .antMatchers("/grepiu/cloud/**","/oauth/users/**")
-          .antMatchers(HttpMethod.DELETE,"/grepiu/post/**")
-          .antMatchers(HttpMethod.POST,"/grepiu/post/**")
-          .antMatchers(HttpMethod.PUT,"/grepiu/post/**")
-          .and()
-          .authorizeRequests()
-          .antMatchers(HttpMethod.DELETE, "/grepiu/post/**").authenticated()
-          .antMatchers(HttpMethod.POST,"/grepiu/post/**").authenticated()
-          .antMatchers(HttpMethod.PUT,"/grepiu/post/**").authenticated()
-          .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
-          .antMatchers("/me").access("#oauth2.hasScope('read')")
-          .and()
-          .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+              .anonymous().disable()
+              .requestMatchers()
+              .antMatchers("/grepiu/cloud/**", "/oauth/users/**")
+              .antMatchers(HttpMethod.DELETE, "/grepiu/post/**")
+              .antMatchers(HttpMethod.POST, "/grepiu/post/**")
+              .antMatchers(HttpMethod.PUT, "/grepiu/post/**")
+              .and()
+              .authorizeRequests()
+              .antMatchers(HttpMethod.DELETE, "/grepiu/post/**").authenticated()
+              .antMatchers(HttpMethod.POST, "/grepiu/post/**").authenticated()
+              .antMatchers(HttpMethod.PUT, "/grepiu/post/**").authenticated()
+              .antMatchers("/grepiu/lab/root/**").access("#oauth2.hasScope('write')")
+              .antMatchers("/me").access("#oauth2.hasScope('read')")
+              .and()
+              .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+      ;
     }
 
     @Override
@@ -104,30 +101,28 @@ public class Oauth2ServerConfig {
     static final String SCOPE_READ = "read";
     // Scope Set
     static final String SCOPE_WRITE = "write";
-    // 토큰 시간 [3일]
-    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60*60*24*3;
-    // Refresh 토큰 시간 [2주]
-    static final int REFRESH_TOKEN_VALIDITY_SECONDS = 60*60*24*14;
+    // 토큰 시간 [1주]
+    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60*60*24*7;
+    // Refresh 토큰 시간 [3주]
+    static final int REFRESH_TOKEN_VALIDITY_SECONDS = 60*60*24*21;
 
     private final AuthenticationManager authenticationManager;
-
-    private final JedisConnectionFactory jedisConnectionFactory;
 
     private final UserDetailsService currentUserDetailService;
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${grepiu.oauth.login}")
-    private String loginUrl;
+    private final TokenStore tokenStore;
 
-    public AuthorizationServerConfig(
-        AuthenticationManager authenticationManager, JedisConnectionFactory jedisConnectionFactory,
-        UserDetailsService currentUserDetailService, PasswordEncoder passwordEncoder) {
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserDetailsService currentUserDetailService, PasswordEncoder passwordEncoder, TokenStore tokenStore) {
       this.authenticationManager = authenticationManager;
-      this.jedisConnectionFactory = jedisConnectionFactory;
       this.currentUserDetailService = currentUserDetailService;
       this.passwordEncoder = passwordEncoder;
+      this.tokenStore = tokenStore;
     }
+
+    @Value("${grepiu.oauth.login}")
+    private String loginUrl;
 
     /**
      *
@@ -193,16 +188,11 @@ public class Oauth2ServerConfig {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-      endpoints.tokenStore(tokenStore())
+      endpoints.tokenStore(tokenStore)
           .authenticationManager(authenticationManager)
           .userDetailsService(currentUserDetailService);
     }
 
-    @Bean
-    public TokenStore tokenStore() {
-      RedisTokenStore redisTokenStore = new RedisTokenStore(jedisConnectionFactory);
-      redisTokenStore.setPrefix("grepiu-user-token:");
-      return redisTokenStore;
-    }
+
   }
 }

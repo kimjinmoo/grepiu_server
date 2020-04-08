@@ -40,7 +40,7 @@ public class LoginTDD extends LocalBaseConfig {
 
   @Test
   public void searchId() {
-    Optional<User> user = userRepository.findUserById("iukim21c@gmail.com");
+    Optional<User> user = userRepository.findUserByIdAndActiveTrue("iukim21c@gmail.com");
     if(user.isPresent()) {
       log.debug("user : {} ", user.get());
     }
@@ -49,7 +49,7 @@ public class LoginTDD extends LocalBaseConfig {
   @Test
   public void createUser() {
     //given
-    User user = User.build("iukim21c@gmail.com","xptmxm1!@", Role.USER);
+    User user = User.build("iukim21c@gmail.com","xptmxm1!@", Role.USER, true);
     //when
     userRepository.save(user);
     Optional<User> userCheck = userService.findUserById("iukim21c@gmail.com");

@@ -48,4 +48,7 @@ public interface BaseService {
 
   // 파일 업로드 정보 가져오기
   public List<Files> getUploadFileList();
+
+  // 토큰을 갱신한다.
+  public Object refreshToken(String refreshToken);
 }
