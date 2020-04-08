@@ -168,6 +168,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.6'
 	testAnnotationProcessor("org.projectlombok:lombok:1.18.6")
 
+	//mail
+	compile group: 'com.amazonaws', name: 'aws-java-sdk-ses', version: '1.11.760'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"

@@ -10,6 +10,7 @@ import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.security.service.UserService;
+import com.grepiu.www.process.common.utils.AwsSESMailUtils;
 import com.grepiu.www.process.grepiu.entity.GrepIUSequence;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -161,8 +162,14 @@ public class BaseServiceImpl implements BaseService {
         for (int i = 0; i < 8; i++) {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
-        return userService.updatePassword(email, sb.toString());
+        // 수정된 유저값을 보정
+        User user = userService.updatePassword(email, sb.toString());
+        // 메일을 보낸다.
+        AwsSESMailUtils.sendPassResetMail(email, sb.toString());
+
+        return user;
     }
+
 
     /**
      *
