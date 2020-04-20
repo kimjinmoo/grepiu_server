@@ -36,7 +36,7 @@ public class Oauth2ServerConfig {
   @Order(2)
   protected static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String RESOURCE_ID = "grepiu";
+//    private static final String RESOURCE_ID = "grepiu";
 
     /**
      *
@@ -84,9 +84,9 @@ public class Oauth2ServerConfig {
   protected static class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     // 클라이언트 id
-    static final String CLIENT_ID = "grepiu-client";
+    static String CLIENT_ID;
     // 클라이언트 secret 코드
-    static final String CLIENT_SECRET = "grepiu-secret";
+    static String CLIENT_SECRET;
     // 인증 방식 Oauth 주석에 남김
     static final String GRANT_TYPE_PASSWORD = "password";
     // 인증 방식 Oauth 주석에 남김
@@ -113,6 +113,16 @@ public class Oauth2ServerConfig {
     private final PasswordEncoder passwordEncoder;
 
     private final TokenStore tokenStore;
+
+    @Value("${grepiu.oauth.id}")
+    public void setClientId(String clientId){
+      AuthorizationServerConfig.CLIENT_ID = clientId;
+    }
+
+    @Value("${grepiu.oauth.secret}")
+    public void setClientSecret(String clientSecret){
+      AuthorizationServerConfig.CLIENT_SECRET = clientSecret;
+    }
 
     public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserDetailsService currentUserDetailService, PasswordEncoder passwordEncoder, TokenStore tokenStore) {
       this.authenticationManager = authenticationManager;

@@ -5,6 +5,8 @@ grepiu:
   oauth:
     login: "http://localhost:8010"
     token: "http://localhost:8010/oauth/token"
+    id: "oauth-client-id"
+    secret: "oauth-client-secret"
 
 key:
   google:
@@ -58,6 +60,8 @@ grepiu:
   oauth:
     login: ""
     token: ""
+    id: "oauth-client-id"
+    secret: "oauth-client-secret"
 
 key:
   google:
