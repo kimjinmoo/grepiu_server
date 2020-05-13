@@ -3,20 +3,19 @@ package com.grepiu.www.process.common.api.controller;
 import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.service.BaseServiceImpl;
 import com.grepiu.www.process.common.helper.FileHelper;
+import com.grepiu.www.process.common.utils.QrCodeUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
- *
  * API 컨트롤러 이다.
- *
  */
 @RequestMapping("/api")
 @RestController
@@ -28,7 +27,7 @@ public class ApiRestController {
     private final BaseServiceImpl baseService;
 
     public ApiRestController(FileHelper fileHelper,
-        BaseServiceImpl baseService) {
+                             BaseServiceImpl baseService) {
         this.fileHelper = fileHelper;
         this.baseService = baseService;
     }
@@ -45,6 +44,23 @@ public class ApiRestController {
     public @ResponseBody
     ResponseEntity<List<Files>> multipleFileUpload(@PathVariable("ver") String ver, @RequestParam(required = true, name = "files") MultipartFile[] files) throws Exception {
         return new ResponseEntity<List<Files>>(fileHelper.uploadFiles(files), HttpStatus.OK);
+    }
+
+    /**
+     *
+     * Qr 코드를 생성한다.
+     *
+     * @param ver
+     * @param text
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "/{ver}/qrcode/{text}", produces = "image/png")
+    public BufferedImage qrCode(
+            @PathVariable("ver") String ver,
+            @PathVariable("text") String text
+    ) throws Exception {
+        return QrCodeUtils.generateQRCodeImage(text);
     }
 
     @ApiOperation(value = "파일 업로드 리스트")

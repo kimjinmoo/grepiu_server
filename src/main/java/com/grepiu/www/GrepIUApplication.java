@@ -9,12 +9,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.http.converter.BufferedImageHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -73,5 +77,10 @@ public class GrepIUApplication {
 	public StandardServletMultipartResolver multipartResolver() {
 		StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
 		return multipartResolver;
+	}
+
+	@Bean
+	public HttpMessageConverter<BufferedImage> bufferedImageHttpMessageConverter() {
+		return new BufferedImageHttpMessageConverter();
 	}
 }
