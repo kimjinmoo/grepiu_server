@@ -34,14 +34,14 @@ spring:
   data:
     mongodb:
       database: grepiu
-      host: "127.0.0.1"
+      host: "localhost"
       port: 27017
       repositories:
        type: auto
     redis:
-       host: "52.78.158.161"
+       host: "192.168.0.76"
        port: 6379
-       password: ""
+       password: "smartlo20!%"
   servlet:
     multipart:
       enabled: true
@@ -52,6 +52,11 @@ logging:
   level:
     org.springframework.web: DEBUG
 
+springdoc:
+  api-docs:
+    path: "/api-docs"
+  swagger-ui:
+    path: "/swagger-ui.html"
 ---
 
 grepiu:
@@ -98,7 +103,7 @@ spring:
     redis:
        host: "0.0.0.0"
        port: 0
-       password: ""
+       #password: ""
   servlet:
     multipart:
       enabled: true
@@ -109,3 +114,9 @@ logging:
   level:
     org.springframework.web: INFO
   file: ""
+
+springdoc:
+  api-docs:
+    path: "/api-docs"
+  swagger-ui:
+    path: "/swagger-ui.html"

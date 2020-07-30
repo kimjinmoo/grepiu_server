@@ -1,9 +1,7 @@
 package com.grepiu.www.process.grepiu.domain.form;
 
-import com.grepiu.www.process.grepiu.common.CloudAttributeType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.io.Serializable;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +19,6 @@ import lombok.NoArgsConstructor;
 public class CloudUpdateForm implements Serializable {
 
   // 변경될 이름
-  @ApiModelProperty("변경될 이름")
+  @Parameter(description = "변경될 이름")
   private String rename;
 }

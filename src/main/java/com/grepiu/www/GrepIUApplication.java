@@ -1,9 +1,16 @@
 package com.grepiu.www;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.awt.image.BufferedImage;
 import javax.servlet.MultipartConfigElement;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -17,8 +24,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-
-import java.awt.image.BufferedImage;
 
 /**
  *
@@ -82,5 +87,17 @@ public class GrepIUApplication {
 	@Bean
 	public HttpMessageConverter<BufferedImage> bufferedImageHttpMessageConverter() {
 		return new BufferedImageHttpMessageConverter();
+	}
+
+	@Bean
+	public OpenAPI initOpenAPI() {
+		return new OpenAPI()
+				.info(
+						new Info()
+								.title("GrepIU API")
+								.version("1.0.0")
+								.description("GrepIU API")
+								.termsOfService("http://swagger.io/terms/")
+				);
 	}
 }

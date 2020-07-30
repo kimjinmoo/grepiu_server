@@ -5,7 +5,7 @@ import com.grepiu.www.process.common.api.domain.UserCreateForm;
 import com.grepiu.www.process.common.api.service.BaseService;
 import com.grepiu.www.process.common.security.domain.Role;
 import com.grepiu.www.process.common.security.entity.User;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.HashMap;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -44,7 +44,7 @@ public class ConfController {
     return "signUp";
   }
 
-  @ApiOperation("회원가입")
+  @Operation(description = "회원가입")
   @PostMapping("/signUp")
   public @ResponseBody ResponseEntity<Object> signUp(@Valid UserCreateForm form) throws Exception {
     if(baseService.getUserById(form.getId()).isPresent()){
@@ -55,7 +55,7 @@ public class ConfController {
         HttpStatus.OK);
   }
 
-  @ApiOperation("회원가입 - App 회원 가입")
+  @Operation(description = "회원가입 - App 회원 가입")
   @PostMapping("/app/signUp")
   public @ResponseBody ResponseEntity<Object> signUpApp(@Valid UserCreateForm form) throws Exception {
     if(baseService.getUserById(form.getId()).isPresent()){
@@ -69,7 +69,7 @@ public class ConfController {
             HttpStatus.OK);
   }
 
-  @ApiOperation("ID 중복 확인")
+  @Operation(description = "ID 중복 확인")
   @GetMapping("/app/signUp/{id}")
   public @ResponseBody ResponseEntity<Object> checkDuplicatedId(@PathVariable("id") String id) {
     // set result

@@ -1,7 +1,7 @@
 package com.grepiu.www.process.grepiu.entity;
 
 import com.grepiu.www.process.grepiu.entity.sub.RealtimeVoteItem;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,16 +15,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 public class RealtimeVote {
 
-  @ApiModelProperty(hidden = true, value = "일련번호")
+  @Parameter(hidden = true, description = "일련번호")
   @Id
   private String id;
 
-  @ApiModelProperty(value = "투표제목")
+  @Parameter(description = "투표제목")
   private String subject;
 
-  @ApiModelProperty(value = "투표내용")
+  @Parameter(description = "투표내용")
   private String contents;
 
-  @ApiModelProperty(value = "투표항목")
+  @Parameter(description = "투표항목")
   private List<RealtimeVoteItem> items;
 }

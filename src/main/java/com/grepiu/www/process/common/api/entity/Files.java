@@ -1,8 +1,6 @@
 package com.grepiu.www.process.common.api.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Optional;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;

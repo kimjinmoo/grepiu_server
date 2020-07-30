@@ -1,6 +1,6 @@
 package com.grepiu.www.process.grepiu.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -29,10 +29,10 @@ public class GrepIUMenuDetailVO {
   }
 
   @Id
-  @ApiModelProperty("ID index 값, PK개념")
+  @Parameter(description = "ID index 값, PK개념")
   private int id;
-  @ApiModelProperty("메뉴명")
+  @Parameter(description = "메뉴명")
   private String name;
-  @ApiModelProperty("메뉴 URL")
+  @Parameter(description = "메뉴 URL")
   private String url;
 }

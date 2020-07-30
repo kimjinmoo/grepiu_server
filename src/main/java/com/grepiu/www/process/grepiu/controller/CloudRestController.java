@@ -6,11 +6,12 @@ import com.grepiu.www.process.grepiu.domain.form.CloudCreateForm;
 import com.grepiu.www.process.grepiu.domain.form.CloudUpdateForm;
 import com.grepiu.www.process.grepiu.entity.CloudStore;
 import com.grepiu.www.process.grepiu.service.CloudService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 클라우드 드라이브
  */
-@Api("GrepIU Cloud Store API")
+//@Operation(description = "GrepIU Cloud Store API")
 @RestController
 @RequestMapping("/grepiu/cloud")
 @Slf4j
@@ -51,27 +52,27 @@ public class CloudRestController {
   }
 
 
-  @ApiOperation(value = "클라우드 파일 저장, 스웨거에 파일 대응 안됨")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header")})
+  @Operation(description = "클라우드 파일 저장, 스웨거에 파일 대응 안됨")
+  @Parameters({
+      @Parameter(in = ParameterIn.HEADER, name = "Authorization", description = "Authorization token", required = true, content = @Content(schema = @Schema(type = "String")))
+  })
   @PostMapping
   public ResponseEntity<Object> createFile(
       @ModelAttribute @Valid CloudCreateForm form,
-      @ApiParam(hidden = true) Principal principal) throws Exception {
+      @Parameter(hidden = true) Principal principal) throws Exception {
     cloudService.create(principal.getName(), form);
     // response
     return ResponseEntity.ok()
         .body(ResponseMap.builder().code(HttpStatus.CREATED.value()).build());
   }
 
-  @ApiOperation(value = "클라우드 저장소 읽기")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header")})
+  @Operation(description = "클라우드 저장소 읽기")
+  @Parameters({
+      @Parameter(in = ParameterIn.HEADER, name = "Authorization", description = "Authorization token", required = true, content = @Content(schema = @Schema(type = "String")))
+  })
   @GetMapping
   public ResponseEntity<Object> readDir(@RequestParam(required = false) String parentId,
-      @ApiParam(hidden = true) Principal principal) {
+      @Parameter(hidden = true) Principal principal) {
 
     HashMap<Object, Object> map = Maps.newHashMap();
 
@@ -87,27 +88,27 @@ public class CloudRestController {
         .body(ResponseMap.builder().code(HttpStatus.OK.value()).data(map).build());
   }
 
-  @ApiOperation(value = "클라우드 변경")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header")})
+  @Operation(description = "클라우드 변경")
+  @Parameters({
+      @Parameter(in = ParameterIn.HEADER, name = "Authorization", description = "Authorization token", required = true, content = @Content(schema = @Schema(type = "String")))
+  })
   @PutMapping(value = "/{id}")
   public ResponseEntity<Object> rename(@PathVariable("id") String id,
       @RequestBody CloudUpdateForm form,
-      @ApiParam(hidden = true) Principal principal) throws Exception {
+      @Parameter(hidden = true) Principal principal) throws Exception {
     cloudService.update(principal.getName(), id, form);
     // response
     return ResponseEntity.ok()
         .body(ResponseMap.builder().code(HttpStatus.ACCEPTED.value()).build());
   }
 
-  @ApiOperation(value = "클라우드 저장소 삭제")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header")})
+  @Operation(description = "클라우드 저장소 삭제")
+  @Parameters({
+      @Parameter(in = ParameterIn.HEADER, name = "Authorization", description = "Authorization token", required = true, content = @Content(schema = @Schema(type = "String")))
+  })
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> delete(@PathVariable String id,
-      @ApiParam(hidden = true) Principal principal) throws Exception {
+      @Parameter(hidden = true) Principal principal) throws Exception {
     //delete
     cloudService.delete(principal.getName(), id);
     // response
@@ -115,10 +116,10 @@ public class CloudRestController {
         .body(ResponseMap.builder().code(HttpStatus.ACCEPTED.value()).build());
   }
 
-  @ApiOperation(value = "파일을 다운받는다.")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-          required = true, dataType = "string", paramType = "header")})
+  @Operation(description = "파일을 다운받는다.")
+  @Parameters({
+      @Parameter(in = ParameterIn.HEADER, name = "Authorization", description = "Authorization token", required = true, content = @Content(schema = @Schema(type = "String")))
+  })
   @GetMapping("/{id}")
   public ResponseEntity<ByteArrayResource> download(@PathVariable("id") String id,
       Principal principal) throws Exception {
