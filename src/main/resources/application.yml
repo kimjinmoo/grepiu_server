@@ -33,9 +33,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      database: grepiu
-      host: "localhost"
-      port: 27017
+      uri: "mongodb://localhost:27017/grepiu"
       repositories:
        type: auto
     redis:
@@ -93,11 +91,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      database: grepiu
-      host: "0.0.0.1"
-      username: user
-      password: user
-      port: 0
+      uri: "mongodb://user:user@0.0.0.1:0/grepiu"
       repositories:
        type: auto
     redis:

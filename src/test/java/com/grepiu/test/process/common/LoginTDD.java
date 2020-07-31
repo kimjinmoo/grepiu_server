@@ -2,7 +2,7 @@ package com.grepiu.test.process.common;
 
 
 import com.grepiu.test.process.config.LocalBaseConfig;
-import com.grepiu.www.process.common.security.dao.UserRepository;
+import com.grepiu.www.process.common.security.dao.GrepUserRepository;
 import com.grepiu.www.process.common.security.domain.Role;
 import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.security.service.UserService;
@@ -26,7 +26,7 @@ public class LoginTDD extends LocalBaseConfig {
   private UserService userService;
 
   @Autowired
-  private UserRepository userRepository;
+  private GrepUserRepository grepUserRepository;
 
   @Value("${grepiu.oauth.token}")
   private String tokenUrl;
@@ -40,7 +40,7 @@ public class LoginTDD extends LocalBaseConfig {
 
   @Test
   public void searchId() {
-    Optional<User> user = userRepository.findUserByIdAndActiveTrue("iukim21c@gmail.com");
+    Optional<User> user = grepUserRepository.findUserByIdAndActiveTrue("iukim21c@gmail.com");
     if(user.isPresent()) {
       log.debug("user : {} ", user.get());
     }
@@ -51,7 +51,7 @@ public class LoginTDD extends LocalBaseConfig {
     //given
     User user = User.build("iukim21c@gmail.com","xptmxm1!@", Role.USER, true);
     //when
-    userRepository.save(user);
+    grepUserRepository.save(user);
     Optional<User> userCheck = userService.findUserById("iukim21c@gmail.com");
     //then
     Assert.assertTrue(userCheck.isPresent());

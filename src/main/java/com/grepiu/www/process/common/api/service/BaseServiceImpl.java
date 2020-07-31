@@ -7,11 +7,13 @@ import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
-import com.grepiu.www.process.common.security.dao.UserRepository;
+import com.grepiu.www.process.common.security.dao.GrepUserRepository;
 import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.security.service.UserService;
 import com.grepiu.www.process.common.utils.AwsSESMailUtils;
 import com.grepiu.www.process.grepiu.entity.GrepIUSequence;
+import javax.validation.ValidationException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +44,7 @@ import java.util.*;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BaseServiceImpl implements BaseService {
 
     @Value("${grepiu.oauth.token}")
@@ -51,21 +54,11 @@ public class BaseServiceImpl implements BaseService {
 
     private final UserService userService;
 
-    private final UserRepository userRepository;
+    private final GrepUserRepository grepUserRepository;
 
     private final MongoOperations mongoOperations;
 
     private final FileRepository fileRepository;
-
-    public BaseServiceImpl(TokenStore tokenStore,
-        UserService userService, UserRepository userRepository, MongoOperations mongoOperations,
-        FileRepository fileRepository) {
-        this.tokenStore = tokenStore;
-        this.userService = userService;
-        this.userRepository = userRepository;
-        this.mongoOperations = mongoOperations;
-        this.fileRepository = fileRepository;
-    }
 
     /**
      *
@@ -155,7 +148,7 @@ public class BaseServiceImpl implements BaseService {
      */
     @Override
     public Object resetPassword(String email) throws Exception {
-        userRepository.findUserByIdAndActiveTrue(email).orElseThrow(Exception::new);
+        grepUserRepository.findUserByIdAndActiveTrue(email).orElseThrow(Exception::new);
         StringBuilder sb = new StringBuilder();
         Random r = new Random();
         String alphabet = "abcdefgHijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -217,8 +210,11 @@ public class BaseServiceImpl implements BaseService {
      * @return User 객체
      */
     @Override
-    public User signUp(User user) {
-        return userRepository.save(user);
+    public User signUp(User user) throws Exception {
+        if (grepUserRepository.findUserByIdAndActiveTrue(user.getId()).isPresent()) {
+            throw new ValidationException("중복된 사용자가 존재 합니다.");
+        }
+        return grepUserRepository.save(user);
     }
 
     /**
@@ -240,12 +236,12 @@ public class BaseServiceImpl implements BaseService {
      */
     @Override
     public List<User> getUsers()  {
-        return userRepository.findAll();
+        return grepUserRepository.findAll();
     }
 
     @Override
     public Optional<User> getUserById(String id) {
-        return userRepository.findUserByIdAndActiveTrue(id);
+        return grepUserRepository.findUserByIdAndActiveTrue(id);
     }
 
     /**
@@ -273,9 +269,9 @@ public class BaseServiceImpl implements BaseService {
             .ofNullable(tokenStore.readAccessToken(details.get("tokenValue")))
             .orElseThrow(BadRequestException::new);
         if(!token.isExpired()){
-            User user = userRepository.findUserByIdAndActiveTrue(principal.get("username")).orElseThrow(BadRequestException::new);
+            User user = grepUserRepository.findUserByIdAndActiveTrue(principal.get("username")).orElseThrow(BadRequestException::new);
             user.setActive(false);
-            userRepository.save(user);
+            grepUserRepository.save(user);
             tokenStore.removeAccessToken(token);
         }
         return principal.get("username");

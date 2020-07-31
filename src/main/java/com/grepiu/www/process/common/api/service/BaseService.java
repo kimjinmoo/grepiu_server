@@ -29,7 +29,7 @@ public interface BaseService {
   public Object isValidToken(String accessToken);
 
   // 가입하기
-  public User signUp(User user);
+  public User signUp(User user) throws Exception;
 
   // 비밀번호 Reset
   public Object resetPassword(String email) throws Exception;

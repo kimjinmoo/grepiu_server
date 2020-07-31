@@ -11,12 +11,11 @@ import org.springframework.data.annotation.Id;
 @Data
 public class UserCreateForm {
 
-  @Id
   @NotEmpty
-  private String id = "";
+  private String id;
 
   @NotEmpty
-  private String password = "";
+  private String password;
 
 //  @NotEmpty
 //  private String passwordRepeated = "";

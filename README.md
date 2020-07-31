@@ -1,19 +1,19 @@
-Springboot 2.1.3 Framework<br>
-<p>2019.03.06 2.1 update</p>
-https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.1-Release-Notes
+Springboot 2.3.2 Framework<br>
+<p>2020.07.31 2.3 update</p>
+https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.3-Release-Notes
 <br>
 <br>
 
 #프레임웍
 
-Gradle 5.x<br>
+Gradle 6.x<br>
 Freemarker<br>
 Mybatis<br>
 MongoDB connect<br>
 MariaDB connect</br>
 
 #support jdk
-java 8 이상
+java 11 
 
 ##스토리지 
 aws s3

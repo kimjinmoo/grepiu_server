@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-        springBootVersion = '2.1.3.RELEASE'
+        springBootVersion = '2.3.2.RELEASE'
     }
 	repositories {
 		maven {
@@ -20,8 +20,8 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
 	mavenCentral()
@@ -94,29 +94,26 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
-
 	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
 
-	implementation group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.1.5.RELEASE'
-	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-oauth2', version: '2.1.1.RELEASE'
-
-	// NoSuchMethodError: org.springframework.data.redis.connection.RedisConnection.set 문제로 exclude
+// NoSuchMethodError: org.springframework.data.redis.connection.RedisConnection.set 문제로 exclude
 //	compile.exclude group: 'org.springframework.cloud', module: 'spring-security-oauth2'
-	implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.3.RELEASE'
+	implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.2.RELEASE'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-oauth2', version: '2.2.2.RELEASE'
+
+	implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.1.3'
 
 	// redis
-	implementation group: 'redis.clients', name: 'jedis', version: '2.9.0'
-
-    // Mybatis
-	implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.3.2'
+	implementation group: 'redis.clients', name: 'jedis', version: '3.3.0'
 
 	// odbc
-	implementation('mysql:mysql-connector-java:5.1.38')
-	implementation('org.apache.commons:commons-collections4:4.1')
+	implementation('mysql:mysql-connector-java:8.0.21')
+	implementation('org.apache.commons:commons-collections4:4.4')
 
 	// guava
-	implementation group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+	implementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 
 	// Spring doc
 	implementation "org.springdoc:springdoc-openapi-ui:1.4.3"
@@ -126,14 +123,14 @@ dependencies {
 	implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
 
 	// jsoup
-	implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
 
 	// websocket
-	implementation group: 'org.webjars', name: 'webjars-locator', version: '0.32'
+	implementation group: 'org.webjars', name: 'webjars-locator', version: '0.40'
 	implementation group: 'org.webjars', name: 'sockjs-client', version: '1.1.2'
 	implementation("org.webjars:stomp-websocket:2.3.3-1")
-	implementation("org.webjars:bootstrap:3.3.7")
-	implementation("org.webjars:jquery:3.3.1")
+	implementation("org.webjars:bootstrap:4.5.0")
+	implementation("org.webjars:jquery:3.5.1")
 
 	//  동적 사이트 크롤링을 위해 추가
 	implementation group: 'org.seleniumhq.selenium', name: 'selenium-remote-driver', version: '3.141.59'

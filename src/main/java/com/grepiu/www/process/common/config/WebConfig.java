@@ -37,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Override
   public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-    configurer.favorPathExtension(false);    // Path로 response를 구분 옵션 false 처리
+//    configurer.favorPathExtension(false);    // Path로 response를 구분 옵션 false 처리
   }
 
   /**

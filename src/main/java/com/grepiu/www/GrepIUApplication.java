@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -43,6 +44,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 @EnableAspectJAutoProxy
 @EnableScheduling
 @EnableMongoAuditing
+@EnableMongoRepositories
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class GrepIUApplication {
 

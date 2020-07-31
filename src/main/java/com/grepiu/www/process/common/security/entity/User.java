@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Builder
 @Document(collection = "member")
+@Slf4j
 public class User implements Serializable {
 
   @Id
@@ -26,6 +28,7 @@ public class User implements Serializable {
   private Role role;
 
   @NotNull
+  @Builder.Default
   private boolean active = true;
 
   @CreatedDate
@@ -35,6 +38,7 @@ public class User implements Serializable {
   private Date modifyDate;
 
   public static User build(String id, String plainPassword, Role role, boolean isActive) {
+    log.error("id : {}", id);
     return builder().id(id).passwordHash(new BCryptPasswordEncoder().encode(plainPassword)).role(role).active(isActive).build();
   }
 }

@@ -50,28 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers(
-                "/v2/api-docs",
-                "/api-docs",
-                "/configuration/ui",
-                "/swagger-resources",
-                "/configuration/security",
-                "/swagger-resources/configuration/ui",
-                "/swagger-resources/configuration/security",
-                "/topic/messages",
-                "/resources/**/*",
-                "/webjars/**",
-                "/ws/**/*",
-                "/null/**",
-                "/swagger-ui.html*",
-                "/app/**",
-                "/favicon.ico"
-        );
-        super.configure(web);
-    }
-
     /**
      * CSRF = 크로스 사이트 요청 위조
      * 사이트 내부에서 토큰적용하여 방어하는데
@@ -85,41 +63,61 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //    http.csrf().disable().anonymous().disable().authorizeRequests().antMatchers("/api-docs/**").permitAll();
         http.sessionManagement()
-                .maximumSessions(1) // 로그인은 한명만 허용
-                .and()
-                .and()
+            .maximumSessions(1) // 로그인은 한명만 허용
+            .and()
+            .and()
 //        .cors()
 //        .and()
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                // 일반적인 Open 정책
-                .antMatchers("/s/**",
-                        "/oauth/check",
-                        "/oauth/check_token",
-                        "/oauth/login", "/oauth/logout",
-                        "/oauth/token",
-                        "/oauth/refresh",
-                        "/oauth/reset",
-                        "/api/**",
-                        "/grepiu/**",
-                        "/sample/**",
-                        "/signUp",
-                        "/grepiu/cloud/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
+            .csrf()
+            .disable()
+            .authorizeRequests()
+            // 일반적인 Open 정책
+            .antMatchers("/s/**",
+                "/oauth/check",
+                "/oauth/check_token",
+                "/oauth/login", "/oauth/logout",
+                "/oauth/token",
+                "/oauth/refresh",
+                "/oauth/reset",
+                "/api/**",
+                "/grepiu/**",
+                "/sample/**",
+                "/signUp",
+                "/grepiu/cloud/**"
+            ).permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
 //          .loginPage("/login")
 //          .usernameParameter("id")
 //          .passwordParameter("passwd")
 //          .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error=true")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login")
-                .logoutSuccessUrl("/");
+            .failureUrl("/login?error=true")
+            .permitAll()
+            .and()
+            .logout()
+            .logoutSuccessUrl("/login")
+            .logoutSuccessUrl("/");
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+            .mvcMatchers(
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/api-docs/**",
+                "/configuration/security",
+                "/resources/**/*",
+                "/webjars/**",
+                "/ws/**/*",
+                "/topic/messages",
+                "/null/**",
+                "/swagger-ui.html*",
+                "/app/**",
+                "/favicon.ico"
+        );
+        super.configure(web);
     }
 
 //    /**

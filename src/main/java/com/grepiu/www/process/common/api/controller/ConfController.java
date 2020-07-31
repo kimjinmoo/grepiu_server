@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.HashMap;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -26,13 +29,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class ConfController {
 
   private final BaseService baseService;
-
-  public ConfController(BaseService baseService) {
-    this.baseService = baseService;
-  }
 
   @GetMapping("/login")
   public String login() {
@@ -46,10 +46,10 @@ public class ConfController {
 
   @Operation(description = "회원가입")
   @PostMapping("/signUp")
-  public @ResponseBody ResponseEntity<Object> signUp(@Valid UserCreateForm form) throws Exception {
-    if(baseService.getUserById(form.getId()).isPresent()){
-      throw new ValidationException("중복된 사용자가 존재 합니다.");
-    }
+  public @ResponseBody
+  ResponseEntity<Object> signUp(
+      @RequestBody @Valid UserCreateForm form
+  ) throws Exception {
     return new ResponseEntity<>(
         baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole(), true)),
         HttpStatus.OK);
@@ -79,9 +79,9 @@ public class ConfController {
     return ResponseEntity.ok(resultMap);
   }
 
-  @GetMapping("/")
-  public String home(ModelMap model) {
-    return "home";
+  @GetMapping("")
+  public ModelAndView home(ModelMap model) {
+    return new ModelAndView("home");
   }
 
   @GetMapping("/me")
