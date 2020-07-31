@@ -33,7 +33,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: "mongodb://localhost:27017/grepiu"
+      uri: ""
       repositories:
        type: auto
     redis:
@@ -91,7 +91,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: "mongodb://user:user@0.0.0.1:0/grepiu"
+      uri: ""
       repositories:
        type: auto
     redis:
