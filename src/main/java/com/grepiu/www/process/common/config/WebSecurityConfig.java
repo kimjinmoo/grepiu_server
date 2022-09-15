@@ -1,5 +1,7 @@
 package com.grepiu.www.process.common.config;
 
+import java.util.Arrays;
+import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +22,6 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import javax.annotation.Resource;
-import java.util.Arrays;
 
 /**
  * Spring Security 설정
@@ -64,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/ws/**/*",
                 "/null/**",
-                "/swagger-ui.html*",
+//                "/swagger-ui.html*",
                 "/app/**",
                 "/party/**",
                 "/favicon.ico"
@@ -107,7 +106,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/signUp",
                         "/grepiu/cloud/**"
                 ).permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/swagger-ui.html").hasAnyAuthority("SUPER_ADMIN","ADMIN")
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
 //          .loginPage("/login")
