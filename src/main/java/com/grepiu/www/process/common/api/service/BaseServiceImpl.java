@@ -3,6 +3,7 @@ package com.grepiu.www.process.common.api.service;
 import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.dao.FileRepository;
 import com.grepiu.www.process.common.api.domain.LoginForm;
+import com.grepiu.www.process.common.api.domain.UserCreateForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
@@ -12,6 +13,14 @@ import com.grepiu.www.process.common.security.entity.User;
 import com.grepiu.www.process.common.security.service.UserService;
 import com.grepiu.www.process.common.utils.AwsSESMailUtils;
 import com.grepiu.www.process.grepiu.entity.GrepIUSequence;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +29,12 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -34,8 +48,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.*;
 
 /**
  * 기본 서비스
@@ -57,14 +69,18 @@ public class BaseServiceImpl implements BaseService {
 
     private final FileRepository fileRepository;
 
+    private AuthenticationManager authenticationManager;
+
     public BaseServiceImpl(TokenStore tokenStore,
         UserService userService, UserRepository userRepository, MongoOperations mongoOperations,
-        FileRepository fileRepository) {
+        FileRepository fileRepository, AuthenticationManager authenticationManager
+    ) {
         this.tokenStore = tokenStore;
         this.userService = userService;
         this.userRepository = userRepository;
         this.mongoOperations = mongoOperations;
         this.fileRepository = fileRepository;
+        this.authenticationManager = authenticationManager;
     }
 
     /**
@@ -213,12 +229,15 @@ public class BaseServiceImpl implements BaseService {
      *
      * 유저 등록
      *
-     * @param user User객체
+     * @param form UserCreateForm객체
      * @return User 객체
      */
     @Override
-    public User signUp(User user) {
-        return userRepository.save(user);
+    public User signUp(UserCreateForm form) {
+        if(userService.findUserById(form.getId()).isPresent()){
+            throw new ValidationException("중복된 사용자가 존재 합니다.");
+        }
+        return userService.saveUser(form);
     }
 
     /**

@@ -1,13 +1,10 @@
-package com.grepiu.test.process.study;
+package com.grepiu.test.ex.study;
 
-import com.google.common.collect.Lists;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.security.core.parameters.P;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 간단한 Stream을 통한 연산

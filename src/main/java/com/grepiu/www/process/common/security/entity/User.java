@@ -35,6 +35,9 @@ public class User implements Serializable {
   private Date modifyDate;
 
   public static User build(String id, String plainPassword, Role role, boolean isActive) {
-    return builder().id(id).passwordHash(new BCryptPasswordEncoder().encode(plainPassword)).role(role).active(isActive).build();
+    return builder()
+        .id(id)
+        .passwordHash(plainPassword)
+        .role(role).active(isActive).build();
   }
 }

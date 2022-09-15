@@ -1,4 +1,4 @@
-package com.grepiu.test.process.develop;
+package com.grepiu.test.ex.develop;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -30,9 +30,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  *
@@ -62,8 +59,6 @@ enum days {
   SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
 }
 
-@RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
 @Slf4j
 public class CollectionSummary {
 

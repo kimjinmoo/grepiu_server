@@ -1,4 +1,4 @@
-package com.grepiu.test.process.study;
+package com.grepiu.test.ex.study;
 
 /**
  *

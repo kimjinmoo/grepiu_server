@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/null/**",
                 "/swagger-ui.html*",
                 "/app/**",
+                "/party/**",
                 "/favicon.ico"
         );
         super.configure(web);

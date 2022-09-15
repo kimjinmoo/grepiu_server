@@ -1,8 +1,6 @@
-package com.grepiu.test.process.develop;
+package com.grepiu.test.ex.develop;
 
-import com.google.common.collect.Lists;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;

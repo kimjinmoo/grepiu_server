@@ -1,6 +1,7 @@
 package com.grepiu.www.process.common.api.service;
 
 import com.grepiu.www.process.common.api.domain.LoginForm;
+import com.grepiu.www.process.common.api.domain.UserCreateForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
@@ -29,7 +30,7 @@ public interface BaseService {
   public Object isValidToken(String accessToken);
 
   // 가입하기
-  public User signUp(User user);
+  public User signUp(UserCreateForm form);
 
   // 비밀번호 Reset
   public Object resetPassword(String email) throws Exception;

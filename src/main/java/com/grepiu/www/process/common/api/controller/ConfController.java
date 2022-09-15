@@ -4,11 +4,9 @@ import com.google.common.collect.Maps;
 import com.grepiu.www.process.common.api.domain.UserCreateForm;
 import com.grepiu.www.process.common.api.service.BaseService;
 import com.grepiu.www.process.common.security.domain.Role;
-import com.grepiu.www.process.common.security.entity.User;
 import io.swagger.annotations.ApiOperation;
 import java.util.HashMap;
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,26 +45,33 @@ public class ConfController {
   @ApiOperation("회원가입")
   @PostMapping("/signUp")
   public @ResponseBody ResponseEntity<Object> signUp(@Valid UserCreateForm form) throws Exception {
-    if(baseService.getUserById(form.getId()).isPresent()){
-      throw new ValidationException("중복된 사용자가 존재 합니다.");
-    }
+    // 일반유저
+    form.setRole(Role.USER);
     return new ResponseEntity<>(
-        baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole(), true)),
+        baseService.signUp(form),
         HttpStatus.OK);
   }
 
   @ApiOperation("회원가입 - App 회원 가입")
   @PostMapping("/app/signUp")
   public @ResponseBody ResponseEntity<Object> signUpApp(@Valid UserCreateForm form) throws Exception {
-    if(baseService.getUserById(form.getId()).isPresent()){
-      throw new ValidationException("중복된 사용자가 존재 합니다.");
-    }
     //set App
     form.setRole(Role.GS_APP);
     // Save
     return new ResponseEntity<>(
-            baseService.signUp(User.build(form.getId(), form.getPassword(), form.getRole(), true)),
+            baseService.signUp(form),
             HttpStatus.OK);
+  }
+
+  @ApiOperation("회원가입 - Party 회원 가입")
+  @PostMapping("/party/signUp")
+  public @ResponseBody ResponseEntity<Object> signUpPartyApp(@Valid UserCreateForm form) throws Exception {
+    //set App
+    form.setRole(Role.GS_PARTY_APP);
+    // Save
+    return new ResponseEntity<>(
+        baseService.signUp(form),
+        HttpStatus.OK);
   }
 
   @ApiOperation("ID 중복 확인")
