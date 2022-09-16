@@ -49,7 +49,7 @@ public class LoginTDD extends LocalBaseConfig {
   @Test
   public void createUser() {
     //given
-    User user = User.build("iukim21c@gmail.com","xptmxm1!@", Role.USER, true);
+    User user = User.build("iukim21c@gmail.com","xptmxm1!@", "테스트","", Role.USER, true);
     //when
     userRepository.save(user);
     Optional<User> userCheck = userService.findUserById("iukim21c@gmail.com");
