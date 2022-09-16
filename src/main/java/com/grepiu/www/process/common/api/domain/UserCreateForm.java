@@ -18,6 +18,10 @@ public class UserCreateForm {
   @NotEmpty
   private String password = "";
 
+  private String name;
+
+  private String profile;
+
 //  @NotEmpty
 //  private String passwordRepeated = "";
 

@@ -23,7 +23,12 @@ public class UserService {
 
   // 유저 등록
   public User saveUser(UserCreateForm form) {
-    User user = User.build(form.getId(), passwordEncoder.encode(form.getPassword()), form.getRole(),
+    User user = User.build(
+        form.getId(),
+        passwordEncoder.encode(form.getPassword()),
+        form.getName(),
+        form.getProfile(),
+        form.getRole(),
         true);
     return userRepository.save(user);
   }
