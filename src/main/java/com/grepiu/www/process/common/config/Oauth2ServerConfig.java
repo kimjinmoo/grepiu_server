@@ -183,7 +183,7 @@ public class Oauth2ServerConfig {
               GRANT_TYPE_AUTHORIZATION_CODE,
               GRANT_TYPE_IMPLICIT,
               GRANT_TYPE_REFRESH_TOKEN)
-          .authorities(Role.USER.toString(), Role.ADMIN.toString(), Role.SUPER_ADMIN.toString())
+          .authorities(Role.USER.name(), Role.ADMIN.name(), Role.SUPER_ADMIN.name(), Role.GS_APP.name(), Role.GS_PARTY_APP.name())
           .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
           .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
           .redirectUris(loginUrl);

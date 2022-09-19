@@ -1,6 +1,7 @@
 package com.grepiu.www.process.common.security.domain;
 
 import com.grepiu.www.process.common.security.entity.User;
+import java.io.Serializable;
 import lombok.Getter;
 import org.springframework.security.core.authority.AuthorityUtils;
 
@@ -10,7 +11,10 @@ import org.springframework.security.core.authority.AuthorityUtils;
  *
  */
 @Getter
-public class CurrentUser extends org.springframework.security.core.userdetails.User {
+public class CurrentUser extends org.springframework.security.core.userdetails.User implements
+    Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private User user;
 
