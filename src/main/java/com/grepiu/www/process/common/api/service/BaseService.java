@@ -30,7 +30,7 @@ public interface BaseService {
   public Object isValidToken(String accessToken);
 
   // 가입하기
-  public User signUp(UserCreateForm form);
+  public User signUp(UserCreateForm form) throws Exception;
 
   // 비밀번호 Reset
   public Object resetPassword(String email) throws Exception;

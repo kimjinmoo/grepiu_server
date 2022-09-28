@@ -2,6 +2,7 @@ package com.grepiu.www.process.common.advice;
 
 import com.grepiu.www.process.common.api.domain.Response;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
+import com.grepiu.www.process.common.api.exception.DuplicateUserException;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 
 import java.util.LinkedHashMap;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 @Slf4j
@@ -54,6 +56,15 @@ public class BaseControllerAdvice {
   public @ResponseBody Object loginErrPasswordException(LoginErrPasswordException e) {
     LinkedHashMap r = new LinkedHashMap();
     r.put("code",HttpStatus.FORBIDDEN.value());
+    r.put("message", e.getMessage());
+    return r;
+  }
+
+  @ExceptionHandler(value = DuplicateUserException.class)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  public @ResponseBody Object duplicateUserException(DuplicateUserException e) {
+    LinkedHashMap r = new LinkedHashMap();
+    r.put("code",HttpStatus.BAD_REQUEST.value());
     r.put("message", e.getMessage());
     return r;
   }

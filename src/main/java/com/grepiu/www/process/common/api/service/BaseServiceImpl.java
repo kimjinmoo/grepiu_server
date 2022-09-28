@@ -7,6 +7,7 @@ import com.grepiu.www.process.common.api.domain.UserCreateForm;
 import com.grepiu.www.process.common.api.domain.UserPasswordUpdateForm;
 import com.grepiu.www.process.common.api.entity.Files;
 import com.grepiu.www.process.common.api.exception.BadRequestException;
+import com.grepiu.www.process.common.api.exception.DuplicateUserException;
 import com.grepiu.www.process.common.api.exception.LoginErrPasswordException;
 import com.grepiu.www.process.common.security.dao.UserRepository;
 import com.grepiu.www.process.common.security.entity.User;
@@ -20,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -134,6 +134,7 @@ public class BaseServiceImpl implements BaseService {
       // 응답값 Set
       r.put("code", HttpStatus.OK.value());
       r.put("id", user.getId());
+      r.put("name", user.getName());
       r.put("role", user.getRole());
       r.put("accessToken", token.getValue());
       r.put("refreshToken", token.getRefreshToken().getValue());
@@ -234,9 +235,9 @@ public class BaseServiceImpl implements BaseService {
    * @return User 객체
    */
   @Override
-  public User signUp(UserCreateForm form) {
+  public User signUp(UserCreateForm form) throws Exception {
     if (userService.findUserById(form.getId()).isPresent()) {
-      throw new ValidationException("중복된 사용자가 존재 합니다.");
+      throw new DuplicateUserException();
     }
     return userService.saveUser(form);
   }
