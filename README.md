@@ -46,7 +46,7 @@ db.createUser( { user: "<username>",
            pwd: "<password>",
            roles: [ "root" ]
 })
-ex) db.createUser( { user: "iukim21c",pwd: "test1!", roles: [ "root" ]});
+ex) db.createUser( { user: "아이디",pwd: "암호", roles: [ "root" ]});
 use grepiu
 db.createUser( { user: "<username>",
            pwd: "<password>",
@@ -54,7 +54,7 @@ db.createUser( { user: "<username>",
 })
 ex)
 use grepiu
-db.createUser( { user: "iukim21c", pwd: "xptmxm1!", roles: [ { role: "readWrite", db: "grepiu" } ] })
+db.createUser( { user: "아이디", pwd: "암호", roles: [ { role: "readWrite", db: "grepiu" } ] })
 </pre>
 step4. 유저등록 후 몽고 서비스 재기동<br>
 <pre>
